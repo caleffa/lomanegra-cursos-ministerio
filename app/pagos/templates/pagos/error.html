@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+    {% blocktrans with message=object.message %}
+    <h3>Error procesando el pago</h3>
+    <p>Ha ocurrido un error procesando el pago.</p>
+    <p>La pasarela de pagos ha respondido: {{ message }}</p>
+    {% endblocktrans %}
+{% endblock %}

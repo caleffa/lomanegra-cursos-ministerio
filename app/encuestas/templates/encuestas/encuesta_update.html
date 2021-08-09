@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static widget_tweaks %}
+
+{% block content %}
+
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Datos del curso' %}</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="{{ form.nombre.id_for_label }}">{% trans 'Nombre' %}:</label>
+                                    {% render_field form.nombre class+="form-control" %}
+                                    <div class="invalid-feedback">
+                                        {% trans 'Este campo es obligatorio.' %}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.texto.id_for_label }}">{% trans 'Texto' %}:</label>
+                                    {% render_field form.texto class+="form-control" %}
+                                    <div class="invalid-feedback">
+                                        {% trans 'Este campo es obligatorio.' %}
+                                    </div>
+                                </div>
+
+                                <div class="form-check">
+                                    {% render_field form.obligatoria class+="form-check-input" %}
+                                    <label class="form-check-label" for="{{ form.obligatoria.id_for_label }}">{% trans 'Es obligatoria' %}</label>
+                                    <div class="invalid-feedback">
+                                        {% trans 'Este campo es obligatorio.' %}
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group">
+                                    <label for="{{ form.donde.id_for_label }}">{% trans 'Donde' %}:</label>
+                                    {% render_field form.donde class+="form-control" %}
+                                    <div class="invalid-feedback">
+                                        {% trans 'Este campo es obligatorio.' %}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.cursos.id_for_label }}">{% trans 'Cursos' %}:</label>
+                                    {% render_field form.cursos class+="form-control" %}
+                                    <div class="invalid-feedback">
+                                        {% trans 'Este campo es obligatorio.' %}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="{{ form.inicio.id_for_label }}">Fecha de inicio:</label>
+                                <div class="input-group">
+                                    {% render_field form.inicio class+="form-control form_datetime" type="text" %}
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="{{ form.inicio.id_for_label }}">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </label>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Este campo es obligatorio.
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <label for="{{ form.imagen.id_for_label }}">Imagen:</label>
+                                <div class="form-group card">
+                                    <div class="card-body">
+                                        {% if object.imagen %}
+                                            <img src="{{object.imagen.url}}" style="max-width: 250px;">
+                                        {% endif %}
+                                        {% render_field form.imagen %}
+                                        <div class="invalid-feedback">
+                                            Este campo es obligatorio.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <label for="{{ form.vencimiento.id_for_label }}">Fecha de vencimiento:</label>
+                                <div class="input-group">
+                                    {% render_field form.vencimiento class+="form-control form_datetime" type="text" %}
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="{{ form.vencimiento.id_for_label }}">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="form-group">
+                                    <label for="{{ form.mensaje_gracias.id_for_label }}">Mensaje de gracias:</label>
+                                    {% render_field form.mensaje_gracias class+="form-control" %}
+                                    <div class="invalid-feedback">
+                                        Este campo es obligatorio.
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit" id="submit-btn">
+                            <span id="spinner" class="spinner-border spinner-border-lg" role="status" aria-hidden="true" style="display: none;"></span>Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends "admin_light/base_site.html" %}
+{% load static %}
+
+
+{% block extrajavascript %}
+    {{ block.super }}
+    <!-- Angular element admin-encuesta -->
+    <script type="text/javascript" src="{% static 'elements/admin-encuesta/runtime.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/admin-encuesta/es2015-polyfills.js' %}" nomodule></script>
+    <script type="text/javascript" src="{% static 'elements/admin-encuesta/polyfills.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/admin-encuesta/main.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'elements/admin-encuesta/styles.css' %}" />
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Información de la encuesta</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <div class="col-6">
+                        <label>Nombre</label>
+                        <input name="nombre" class="form-control" placeholder="Nombre" value="{% if form.nombre.value %}{{ form.nombre.value }}{% endif %}">
+                        {% for err in form.nombre.errors %}
+                            <div class="error-encuesta"> {{ err }} </div>
+                        {% endfor %}
+
+                        <br>
+
+                        <label>Texto</label>
+                        <textarea name="texto" class="form-control" placeholder="Texto">{% if form.texto.value %}{{ form.texto.value }}{% endif %}</textarea>
+                        {% for err in form.texto.errors %}
+                            <div class="error-encuesta"> {{ err }} </div>
+                        {% endfor %}
+
+                        <br>
+
+                        <label>Donde se ve</label>
+                        <select class="form-control" name="donde" id="encuesta-donde" onchange="encuestaDondeChange()">
+                            {% for value,label in form.fields.donde.choices %}
+                                <option value="{{ value }}" {% if value == form.donde.value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        {% for err in form.donde.errors %}
+                            <div class="error-encuesta"> {{ err }} </div>
+                        {% endfor %}
+
+                        <br>
+
+                        <span id="cursos-encuesta">
+                            <label>Cursos</label>
+                            <select name="cursos" class="form-control select2" multiple="true">
+                                {% for value,label in form.fields.cursos.choices %}
+                                    <option value="{{ value }}" {% if value in cursos_ids %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <br>
+                        </span>
+                        <br>
+
+                        Es obligatoria: {{ form.obligatoria }}
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <label>Inicio</label>
+                        <div class="input-group">
+                          <input type="date" class="form-control" name="inicio" value="{{ form.inicio.value|date:'Y-m-d' }}"/>
+                          <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                        </div>
+                        {% for err in form.inicio.errors %}
+                            <div class="error-encuesta"> {{ err }} </div>
+                        {% endfor %}
+
+                        <br>
+
+                        <label>Vencimiento</label>
+                        <div class="input-group">
+                          <input type="date" class="form-control" name="vencimiento" value="{{ form.vencimiento.value|date:'Y-m-d' }}"/>
+                          <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                        </div>
+                        {% for err in form.vencimiento.errors %}
+                            <div class="error-encuesta"> {{ err }} </div>
+                        {% endfor %}
+
+                        <br>
+
+                        <label>Mensaje de agradecimiento</label>
+                        <textarea name="mensaje_gracias" class="form-control" placeholder="Mensaje de agradecimiento">{% if form.mensaje_gracias.value %}{{ form.mensaje_gracias.value }}{% endif %}</textarea>
+                        {% for err in form.mensaje_gracias.errors %}
+                            <div class="error-encuesta"> {{ err }} </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <br>
+
+                <h3>Quienes ven la encuesta:</h3>
+
+                <div class="row">
+                    <div class="col-4">
+                        <label>Sectores</label>
+                        <select name="sectores_target" class="form-control select2" multiple="true">
+                            {% for value,label in form.fields.sectores_target.choices %}
+                                <option value="{{ value }}" {% if value in sectores_ids %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+                        <label>Dominios</label>
+                        <select name="dominios_target" class="form-control select2" multiple="true">
+                            {% for value,label in form.fields.dominios_target.choices %}
+                                <option value="{{ value }}" {% if value in dominios_ids %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+                        <label>Usuarios particulares</label>
+                        <select name="usuarios_target" class="form-control select2" multiple="true">
+                            {% for value,label in form.fields.usuarios_target.choices %}
+                                <option value="{{ value }}" {% if value in usuarios_ids %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <input class="btn btn-primary" type="submit" value="Guardar">
+            </form>
+
+        </div>
+
+    </div>
+
+    {% if form.instance.pk %}
+
+        <br>
+
+        <div class="card">
+
+            <div class="card-header">
+                <h3>Preguntas</h3>
+            </div>
+
+            <div class="card-body">
+                <admin-encuesta encuesta_id="{{ form.instance.pk }}"></admin-encuesta>
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+{% endblock %}

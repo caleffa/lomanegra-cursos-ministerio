@@ -1,0 +1,137 @@
+<div [hidden]="!showType" class="mb-2">
+    <label>Enviar mensaje como: </label>
+    <br>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button *ngIf="configObj.isAdmin" type="button" class="btn {{ showAdmin ? 'btn-primary' : 'btn-secondary' }}" 
+            (click)="setSendAs('Admin')" >Administrador</button>
+        <button *ngIf="configObj.isTutor" type="button" class="btn {{ showTutor ? 'btn-primary' : 'btn-secondary' }}" 
+            (click)="setSendAs('Tutor')">Tutor</button>
+        <button type="button" class="btn {{ showStudent ? 'btn-primary' : 'btn-secondary' }}" 
+            (click)="setSendAs('Alumno')">Alumno</button>
+    </div>
+
+    <input type="hidden" name="send_as" value="{{inputSendAs}}">
+</div>
+
+<div [hidden]="!(showAdmin || showTutor)">
+    <label>Seleccionar destinatarios del mensaje:</label>
+    <br>
+    <br>
+    <div [hidden]="!showAdmin">
+        <label class="mt-1">Sectores:</label>
+        <tag-input #areas
+                    [(ngModel)]="selected_areas"
+                    [identifyBy]="'id'"
+                    [displayBy]="'name'"
+                    [onlyFromAutocomplete]="true"
+                    (onAdd)="addToInput(selected_areas_ids, $event)"
+                    (onRemove)="removeFromInput(selected_areas_ids, $event)"
+                    placeholder="Escriba para agregar"
+                    secondaryPlaceholder="Escriba para buscar"
+                theme='bootstrap'>
+            <tag-input-dropdown
+                [autocompleteItems]="configObj.allAreas"
+                [displayBy]="'name'"
+                [identifyBy]="'id'">
+            </tag-input-dropdown>
+        </tag-input>
+        <input type="hidden" name="all_areas" value="[{{selected_areas_ids.toString()}}]">
+
+        <label class="mt-1">Dominios:</label>
+        <tag-input #domains
+                    [(ngModel)]="selected_domains"
+                    [identifyBy]="'id'"
+                    [displayBy]="'name'"
+                    [onlyFromAutocomplete]="true"
+                    (onAdd)="addToInput(selected_domains_ids, $event)"
+                    (onRemove)="removeFromInput(selected_domains_ids, $event)"
+                    placeholder="Escriba para agregar"
+                    secondaryPlaceholder="Escriba para buscar"
+                theme='bootstrap'>
+            <tag-input-dropdown
+                [autocompleteItems]="configObj.allDomains"
+                [displayBy]="'name'"
+                [identifyBy]="'id'">
+            </tag-input-dropdown>
+        </tag-input>
+        <input type="hidden" name="all_domains" value="[{{selected_domains_ids.toString()}}]">
+    </div>
+
+    <label class="mt-1">Usuarios particulares:</label>
+    <tag-input #users
+                    [(ngModel)]="selected_users"
+                    [identifyBy]="'id'"
+                    [displayBy]="'name'"
+                    [onlyFromAutocomplete]="true"
+                    (onAdd)="addToInput(selected_users_ids, $event)"
+                    (onRemove)="removeFromInput(selected_users_ids, $event)"
+                    placeholder="Escriba para agregar"
+                    secondaryPlaceholder="Escriba para buscar"
+                theme='bootstrap'>
+            <tag-input-dropdown
+                [autocompleteItems]="autocomplete_users"
+                [displayBy]="'name'"
+                [identifyBy]="'id'">
+            </tag-input-dropdown>
+        </tag-input>
+    <input type="hidden" name="all_users" value="[{{selected_users_ids.toString()}}]">
+
+    <label class="mt-1">Usuarios de los cursos:</label>
+    <tag-input #courses
+                    [(ngModel)]="selected_courses"
+                    [identifyBy]="'id'"
+                    [displayBy]="'name'"
+                    [onlyFromAutocomplete]="true"
+                    (onAdd)="addToInput(selected_courses_ids, $event)"
+                    (onRemove)="removeFromInput(selected_courses_ids, $event)"
+                    placeholder="Escriba para agregar"
+                    secondaryPlaceholder="Escriba para buscar"
+                theme='bootstrap'>
+            <tag-input-dropdown
+                [autocompleteItems]="autocomplete_courses"
+                [displayBy]="'name'"
+                [identifyBy]="'id'">
+            </tag-input-dropdown>
+        </tag-input>
+    <input type="hidden" name="all_courses" value="[{{selected_courses_ids.toString()}}]">
+</div>
+
+
+
+<div [hidden]="showStudent">
+    <div class="form-check ml-5">
+        <input class="form-check-input" type="radio" name="courses_options" id="all" value="all">
+        <label class="form-check-label" for="all">
+            Todos los que lo ven
+        </label>
+    </div>
+    <div class="form-check ml-5">
+        <input class="form-check-input" type="radio" name="courses_options" id="enrolled" value="enrolled" checked>
+        <label class="form-check-label" for="enrolled">
+            Solo los inscriptos
+        </label>
+    </div>
+</div>
+
+<div [hidden]="!showStudent">
+    <label class="mt-1">Tutor del curso</label>
+    <select-list [name]="'my_courses'" [multiple]="false" [selectTutor]="true" [options]="getCoursesWithTutor()" [preSelect]="configObj.preSelect"></select-list>
+</div>
+
+<div class="row mt-2">
+    <div class="col-12 col-md-3">
+        <label for="asunto">Asunto*:</label>
+    </div>
+    <div class="col-12 col-md-9">
+        <input name="asunto" type="text" class="form-control" id="asunto" placeholder="Asunto">
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-12 col-md-3">
+        <label>Curso:</label>
+    </div>
+    <div class="col-12 col-md-9">
+        <select-list [name]="'related_course'" [multiple]="false" [options]="getCourseOptions()" [preSelect]="configObj.preSelect"></select-list>
+    </div>
+</div>

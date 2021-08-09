@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+    <div id="mensajes">
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-9 col-lg-7 form-container">
+                <a href="{{prev}}"><i class="fas fa-chevron-left"></i> {% trans 'Volver' %}</a><br>
+                <h5 class="flex-fill">{{forum.title}}</h5>
+                <div class="text-tab" v-if="!replyingTo">
+                    {% trans 'Agregar comentario' %}
+                </div>
+                <div class="text-tab" v-if="replyingTo">
+                    {% trans 'Responder a' %}
+                </div>
+                <div class="reply row" id="replying" style="width: 100%;margin: auto;">
+                    <div class="col col-3" style="display: inline-block;font-size: 12px;" id="rep-info">
+                    </div>
+                    <div class="col col-7" style="display: inline-block;vertical-align: top;" id="rep-body">
+                    </div>
+                </div>
+                <form method="post" action="{{request.path}}">
+                    {% csrf_token %}
+                    {{ form.forum }}
+                    {{ form.user }}
+                    {{ form.segment_tracking }}
+                    {{ form.body }}
+                    <input type="hidden" name="replies_to" v-model="replyingTo">
+                    <input type="hidden" name="prev" value="{{prev}}">
+                    <input type="submit" class="btn btn-primary" value="{% trans 'Enviar mensaje' %}" v-if="!replyingTo">
+                    <button class="btn btn-danger" v-if="replyingTo" v-on:click="cancelarRespuesta()" type="button">{% trans 'Cancelar' %}</button>
+                    <input type="submit" class="btn btn-primary" value="{% trans 'Responder' %}" v-if="replyingTo">
+                    {{ form.body.errors }}
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-12 col-md-9 col-lg-7 form-container">
+                {% if messages_list.exists %}
+                    <div class="text-tab">
+                        {% trans 'Comentarios' %}
+                    </div>
+                {% endif %}
+                {% for message in messages_list %}
+                    <div class="row message-container justify-content-center">
+                        <div class="col col-4 col-lg-3 user-col">
+                            {% if message.user.avatar %}
+                                <img class="message-img" src="{{ message.user.avatar.url }}">
+                            {% else %}
+                            {% endif %}
+                            <div id="message-info-{{message.id}}">
+                            {{ message.user.name }} {{ message.user.last_name }}
+                            <br>
+                            {{message.edited|date:"d/m/Y"}}
+                            <br>
+                            {{message.edited|date:"H:i"}}hs
+                            </div>
+                        </div>
+                        <div class="col col-6 col-lg-8" id="mensaje-{{ message.id }}" style="padding-top: 10px;">
+                            <div v-if="!editando[{{ message.id }}]" id="message-body-{{message.id}}">
+                                [[ cuerpo_original[{{ message.id }}] ]]
+                            </div>
+                            <div v-if="editando[{{ message.id }}]">
+                                <textarea ref="mensaje-cuerpo-{{ message.id }}" v-model="cuerpo[{{ message.id }}]"></textarea>
+                            </div>
+                        </div>
+                        <div class="col col-2 col-lg-1">
+                            {% if message.user == request.user or request.user.is_superuser or user_is_tutor %}
+                            <i v-if="!editando[{{ message.id }}]" class="fas fa-pencil-alt action-button" id="editar-mensaje-{{ message.id }}" v-on:click="editar({{ message.id }})"></i> <br v-if="!editando[{{ message.id }}]">
+                            <i v-if="!editando[{{ message.id }}]" class="fas fa-trash action-button" id="borrar-mensaje-{{ message.id }}" v-on:click="borrar({{ message.id }})"></i> <br v-if="!editando[{{ message.id }}]">
+                            <i v-if="!editando[{{ message.id }}]" class="fas fa-reply action-button mb-3" id="responder-mensaje-{{ message.id }}" v-on:click="responder({{ message.id }})"></i> <br v-if="!editando[{{ message.id }}]">
+                            <i v-if="editando[{{ message.id }}]" class="fas fa-check action-button" id="guardar-mensaje-{{ message.id }}" v-on:click="guardar({{ message.id }})"></i> <br v-if="editando[{{ message.id }}]"> 
+                            <i v-if="editando[{{ message.id }}]" class="fas fa-times action-button" id="cancelar-mensaje-{{ message.id }}"  v-on:click="cancelarEdicion({{ message.id }})"></i> <br v-if="editando[{{ message.id }}]">
+                            {% endif %}
+                        </div>
+
+                        {% if message.replies_to %}
+                                <div class="col col-3 reply user-info">
+                                    {{ message.replies_to.user.name }} {{ message.replies_to.user.last_name }}
+                                    <br>
+                                    {{ message.replies_to.edited|date:"d/m/Y" }}
+                                    <br>
+                                    {{ message.replies_to.edited|date:"H:i" }}hs
+                                </div>
+                                <div class="col col-7 reply">
+                                    {{message.replies_to.body}}
+                                </div>
+                        {% endif %}
+
+                    </div>
+                {% empty %}
+                {% trans 'Aún no hay comentarios' %}
+                {% endfor %}
+
+                {% if is_paginated %}
+                    <nav class="mt-2">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{request.path}}?page=1&prev={{prev}}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="{{request.path}}?page={{page_obj.previous_page_number}}&prev={{prev}}" aria-label="Previous">
+                                        <span aria-hidden="true">&lt;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% for pg in page_range %}
+                                <li class="page-item {%if pg == current_page%}active{%endif%}">
+                                    <a class="page-link" href="{{request.path}}?page={{pg}}&prev={{prev}}">{{pg}}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{request.path}}?page={{page_obj.next_page_number}}&prev={{prev}}" aria-label="Next">
+                                        <span aria-hidden="true">&gt;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="{{request.path}}?page={{page_obj.paginator.num_pages}}&prev={{prev}}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+
+            </div>
+
+        </div>
+    
+    </div>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#mensajes',
+            delimiters: ['[[', ']]'],
+            data: {
+                editando: {
+                    {% for message in messages_list %}
+                        {{ message.id }}: false,
+                    {% endfor %}
+                },
+                cuerpo_original: {{ messages_json|safe }},
+                cuerpo: {{ messages_json|safe }},
+                replyingTo: ""
+            },
+            methods: {
+                cancelarEdicion: function(id) {
+                    this.editando[id] = false;
+                },
+                editar: function(id) {
+                    this.editando[id] = true;
+                    var self = this;
+                    Vue.nextTick(function(){
+                       self.$refs['mensaje-cuerpo-' + id].focus();
+                    });
+                },
+                borrar: function(id) {
+                    if(confirm('{% trans "¿Estás seguro/a de querer borrar el comentario?" %}\n"'+this.cuerpo_original[id]+'"')) {
+                        this.$http.delete('api/forum_messages/' + id + '/',
+                            { withCredentials: true }
+                        ).then(function(response) {
+                            location.reload();
+                        }, function() {
+                            alert('{% trans "Ha ocurrido un error al intentar borrar el comentario" %}');
+                        });
+                    }
+                },
+                guardar: function(id) {
+                    this.$http.patch('api/forum_messages/' + id + '/', {
+                        id: id,
+                        body: this.cuerpo[id]
+                    }, { withCredentials: true }).then(function(response) {
+                        this.cuerpo_original[id] = this.cuerpo[id];
+                        this.editando[id] = false;
+                    }, function() {
+                        alert('{% trans "Ha ocurrido un error al intentar guardar el comentario" %}');
+                    });
+                },
+                responder: function(id) {
+                    this.replyingTo = id;
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                    $("#id_body").focus();
+                    $("#replying").show();
+                    $("#rep-body").html($("#message-body-"+id).html())
+                    $("#rep-info").html($("#message-info-"+id).html())
+                },
+                cancelarRespuesta: function() {
+                    this.replyingTo = "";
+                    $("#id_body").val("");
+                    $("#replying").hide();
+                }
+            }
+        });
+
+    </script>
+
+{% endblock %}

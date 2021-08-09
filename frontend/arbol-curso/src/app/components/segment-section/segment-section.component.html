@@ -1,0 +1,34 @@
+<ng-template #componentModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Cuestionario</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCloseModal();modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+            <label for="sectionOrder">Orden</label>
+            <input type="number" class="form-control" formControlName="order" [class.is-invalid]="getValidity('order')"/>
+            <a href="#" (click)="openOrderModal()">(Ver orden de cuestionarios)</a>
+            <div [hidden]="!getValidity('order')" class="validation-error">
+                {{ getErrors('order') }}
+            </div>
+            <br>
+
+            <label for="sectionQuestions">¿Cuantas preguntas debe responder? Se pueden cargar tantas preguntas como se desee en el cuestionario. Si el valor es 0, entonces se le harán todas las preguntas del cuestionario al usuario. Si se usa otro número, se le mostrará esa cantidad de preguntas, elegidas al azar de entre las preguntas del cuestionario. Si se configura un número mayor a la cantidad de preguntas que hay en el cuestionario, se le mostrarán todas al usuario.</label>
+            <input type="number" class="form-control" formControlName="questions_to_ask" 
+                [class.is-invalid]="getValidity('questions_to_ask')"/>
+            <div [hidden]="!getValidity('questions_to_ask')" class="validation-error">
+                {{ getErrors('questions_to_ask') }}
+            </div>
+
+            <br>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="save()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="onCloseModal();modal.dismiss()">Cancelar</button>
+    </div>
+</ng-template>
+
+<order-modal [title]="'Cuestionarios'" [data]="section_order" #orderComp></order-modal>

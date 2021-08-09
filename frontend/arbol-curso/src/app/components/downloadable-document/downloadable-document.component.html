@@ -1,0 +1,34 @@
+<ng-template #componentModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Documento</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCloseModal();modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" formControlName="name" [class.is-invalid]="getValidity('name')"/>
+
+            <label for="">Archivo</label>
+            <div [hidden]="!imgLink">
+                <img src="{{imgLink}}" class="imagen_url"/>
+            </div>
+            <input type="file" class="form-control" (change)="uploadDocument($event)"/>
+            <div [hidden]="!getValidity('document')" class="validation-error">
+                {{ getErrors('document') }}
+            </div>
+
+            <div class="form-check" >
+                <input type="checkbox" class="form-check-input" id="ddIsMandatort" 
+                    formControlName="is_mandatory" [class.is-invalid]="getValidity('is_mandatory')">
+                <label class="form-check-label" for="ddIsMandatort">Es obligatorio</label>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="save()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="onCloseModal();modal.dismiss()">Cancelar</button>
+    </div>
+</ng-template>

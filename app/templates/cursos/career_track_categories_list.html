@@ -1,0 +1,186 @@
+{% extends "base_new.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+    <script>
+        function openNotEnabledModal(title,date) {
+            let dateObj = new Date(date);
+            let day = `${dateObj.getDate()}/${(dateObj.getMonth() + 1)}`;
+            let hour = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
+            let content = `El capítulo ${title} no puede iniciarse hasta el ${day} a las ${hour}hs`;
+            $('#notEnabledModalContent').html(content);
+            $('#notEnabledModal').modal('show');
+        }
+    </script>
+
+    <style>
+        .ctc-career-track-list {
+            padding: 10px;
+            padding-right: 10px;
+            margin-top: 20px;
+            color: #FFF;
+            background-color: #367e87;
+            display: block;
+            font-weight: bold;
+            font-size: 21px;
+        }
+
+        .ctc-category-title {
+            padding-left: 20px;
+            padding-top: 5px;
+            text-transform: uppercase;
+            font-size: 22px;
+            font-weight: bold;
+            color: #367e87;
+            margin-top: 10px;
+        }
+
+        .ctc-category-course {
+            margin-top: 5px;
+            background-color: #e2e2e2;
+            padding-top: 3px;
+        }
+
+        .ctc-category-course .ctc-course-title {
+            color: #367e87;
+            font-size: 16px;
+        }
+
+        .ctc-action-btn {
+            display: inline-block;
+            float: right;
+            height: 30px;
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .ctc-action-btn.start {
+            color: #C5007E;
+        }
+
+        .ctc-action-btn.continue {
+            color: #D08000;
+        }
+
+        .ctc-action-btn.again {
+            color: #008266;
+        }
+
+        .ctc-course-btn {
+            padding: 5px;
+            font-size: 8px;
+            border-radius: 20px;
+            color: #FFF !important;
+            padding-left: 7.5px;
+            padding-right: 7.5px;
+        }
+
+        a.ctc-course-btn {
+            padding: 7px;
+        }
+
+        .ctc-course-btn:hover {
+            cursor: pointer;
+            color: #FFF;
+        }
+
+        .ctc-course-btn.start-btn {
+            background-color: #C5007E;
+        }
+
+        .ctc-course-btn.continue-btn {
+            background-color: #D08000;
+        }
+
+        .ctc-course-btn.again-btn {
+            background-color: #008266;
+        }
+
+        .ctc-action-form {
+            display: inline-block;
+        }
+    </style>
+
+    {% include 'components/title_and_user.html' with title='Mis cursos' subtitle='Mirá la oferta de opciones y llevá un registro de tus cursos realizados' %}
+    {% include 'components/back_to_all_courses.html' %}
+
+    <div class="row justify-content-center">
+        <div class="ctc-career-track-list col-11 col-md-9  col-lg-8">
+            {{career_track.title}}
+        </div>
+    </div>
+
+    {% for category in categories_list %}
+
+        {% if category.has_courses %}
+
+            <div class="row justify-content-center">
+                <div class="ctc-category-title col-11 col-md-9 col-lg-8">
+                    {{category.title}}
+                </div>
+            </div>
+
+            {% for course in category.courses %}
+
+                <div class="row justify-content-center">
+                    <div class="ctc-category-course col-11 col-md-9 col-lg-8">
+                        <a class="ctc-course-title" href="{% url 'course' course.slug %}">{{course.title}}</a>
+                        {% if course.enrollment and course.enrollment.is_complete %}
+                            <div class="ctc-action-btn again">
+                                volver a ver
+                                <a class="ctc-course-btn again-btn" href="{{course.next_url}}">
+                                    <i class="fas fa-redo"></i>
+                                </a>
+                            </div>
+                        {% elif course.enrollment and course.next_url %}
+                            <div class="ctc-action-btn continue">
+                                continuar
+                                <a class="ctc-course-btn continue-btn"
+                                    {% if course.next_segment_enabled %}
+                                        href="{{ course.next_url }}"
+                                    {% else %}
+                                        onclick="openNotEnabledModal('{{course.next_segment_title}}', '{{course.next_segment_date}}')"
+                                    {% endif %}>
+                                    <i class="fas fa-pause"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if not course.enrollment %}
+                            <div class="ctc-action-btn start">
+                                comenzar
+                                <form class="ctc-action-form" action="{% url 'enroll_course' course=course.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{ request.path }}"/>
+                                    <button class="ctc-course-btn start-btn" type="submit">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                </form>
+                                
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="modal fade" id="notEnabledModal" tabindex="-1" role="dialog" aria-labelledby="notEnabledModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center;">
+                    <i class="fas fa-calendar-alt" style="font-size: 200px;color:#1da4fc;"></i>
+                    <br>
+                    <div class="row justify-content-center mt-2">
+                        <div id="notEnabledModalContent" class="col-12 col-md-7" style="color:#212529;">
+                            
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Aceptar' %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

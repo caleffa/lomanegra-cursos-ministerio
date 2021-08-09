@@ -1,0 +1,5 @@
+# Los hostnames deben coincidir con lo que el usuario que ejecute Ansible use para conectarse a cada VM
+# (normalmente se configura desde `~/.ssh/config` )
+
+atenea-ministerio ansible_python_interpreter=/usr/bin/python3 entorno=ministerio
+

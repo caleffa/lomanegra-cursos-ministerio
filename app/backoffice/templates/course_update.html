@@ -1,0 +1,179 @@
+{% extends "admin_light/base_site.html" %}
+{% load i18n static widget_tweaks %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+    {{ form.media }}
+{% endblock %}
+
+
+{% block extrajavascript %}
+    {{ block.super }}
+    <!-- Angular element arbol-curso -->
+
+    <script type="text/javascript" src="{% static 'elements/arbol-curso/polyfills-es2015.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/arbol-curso/styles-es2015.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/arbol-curso/runtime-es2015.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/arbol-curso/main-es2015.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'elements/arbol-curso/styles.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'elements/styles/angular-tree.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+    <form method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Datos del curso</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.title.id_for_label }}">Título:</label>
+                                    {% render_field form.title class+="form-control" %}
+                                    {{ form.title.errors }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.description.id_for_label }}">Descripción:</label>
+                                    {% render_field form.description class+="form-control" %}
+                                    {{ form.description.errors }}
+                                </div>
+
+                                <label for="{{ form.certificate_template.id_for_label }}">Plantilla de constancia:</label>
+                                <div class="form-group card">
+                                    <div class="card-body">
+                                        {% if object.certificate_template %}
+                                            <img src="{{object.certificate_template.url}}" style="max-width: 250px;">
+                                        {% endif %}
+                                        {% render_field form.certificate_template %}
+                                        {{ form.certificate_template.errors }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.tutor.id_for_label }}">Tutor:</label>
+                                    {% render_field form.tutor class+="form-control" %}
+                                    {{ form.tutor.errors }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.categories.id_for_label }}">Categoría:</label>
+                                    {{ form.categories }}
+{#                                    {% render_field form.categories class+="form-control" %}#}
+                                    {{ form.categories.errors }}
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.order.id_for_label }}">Orden:</label>
+                                    {% render_field form.order class+="form-control" %}
+                                    {{ form.order.errors }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.slug.id_for_label }}">Slug:</label>
+                                    {% render_field form.slug class+="form-control" %}
+                                    {{ form.slug.errors }}
+                                </div>
+
+                                <label for="{{ form.image.id_for_label }}">Imagen:</label>
+                                <div class="form-group card">
+                                    <div class="card-body">
+                                        {% if object.image %}
+                                            <img src="{{object.image.url}}" style="max-width: 250px;">
+                                        {% endif %}
+                                        {% render_field form.image %}
+                                        {{ form.image.errors }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.start_date.id_for_label }}">Fecha de inicio:</label>
+                                    {{ form.start_date }}
+                                    {{ form.start_date.errors }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.price.id_for_label }}">{% trans 'Precio' %}:</label>
+                                    {{ form.price }}
+                                    {{ form.price.errors }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="{{ form.price_currency.id_for_label }}">{% trans 'Moneda' %}:</label>
+                                    {{ form.price_currency }}
+                                    {{ form.price_currency.errors }}
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <button class="btn btn-primary" type="submit" id="submit-btn">
+                            <span id="spinner" class="spinner-border spinner-border-lg" role="status" aria-hidden="true" style="display: none;"></span>Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    {% if object.id %}
+
+        <br>
+
+        <div class="row">
+
+            <div class="col">
+                <button class="btn btn-primary" onclick="deleteTrcking({{object.id}})">Borrar tracking</button>
+            </div>
+            <div class="col">
+                <label>Usuarios</label>
+                <select name="sectores_target" class="form-control select2" multiple="true" id="users_with_tracking">
+                    {% for user in users_with_tracking%}
+                        <option>{{ user.email }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+
+        <div id="tracking-message">
+            Tracking eliminado correctamente
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Contenido del curso</h5>
+                        <arbol-curso course_id="{{ object.id }}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+<!-- Cómo usar el widget de fecha/hora del admin -->
+<!-- https://stackoverflow.com/questions/34818114/using-date-picker-from-django-admin/34818184 -->
+<!-- https://stackoverflow.com/questions/12449603/integrate-calendar-widget-in-django-app/12916263#12916263 -->
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+{#<script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>#}
+<script type="text/javascript" src="/static/admin/js/actions.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+{{ form.js }}
+
+{% endblock %}
+
+

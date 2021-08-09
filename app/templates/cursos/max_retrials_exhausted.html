@@ -1,0 +1,43 @@
+{% extends 'base_new.html' %}
+{% load i18n crispy_forms_tags staticfiles %}
+
+{% trans 'Volver a los cursos' as volver_a_los_cursos_str %}
+{% trans 'Cursos' as cursos_str %}
+
+{% block breadcrumb %}
+    {% include 'cursos/course_breadcrumb.html' with video=questionnaire.video %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+    {% include 'components/title_and_user.html' with title='Mis cursos' subtitle='Mirá la oferta de opciones y llevá un registro de tus cursos realizados' %}
+    {% include 'components/back_to_all_courses.html' %}
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <img src="{% static 'img/icono_cruz.png' %}" class="img-fluid" style="margin: 0 auto; display: block; max-height: 20rem;">
+        </div>
+    </div>
+
+    <p class="text-center" style="font-size: 1.25rem;">
+        {% blocktrans with title=questionnaire.video.title %}
+            Terminaste el cuestionario sobre el capítulo "{{ title }}".
+        {% endblocktrans %}
+    </p>
+    <p class="text-center" style="font-size: 1.25rem;">
+        {% blocktrans with score=questionnaire.score %}
+            Respondiste el {{ score }}% de las preguntas correctamente.
+        {% endblocktrans %}
+    </p>
+
+    <p class="text-center" style="font-size: 1.25rem;">{% blocktrans %}Lo sentimos, agotaste la cantidad máxima de intentos.{% endblocktrans %}</p>
+
+    <div class="row mt-3">
+        <div class="col"></div>
+        <div class="col text-center">
+            {% url 'enrolled_courses' as courses_url %}
+            {% include 'cursos/icon_button.html' with url=courses_url tooltip=volver_a_los_cursos_str title=cursos_str icon="fa-book-reader" extra_style="font-size: 2.5rem; vertical-align: middle;" %}
+        </div>
+        <div class="col"></div>
+    </div>
+{% endblock %}

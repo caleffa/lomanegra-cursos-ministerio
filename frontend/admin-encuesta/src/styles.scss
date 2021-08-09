@@ -1,0 +1,21 @@
+.fas:hover, .hover:hover {
+    color: #675fef;
+    cursor: pointer;
+}
+
+.validation-errors {
+    padding-left: 15px;
+    padding-top: 6px;
+    color: #d40606;
+    font-size: 14px;
+}
+
+.imagen-preview {
+    width: 50%;
+    display: block;
+    margin: auto;
+}
+
+input[type=file] {
+    width: 100%;
+}

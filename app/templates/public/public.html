@@ -1,0 +1,51 @@
+{% extends 'public/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="utilities">
+    <div class="position-relative">
+        <div class="img-home-container">
+            <div class="item">
+                <img src="{% static 'images/home-1.jpg' %}" alt="Persona aprendiendo" class="img-home-capacitacion">
+            </div>
+            <div class="item">
+                <img src="{% static 'images/home-2.jpg' %}" alt="Persona aprendiendo" class="img-home-capacitacion">
+            </div>
+            <div class="item">
+                <img src="{% static 'images/home-3.jpg' %}" alt="Persona aprendiendo" class="img-home-capacitacion">
+            </div>
+            <div class="item">
+                <img src="{% static 'images/home-4.jpg' %}" alt="Persona aprendiendo" class="img-home-capacitacion">
+            </div>
+        </div>
+        <div class="position-absolute ut-bottom-0 ut-left-0 w-100">
+            <p class="ut-p-no-style text-white text-center py-2 ut-text-xl ut-text-md-3xl" style="background-color: rgba(0,176,234, 0.7)">ENCONTRÁ MÁS CONTENIDO SOBRE EL MUNDO LABORAL</p>
+            <div class="d-flex flex-column flex-sm-row py-3 py-md-5 font-weight-bold ut-text-lg px-4 px-md-2 px-xl-5 ut-text-lg-2xl" style="background-color: rgba(0, 0, 0, 0.5)">
+                <img class="d-none d-md-inline-block" src="{% static 'images/encabezado.png' %}" alt="Ministerio de Trabajo" style="object-fit: contain">
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4">
+        <div class="row flex-column ut-space-y-4 my-4 flex-md-row justify-content-md-center ut-space-md-y-0 ut-space-md-x-8">
+            <a class="p-3 ut-bg-secondary text-white col-12 align-items-center d-flex col-md-5 p-lg-5" href="{% url 'public-segments' %}">
+                <div class="row align-items-center">
+                    <div class="col-12 d-flex align-items-center justify-content-between green-text-home-card">
+                        <p class="font-weight-bold ut-p-no-style mr-5">Videos informativos</p>
+                        <svg class="svg-inline--fa fa-plus fa-w-14 plus-size" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg><!-- <i class="fa fa-plus plus-size"></i> Font Awesome fontawesome.com -->
+
+                    </div>
+                </div>
+            </a>
+            <a href="{% url 'public-career-track-list' %}" class="p-3 ut-bg-secondary text-white col-12 align-items-center d-flex col-md-5 p-lg-5">
+                <div class="row align-items-center">
+                    <div class="col-12 d-flex align-items-center justify-content-between green-text-home-card">
+                        <p class="font-weight-bold ut-p-no-style mr-5">Cursos cortos</p>
+                        <svg class="svg-inline--fa fa-plus fa-w-14 plus-size" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg><!-- <i class="fa fa-plus plus-size"></i> Font Awesome fontawesome.com -->
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

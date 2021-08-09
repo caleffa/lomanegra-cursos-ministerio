@@ -1,0 +1,2479 @@
+{% load static i18n sass_tags %}
+{% load compress %}
+
+{% trans 'Hola, ' as hello %}
+{% trans 'gracias por ingresar' as thanks_for_signin %}
+
+{% static 'img/Navigation_Action.png' as navigation_action_icon_url %}
+{% static 'img/2Add_to_home_screen_icon.png' as add_to_home_screen_icon_url %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}Portal de empleo{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" property="description" content="Portal de Empleo del Ministerio de Trabajo."/>
+    <meta name="author" content="Ministerio de Trabajo" />
+    <meta name="copyright" content=" Ministerio de Trabajo copyright" />
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/favicon/apple-touch-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/favicon/apple-touch-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/favicon/apple-touch-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/favicon/apple-touch-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'img/favicon/apple-touch-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/favicon/apple-touch-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/favicon/apple-touch-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+    <link rel="mask-icon" href="{% static 'img/favicon/safari-pinned-tab.svg' %}" color="#f70f1f">
+    <link rel="shortcut icon" href="{% static 'img/favicon/favicon.ico' %}" type="image/x-icon">
+    <meta name="msapplication-TileColor" content="#f70f1f">
+    <meta name="msapplication-config" content="{% static 'img/favicon/browserconfig.xml' %}">
+    <meta name="theme-color" content="#f70f1f">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+    <!-- Splash screens for apple devices -->
+    <!-- Taken from: https://medium.com/@applification/progressive-web-app-splash-screens-80340b45d210 -->
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-640x1136.png' %}" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-750x1334.png' %}" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-1242x2208.png' %}" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-1125x2436.png' %}" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-1536x2048.png' %}" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-1668x2224.png' %}" media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-2048x2732.png' %}" media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+
+    {% block css %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+
+
+    <!-- Your stuff: Third-party CSS libraries go here -->
+
+    <!-- This file stores project-specific CSS -->
+
+    <!-- <link href="{% static 'css/project.css' %}" rel="stylesheet"> -->
+{#    {% compress css %}#}
+        <link href="{% sass_src 'scss/project_new.scss' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'css/animate.css' %}" rel="stylesheet" type="text/css" />
+{#    {% endcompress %}#}
+
+    <!-- Public css -->
+    <link rel="stylesheet" href="{% static 'css/public/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/public/typeahead.css' %}">
+    <link rel="stylesheet" href="{% static 'css/public/utilities.css' %}">
+    <link rel="stylesheet" href="{% static 'css/public/components.css' %}">
+
+    {% endblock %}
+
+    <script type="text/javacsript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
+
+    <script type="text/javascript" src="{% static 'js/ios.js' %}"></script>
+
+    <script type="text/javascript">
+        // constantes
+        var TOOLTIP_TIMEOUT = 5000; // milliseconds
+
+        // Polyfill para tener Math.trunc en IE
+        Math.trunc = Math.trunc || function(x) {
+          if (isNaN(x)) {
+            return NaN;
+          }
+          if (x > 0) {
+            return Math.floor(x);
+          }
+          return Math.ceil(x);
+        };
+    </script>
+
+    <!-- Vue.js -->
+
+      <!-- development version, includes helpful console warnings -->
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+{#        <!-- production version, optimized for size and speed -->#}
+{#        <script src="https://cdn.jsdelivr.net/npm/vue"></script>#}
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+
+    {% block extrahead %}
+    {% endblock %}
+
+    <!-- NEW BASE STYLE -->
+    <style>
+      .oda-chat-wrapper {
+          box-sizing: border-box;
+          height: 0;
+          position: fixed;
+          text-transform: none;
+          transition: all 0.25s ease-in-out;
+          width: 0;
+          z-index: 10000;
+      }
+
+      /* button base state */
+      .oda-chat-button {
+          background-position: center center;
+          background-repeat: no-repeat;
+          border: none;
+          bottom: 0;
+          cursor: pointer;
+          overflow: visible;
+          padding: 0;
+          position: absolute;
+          right: 0;
+          text-align: center;
+          touch-action: none;
+          transition: height 0.25s ease-out, width 0.25s ease-out;
+          z-index: 10000;
+      }
+
+      [dir=rtl] .oda-chat-button {
+          left: 0;
+          right: unset;
+      }
+
+      .oda-chat-button:focus {
+          outline: thin solid #fff;
+      }
+
+      .oda-chat-expanded:not(.oda-chat-drag) .oda-chat-button {
+          -webkit-animation: scale-out-center 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards;
+                  animation: scale-out-center 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards;
+      }
+
+      .oda-chat-collapsed:not(.oda-chat-drag) .oda-chat-button {
+          -webkit-animation: scale-in-center 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s both;
+                  animation: scale-in-center 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s both;
+          display: flex;
+      }
+
+      .oda-chat-button img {
+          display: block;
+          height: 100%;
+          max-height: 100%;
+          max-width: 100%;
+          width: 100%;
+      }
+
+      .oda-chat-notification-badge {
+          align-items: center;
+          background: #e6081a;
+          border-radius: 24px;
+          color: #fff;
+          display: flex;
+          font-size: 14px;
+          height: 24px;
+          justify-content: center;
+          position: absolute;
+          text-align: center;
+          width: 32px;
+      }
+
+      /* Widget base state */
+      .oda-chat-widget {
+          background: #fff;
+          display: flex;
+          flex-direction: column;
+          margin: 0;
+          overflow: hidden;
+          position: absolute;
+          text-decoration: none;
+          text-transform: none;
+          z-index: 10000;
+      }
+
+      .oda-chat-expanded .oda-chat-widget {
+          -webkit-animation: scale-in-br 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s both;
+                  animation: scale-in-br 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s both;
+      }
+
+      [dir=rtl] .oda-chat-expanded .oda-chat-widget {
+          -webkit-animation: scale-in-bl 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s both;
+                  animation: scale-in-bl 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s both;
+      }
+
+      .oda-chat-collapsed .oda-chat-widget {
+          -webkit-animation: scale-out-br 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards;
+                animation: scale-out-br 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards;
+      }
+
+      [dir=rtl] .oda-chat-collapsed .oda-chat-widget {
+          -webkit-animation: scale-out-bl 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards;
+                animation: scale-out-bl 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards;
+      }
+
+      .oda-chat-none {
+          display: none;
+      }
+
+      .oda-chat-conversation-pane {
+          display: flex;
+          flex: 1 1 auto;
+          flex-direction: column;
+      }
+
+      .oda-chat-conversation-container {
+          padding: 10px 12px 0;
+      }
+
+      .oda-chat-empty-conversation-div {
+          display: flex;
+          flex: auto;
+      }
+
+      .oda-chat-message-date {
+          font-size: 10px;
+          margin: 4px 4px 0;
+      }
+
+      .oda-chat-embed-sticky-top, .oda-chat-embed-sticky-bottom {
+          padding-top: 5px;
+          padding-bottom: 5px;
+      }
+
+      .oda-chat-embed-scroll-top {
+          padding-top: 5px;
+          padding-bottom: 10px;
+      }
+
+      .oda-chat-embed-scroll-bottom {
+          padding-top: 10px;
+          padding-bottom: 5px;
+      }
+
+      /* Chat responsive layouts */
+
+      /* Mobile layout */
+      .oda-chat-wrapper {
+          bottom: 20px;
+          right: 10px;
+      }
+
+      [dir=rtl] .oda-chat-wrapper {
+          left: 10px;
+          right: unset;
+      }
+
+      .oda-chat-button {
+          height: 48px;
+          width: 48px;
+      }
+
+      .oda-chat-button-icon {
+          max-height: 48px;
+          max-width: 48px;
+      }
+
+      .oda-chat-widget {
+          bottom: -20px;
+          height: 85vh;
+          max-height: calc(100vh - 60px);
+          max-width: 100vw;
+          right: -10px;
+          width: 100vw;
+          transition: all 0.25s ease-in-out;
+      }
+
+      [dir=rtl] .oda-chat-widget {
+          left: -10px;
+          right: unset;
+      }
+
+      .oda-chat-timestamp-header {
+          align-items: center;
+          display: flex;
+          font-size: 13.75px;
+          font-weight: 600;
+          justify-content: center;
+          padding: 8px;
+          margin: 8px;
+          text-transform: uppercase;
+      }
+
+      .oda-chat-relative-timestamp {
+          font-size: 12px;
+          margin: -16px auto 24px;
+      }
+
+      .oda-chat-relative-timestamp.oda-chat-left.oda-chat-has-message-icon,
+      [dir=rtl] .oda-chat-relative-timestamp.oda-chat-right.oda-chat-has-message-icon {
+          margin-left: 40px;
+      }
+
+      .oda-chat-relative-timestamp.oda-chat-right.oda-chat-has-message-icon,
+      [dir=rtl] .oda-chat-relative-timestamp.oda-chat-left.oda-chat-has-message-icon {
+          margin-right: 40px;
+      }
+
+      /* Large mobile and tablet layout */
+      @media screen and (min-width: 426px) {
+          .oda-chat-widget {
+              bottom: 0;
+              height: 85vh;
+              /* 20px compensation for bottom position of wrapper */
+              max-height: calc(100vh - 20px - 60px);
+              /* 10px compensation for right position of wrapper and next 10px for balanced look */
+              max-width: calc(100vw - 10px - 10px);
+              min-width: 300px;
+              right: 0;
+              width: 300px;
+          }
+
+          [dir=rtl] .oda-chat-widget {
+              left: 0;
+              right: unset;
+          }
+      }
+
+      /* Desktop layout */
+      @media screen and (min-width: 769px) {
+          .oda-chat-wrapper {
+              bottom: 20px;
+              right: 20px;
+          }
+
+          [dir=rtl] .oda-chat-wrapper {
+              left: 20px;
+              right: unset;
+          }
+
+          .oda-chat-button {
+              height: 64px;
+              width: 64px;
+          }
+
+          .oda-chat-button-icon {
+              max-height: 64px;
+              max-width: 64px;
+          }
+
+          .oda-chat-widget {
+              height: 70vh;
+              /* 20px compensation for bottom position of wrapper */
+              max-height: calc(100vh - 20px - 60px);
+              max-width: 512px;
+              width: 30vw;
+          }
+      }
+
+      /* Chat button entrance */
+      @keyframes scale-in-center{0%{opacity:1;transform:scale(0)}100%{opacity:1;transform:scale(1)}}
+
+      /* Chat button exit */
+      @keyframes scale-out-center{0%{display:flex;opacity:1;transform:scale(1)}100%{display:none;opacity:1;transform:scale(0)}}
+
+      /* Chat widget entrance */
+      @keyframes scale-in-br{0%{opacity:1;transform:scale(0);transform-origin:100% 100%}100%{opacity:1;transform:scale(1);transform-origin:100% 100%}}
+
+      @keyframes scale-in-bl {0% {opacity: 1;transform: scale(0);transform-origin: 0% 100%}100% {opacity: 1;transform: scale(1);transform-origin: 0% 100%}}
+
+      /* Chat widget exit */
+      @keyframes scale-out-br{0%{opacity:1;transform:scale(1);transform-origin:100% 100%}99%{opacity:1;transform:scale(.01);transform-origin:100% 100%}100%{display:none;opacity:1;transform:scale(0);transform-origin:100% 100%}}
+
+      @keyframes scale-out-bl{0%{opacity: 1;transform:scale(1);transform-origin:0 100%}99%{opacity:1;transform:scale(.01);transform-origin:0 100%}100%{opacity:1;transform:scale(0);transform-origin:0 100%}}
+
+      @media (prefers-reduced-motion: reduce) {
+          .oda-chat-button, .oda-chat-widget, .oda-chat-autocomplete-items, .oda-chat-status-message-wrapper, .oda-chat-share-popup-expand {
+              animation: none;
+          }
+
+          .oda-chat-conversation, .oda-chat-card-message-horizontal .oda-chat-card-message-cards {
+              scroll-behavior: auto;
+          }
+      }
+      .oda-chat-conversation {
+          background: #ffffff;
+          box-sizing: border-box;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-flex: 1;
+          -ms-flex: 1;
+          flex: 1;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+          overflow: auto;
+          scroll-behavior: smooth;
+          width: 100%;
+      }
+      .oda-chat-footer {
+          align-items: center;
+          background-color: #fff;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: row;                    /* LTR */
+          position: relative;
+          text-align: start;
+      }
+
+      .oda-chat-footer-mode-keyboard {
+          align-items: center;
+          flex: 1;
+          flex-direction: row;                    /* LTR */
+          justify-content: center;
+          max-height: 78px;
+          max-width: 100%;
+          padding: 8px 6px 8px 4px;               /* LTR */
+      }
+
+      .oda-chat-footer-mode-voice {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+      }
+
+      .oda-chat-footer-visualizer-wrapper {
+          align-items: center;
+          display: flex;
+          flex-direction: row;                    /* LTR */
+          height: 48px;
+          justify-content: center;
+          padding: 8px;
+          width: 100%;
+      }
+
+      .oda-chat-footer-recognition-wrapper {
+          align-items: center;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: row;                    /* LTR */
+          height: 48px;
+          padding: 8px 6px 8px 8px;               /* LTR */
+          width: 100%;
+      }
+
+      .oda-chat-footer-button {
+          -webkit-tap-highlight-color: transparent;
+          align-items: center;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          height: 32px;
+          justify-content: center;
+          max-height: 32px;
+          max-width: 32px;
+          overflow: hidden;
+          padding: 4px;
+          text-shadow: none;
+          width: 32px;
+      }
+
+      .oda-chat-footer-button:disabled {
+          cursor: default;
+          pointer-events: none;
+      }
+
+      .oda-chat-footer-button-icon {
+          background-position: center;
+          background-size: 100%;
+          height: 100%;
+          margin: auto;
+          padding: 0;
+          width: 100%;
+      }
+
+      .oda-chat-footer-button-svg-icon {
+          fill: #787570;
+          height: 24px;
+          width: 24px;
+      }
+
+      .oda-chat-footer-button:disabled .oda-chat-footer-button-svg-icon,
+      .oda-chat-footer-button:disabled .oda-chat-footer-button-svg-icon:active,
+      .oda-chat-footer-button:disabled .oda-chat-footer-button-svg-icon:hover {
+          fill: #bbb6b2;
+      }
+
+      .oda-chat-button-upload {
+          margin-left: 2px;
+      }
+
+      .oda-chat-button-speech-active {
+          animation: mic-toggle 400ms ease 0s infinite normal none running;
+      }
+
+      .oda-chat-footer.oda-chat-mode-keyboard .oda-chat-footer-mode-keyboard, .oda-chat-footer.oda-chat-mode-voice .oda-chat-footer-mode-voice {
+          display: flex;
+      }
+
+      .oda-chat-footer.oda-chat-mode-voice .oda-chat-footer-mode-keyboard, .oda-chat-footer.oda-chat-mode-keyboard .oda-chat-footer-mode-voice {
+          display: none;
+      }
+
+      @keyframes mic-toggle {
+          from {
+              fill: #ff8a80;
+          }
+          to {
+              fill: #d50000;
+          }
+      }
+
+      .oda-chat-user-input {
+          border: 1px solid #dadada;
+          border-radius: 16px;
+          box-sizing: border-box;
+          color: #333;
+          flex: 1;
+          height: 32px;
+          margin: 0 6px;
+          max-height: 61px;
+          min-height: 32px;
+          outline: none;
+          overflow: auto;
+          padding: 6px 14px;
+          resize: none;
+          text-align: start;
+      }
+
+      .oda-chat-user-input::placeholder {
+          color: #787570;
+      }
+
+      .oda-chat-user-input.oda-chat-disabled {
+          color: #737373;
+      }
+
+      .oda-chat-user-input.oda-chat-disabled::placeholder {
+          color: #bbb6b2;
+      }
+
+      .oda-chat-user-input.oda-chat-user-input-inline-send {
+          padding: 6px 40px 6px 14px;             /* LTR */
+      }
+
+      .oda-chat-autocomplete-items {
+          -webkit-animation: popup-suggestion .15s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+          animation: popup-suggestion .15s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+          border: 1px solid #bababa;
+          border-radius: 6px 6px 0 0;
+          bottom: 100%;
+          left: 0;
+          margin: 0 32px;
+          max-height: 240px;
+          overflow-y: auto;
+          position: absolute;
+          right: 0;
+          z-index: 1;
+      }
+
+      .oda-chat-autocomplete-items div {
+          background-color: #fff;
+          color: #161513;
+          cursor: pointer;
+          font-size: 16px;
+          min-height: 44px;
+          padding: 10px;
+          text-align: start;
+      }
+
+      .oda-chat-autocomplete-items strong {
+          font-weight: 700;
+      }
+
+      .oda-chat-autocomplete-items div:hover {
+          background-color: #e9e9e9;
+      }
+
+      .oda-chat-button-send-inline {
+          left: unset;
+          position: absolute;
+          right: 52px;
+      }
+
+      .oda-chat-recognition-text-view {
+          border: none;
+          flex: 1;
+          font-size: 16px;
+          margin: 0 8px;
+          pointer-events: none;
+      }
+
+      .oda-chat-share-popup {
+          background-color: #fcfbfa;
+          border: 1px solid #dadada;
+          border-radius: 4px;
+          bottom: 90%;
+          display: none;
+          left: 8px;                              /* LTR */
+          max-width: 200px;
+          padding: 8px;
+          position: absolute;
+          right: unset;
+          z-index: 2;
+      }
+
+      .oda-chat-share-popup::after {
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-top: 8px solid #fcfbfa;
+          content: '';
+          height: 0;
+          left: 8px;                              /* LTR */
+          position: absolute;
+          right: unset;
+          top: 100%;
+          width: 0;
+      }
+
+      .oda-chat-share-popup-expand {
+          -webkit-animation: scale-in-bl .25s cubic-bezier(0.250, 0.460, 0.450, 0.940) .2s both;
+          animation: scale-in-bl .25s cubic-bezier(0.250, 0.460, 0.450, 0.940) .2s both;
+          display: flex;
+      }
+
+      .oda-chat-share-popup-list {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          list-style: none;
+          margin: 0;
+          max-width: 100%;
+          padding: 0;
+          width: 100%;
+      }
+
+      .oda-chat-share-popup-list li {
+          border-bottom: 1px solid #dadada;
+          padding-bottom: 2px;
+          padding-top: 2px;
+      }
+
+      .oda-chat-share-popup-list li:last-of-type {
+          border-bottom: none;
+      }
+
+      .oda-chat-share-popup-item {
+          align-items: center;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          flex: 1;
+          font-size: 13.75px;
+          font-weight: 700;
+          height: 40px;
+          padding: 8px;
+          text-align: start;
+          width: 100%;
+      }
+
+      .oda-chat-share-popup-item:hover, .oda-chat-share-popup-item:focus {
+          background-color: #fff;
+      }
+
+      .oda-chat-share-popup-item-svg-icon {
+          fill: #787570;
+          flex: 1 0 auto;
+          height: 24px;
+          max-height: 24px;
+          max-width: 24px;
+          width: 24px;
+      }
+
+      .oda-chat-share-popup-item-text {
+          flex: 1 1 auto;
+          margin: 0 8px;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .oda-chat-autocomplete-items .oda-chat-autocomplete-active, .oda-chat-autocomplete-items .oda-chat-autocomplete-active:hover {
+          background-color: #85bbe7;
+      }
+
+      /* --- RTL --- */
+
+      [dir=rtl] .oda-chat-footer-mode-keyboard {
+          flex-direction: row-reverse;
+          padding: 8px 4px 8px 6px;
+      }
+
+      [dir=rtl] .oda-chat-footer-recognition-wrapper {
+          flex-direction: row-reverse;
+          padding: 8px 8px 8px 6px;
+      }
+
+      [dir=rtl] .oda-chat-button-upload {
+          margin-left: unset;
+          margin-right: 2px;
+      }
+
+      [dir=rtl] .oda-chat-user-input.oda-chat-user-input-inline-send {
+          padding: 6px 14px 6px 40px;
+      }
+
+      [dir=rtl] .oda-chat-user-input {
+          direction: rtl;
+      }
+
+      [dir=rtl] .oda-chat-button-send {
+          transform: scale(-1, 1);
+      }
+
+      [dir=rtl] .oda-chat-button-send-inline {
+          left: 52px;
+          right: unset;
+      }
+
+      [dir=rtl] .oda-chat-share-popup-expand {
+          -webkit-animation: scale-in-br .25s cubic-bezier(0.250, 0.460, 0.450, 0.940) .2s both;
+          animation: scale-in-br .25s cubic-bezier(0.250, 0.460, 0.450, 0.940) .2s both;
+      }
+
+      [dir=rtl] .oda-chat-footer, [dir=rtl] .oda-chat-footer-visualizer-wrapper, [dir=rtl] .oda-chat-share-popup-item {
+          flex-direction: row-reverse;
+      }
+
+      [dir=rtl] .oda-chat-share-popup, [dir=rtl] .oda-chat-share-popup::after {
+          left: unset;
+          right: 8px;
+      }
+
+      @keyframes popup-suggestion{0%{box-shadow:0 0 0 0 transparent,0 0 0 0 transparent;transform:scaleY(.4);transform-origin:0 100%}100%{box-shadow:0 -12px 15px -12px rgba(0,0,0,.35);transform:scaleY(1);transform-origin:0 100%}}
+
+      @keyframes scale-in-bl{0%{opacity:1;transform:scale(0);transform-origin:0 100%}100%{opacity:1;transform:scale(1);transform-origin:0 100%}}
+
+      @keyframes scale-in-br{0%{opacity:1;transform:scale(0);transform-origin:100% 100%}100%{opacity:1;transform:scale(1);transform-origin:100% 100%}}
+      .oda-chat-header {
+          align-items: center;
+          box-sizing: border-box;
+          color: #fff;
+          display: flex;
+          flex-direction: row;
+          height: 48px;
+          padding: 0 8px 0 10px;
+          text-align: start;
+      }
+
+      .oda-chat-logo {
+          flex: 0 0 auto;
+          height: 24px;
+          max-height: 32px;
+          max-width: 32px;
+          min-height: 16px;
+          padding: 0;
+          width: 24px;
+      }
+
+      .oda-chat-header-info-wrapper {
+          align-items: flex-start;
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          margin: 0 8px;
+          min-width: 0;
+          padding: 0;
+          width: 100%;
+      }
+
+      .oda-chat-title {
+          color: #fff;
+          font-size: 18px;
+      }
+
+      .oda-chat-subtitle {
+          color: #fff;
+          font-size: 14px;
+      }
+
+      .oda-chat-connection-status {
+          font-size: 10px;
+          font-weight: 700;
+          text-transform: uppercase;
+      }
+
+      .oda-chat-title, .oda-chat-subtitle, .oda-chat-connection-status {
+          justify-content: center;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .oda-chat-header-custom-element {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-break: break-all;
+      }
+
+      .oda-chat-header-actions {
+          display: flex;
+          flex: 1 0 auto;
+          justify-content: flex-end;
+      }
+
+      .oda-chat-header-button {
+          align-items: center;
+          border: none;
+          border-radius: 2px;
+          cursor: pointer;
+          display: flex;
+          height: 32px;
+          justify-content: center;
+          margin: 0 0 0 8px;
+          max-height: 32px;
+          max-width: 32px;
+          padding: 4px;
+          width: 32px;
+      }
+
+      .oda-chat-header-button:disabled {
+          cursor: default;
+          pointer-events: none;
+      }
+
+      .oda-chat-header-button svg {
+          fill: #fff;
+      }
+
+      .oda-chat-header-button:hover {
+          filter: brightness(1.2);
+      }
+
+      .oda-chat-header-button:active {
+          filter: brightness(0.875);
+      }
+
+      .oda-chat-header-button-icon {
+          height: 24px;
+          width: 24px;
+      }
+
+      .oda-chat-header-button-img-icon {
+          height: 100%;
+          max-height: 100%;
+          max-width: 100%;
+          width: 100%;
+      }
+
+      .oda-chat-header-button:disabled .oda-chat-header-button-icon,
+      .oda-chat-header-button:disabled .oda-chat-header-button-icon:active,
+      .oda-chat-header-button:disabled .oda-chat-header-button-icon:hover {
+          fill: #bbb6b2;
+      }
+
+      .oda-chat-language-selection {
+          /* TODO: Attempt consistent UI for select and options */
+          /* -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none; */
+          -moz-box-sizing: border-box;
+          -webkit-box-sizing: border-box;
+          border: none;
+          box-sizing: border-box;
+          display: block;
+          font-size: 18px;
+          margin: 0;
+          max-width: 8rem;
+          min-width: 4rem;
+          padding: 2px;
+      }
+
+      .oda-chat-language-selection::-ms-expand {
+          display: none;
+      }
+
+      /* --- RTL --- */
+
+      [dir=rtl] .oda-chat-header {
+          flex-direction: row-reverse;
+          padding: 0 10px 0 8px;
+      }
+
+      [dir=rtl] .oda-chat-header-info-wrapper {
+          align-items: flex-end;
+      }
+
+      [dir=rtl] .oda-chat-header-actions {
+          flex-direction: row-reverse;
+      }
+
+      [dir=rtl] .oda-chat-header-button {
+          margin: 0 8px 0 0;
+      }
+      .oda-chat-message-actions {
+          display: flex;
+          flex-direction: column;
+      }
+
+      .oda-chat-message-actions .oda-chat-action-postback {
+          align-items: center;
+          border-radius: 4px;
+          color: #fff;
+          cursor: pointer;
+          display: flex;
+          font-size: 13.75px;
+          font-weight: 700;
+          flex: 1 1 auto;
+          justify-content: center;
+          margin: 4px;
+          padding: 12px 24px;
+          text-decoration: none;
+      }
+
+      .oda-chat-message-actions .oda-chat-action-postback:focus, .oda-chat-message-actions a.oda-chat-action-postback:active {
+          background: #004d80;
+      }
+
+      .oda-chat-message-actions .oda-chat-action-postback.oda-chat-disabled {
+          background: #f8f8f8;
+          border-color: #c5c5c5;
+          color: #737373;
+          cursor: default;
+      }
+
+      .oda-chat-message-actions .oda-chat-action-postback.oda-chat-disabled:hover {
+          background: #f8f8f8;
+      }
+
+      .oda-chat-message-actions .oda-chat-action-postback.oda-chat-disabled:focus, .oda-chat-message-actions a.oda-chat-action-postback.oda-chat-disabled:active {
+          background: #f8f8f8;
+      }
+
+      .oda-chat-message-global-actions {
+          align-items: flex-start;
+          display: flex;
+          flex-direction: column;
+          margin-top: 16px;
+      }
+
+      .oda-chat-message-global-actions.oda-chat-has-message-icon {
+          margin-left: 40px;
+      }
+
+      [dir=rtl] .oda-chat-message-global-actions.oda-chat-has-message-icon {
+          margin-left: unset;
+          margin-right: 40px;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback {
+          align-items: center;
+          border: 1px solid #1b8fd2;
+          border-radius: 4px;
+          color: #1b8fd2;
+          cursor: pointer;
+          display: flex;
+          flex: 1 1 auto;
+          font-size: 13.75px;
+          font-weight: 700;
+          justify-content: center;
+          margin-top: 4px;
+          margin-bottom: 4px;
+          padding: 12px 24px;
+          text-decoration: none;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback:first-of-type {
+          margin-top: 0;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback:last-of-type {
+          margin-bottom: 0;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback:hover {
+          background: #1b8fd2;
+          color: #fff;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback:focus, .oda-chat-message-global-actions .oda-chat-action-postback:active {
+          background: #004d80;
+          color: #fff;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback.oda-chat-disabled {
+          background: #f8f8f8;
+          border-color: #c5c5c5;
+          color: #737373;
+          cursor: default;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback.oda-chat-disabled:hover, .oda-chat-message-global-actions .oda-chat-action-postback.oda-chat-disabled:focus, .oda-chat-message-global-actions .oda-chat-action-postback.oda-chat-disabled:active {
+          background: #f8f8f8;
+          border-color: #c5c5c5;
+          color: #737373;
+      }
+
+      .oda-chat-action-image {
+          margin: 0 4px;
+          max-height: 24px;
+          max-width: 24px;
+      }
+      .oda-chat-attachment-image,
+      .oda-chat-attachment-video{width: 100%;}
+      .oda-chat-attachment-audio{width: 190px;}/* TODO: set by javascript */
+
+      .oda-chat-attachment-message {
+          align-items: center;
+          display: -webkit-flex; /* Safari */
+          display: flex;
+      }
+
+      .oda-chat-attachment-icon {
+          align-items: center;
+          border: none;
+          background: no-repeat center center;
+          background-color: transparent;
+          flex: 0 0 auto;
+          height: 32px;
+          justify-content: center;
+          margin-right: 4px;
+          overflow: hidden;
+          width: 32px;
+      }
+
+      .oda-chat-attachment-fileName {
+          margin: auto 0;
+      }
+      .oda-chat-card-message-horizontal .oda-chat-message-bubble.oda-chat-message-header, .oda-chat-card-message-horizontal .oda-chat-message-bubble.oda-chat-message-footer {
+          margin-right: 0;
+      }
+
+      [dir=rtl] .oda-chat-card-message-horizontal .oda-chat-message-bubble.oda-chat-message-header, .oda-chat-card-message-horizontal .oda-chat-message-bubble.oda-chat-message-footer {
+          margin-left: 0;
+          margin-right: unset;
+      }
+
+      .oda-chat-card-message-horizontal .oda-chat-content-wrapper {
+          flex: 0 0 auto;
+          min-width: 0;
+          overflow-x: visible;
+      }
+
+      .oda-chat-card-message-content {
+          line-height: 1.5;
+          max-width: 100%;
+          white-space: pre-wrap;
+      }
+
+      .oda-chat-card-message-horizontal .oda-chat-card-message-content {
+          position: relative;
+      }
+
+      .oda-chat-card-message-content a {
+          text-decoration: none;
+      }
+
+      .oda-chat-card-message-horizontal {
+          margin-left: 20px;
+          margin-right: 20px;
+      }
+
+      .oda-chat-card-message-horizontal.oda-chat-has-message-icon {
+          margin-left: 0;
+      }
+
+      [dir=rtl] .oda-chat-card-message-horizontal.oda-chat-has-message-icon {
+          margin-left: unset;
+          margin-right: 0;
+      }
+
+      .oda-chat-card-message-cards {
+          max-width: 100%;
+          margin-right: 20px;
+      }
+
+      [dir=rtl] .oda-chat-card-message-cards {
+          margin-right: unset;
+      }
+
+      .oda-chat-card-message-horizontal .oda-chat-card-message-cards {
+          -ms-overflow-style: none;
+          -webkit-overflow-scrolling: touch;
+          align-items: center;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          max-width: 100%;
+          overflow-x: auto;
+          overflow-y: hidden;
+          position: relative;
+          scroll-behavior: smooth;
+          scroll-snap-type: x mandatory;
+          scrollbar-width: none;
+          white-space: nowrap;
+          width: 100%;
+      }
+
+      .oda-chat-card-message-horizontal .oda-chat-card-message-cards::-webkit-scrollbar {
+          display: none;
+      }
+
+      .oda-chat-card-message-vertical .oda-chat-card {
+          border-radius: 20px;
+          margin: 8px 0;
+      }
+
+      .oda-chat-card-message-vertical .oda-chat-card:first-of-type {
+          margin-top: 0;
+      }
+
+      .oda-chat-card-message-vertical .oda-chat-card:last-of-type {
+          margin-bottom: 0;
+      }
+
+      .oda-chat-card-message-vertical .oda-chat-message-wrapper {
+          flex-direction: column;
+      }
+
+      .oda-chat-card {
+          background: #fff;
+          border: 1px solid rgba(0, 0, 0, 0.12);
+          border-radius: 20px;
+          box-sizing: border-box;
+          display: block;
+          max-width: 100%;
+          min-width: 75%;
+          overflow: hidden;
+          padding: 20px;
+          white-space: pre-wrap;
+      }
+
+      .oda-chat-card-message-horizontal .oda-chat-card {
+          align-self: stretch;
+          display: flex;
+          flex: 0 0 auto;
+          flex-direction: column;
+          justify-content: space-around;
+          margin: 0 8px;
+          scroll-snap-align: start;
+      }
+
+      .oda-chat-card-message-horizontal .oda-chat-card:first-of-type {
+          margin-left: 0;
+      }
+
+      .oda-chat-card-message-horizontal .oda-chat-card:last-of-type {
+          margin-right: 0;
+      }
+
+      .oda-chat-card-image {
+          height: 275px;
+          max-width: 100%;
+          width: 375px;
+      }
+
+      .oda-chat-card-content {
+          display: flex;
+          flex-direction: column;
+          line-height: 1.5;
+      }
+
+      .oda-chat-card-title {
+          font-weight: 400;
+          margin: 4px;
+          max-width: 100%;
+          text-align: center;
+          white-space: pre-wrap;
+      }
+
+      .oda-chat-card-description {
+          font-weight: 400;
+          margin: 4px;
+          max-width: 100%;
+          text-align: start;
+          text-overflow: ellipsis;
+          white-space: pre-wrap;
+      }
+
+      .oda-chat-card-actions {
+          display: flex;
+          flex-direction: column;
+      }
+
+      .oda-chat-card-actions .oda-chat-action-postback {
+          align-items: center;
+          background: #09f;
+          border-radius: 4px;
+          color: #fff;
+          cursor: pointer;
+          display: flex;
+          flex: 1 1 auto;
+          font-size: 13.75px;
+          font-weight: 700;
+          justify-content: center;
+          margin: 4px;
+          padding: 12px 24px;
+          text-decoration: none;
+      }
+
+      .oda-chat-card-actions .oda-chat-action-postback:hover {
+          background: #eaeaea;
+      }
+
+      .oda-chat-card-actions button.oda-chat-disabled {
+          background: #fff;
+          border-color: #c5c5c5;
+          color: #737373;
+          cursor: default;
+      }
+
+      .oda-chat-card-actions button.oda-chat-disabled:hover {
+          background: #fff;
+          color: #737373;
+      }
+
+      .oda-chat-round {
+          -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+          align-items: center;
+          background: #eaeaea;
+          border: none;
+          border-radius: 4px;
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+          color: #333;
+          cursor: pointer;
+          display: flex;
+          height: 36px;
+          justify-content: center;
+          padding: 0;
+          position: absolute;
+          text-align: center;
+          top: calc(50% - 18px);
+          width: 36px;
+          z-index: 1;
+      }
+
+      .oda-chat-round svg {
+          fill: #333;
+      }
+
+      .oda-chat-round:hover {
+          background: #4a90e2;
+          color: #fff;
+      }
+
+      .oda-chat-round:hover svg {
+          fill: #fff;
+      }
+
+      .oda-chat-previous {
+          left: -18px;
+      }
+
+      .oda-chat-next {
+          right: -18px;
+      }
+      .oda-chat-loading-icon {
+          display: -webkit-flex; /* Safari */
+          display: flex;
+      }
+      .oda-chat-message-with-icon {
+          align-items: center;
+          display: -webkit-flex; /* Safari */
+          display: flex;
+      }
+
+      .oda-chat-error-icon {
+          margin-right: 5px;
+          max-width: 24px;
+          max-height: 24px;
+      }
+
+      .oda-chat-message-text {
+          margin: auto 0;
+          text-align: start;
+          white-space: pre-wrap;
+      }
+      .oda-chat-spinner {
+          position: relative;
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+          margin-right: 4px;
+      }
+
+      .oda-chat-spinner svg {
+          animation-duration: 750ms;
+          -webkit-animation: spinner-rotate 1s linear infinite;
+          animation: spinner-rotate 1s linear infinite;
+          overflow: hidden;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+      }
+
+      .oda-chat-spinner circle {
+          stroke: #387ef5;
+          fill: transparent;
+          stroke-width: 4px;
+          stroke-dasharray: 128px;
+          stroke-dashoffset: 82px;
+      }
+
+      @keyframes spinner-rotate {
+          0% {
+              -webkit-transform: rotate(0deg);
+              transform: rotate(0deg);
+          }
+          100% {
+              -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+          }
+      }
+      .oda-chat-message {
+          line-height: 1.5;
+          margin-bottom: 24px;
+      }
+
+      .oda-chat-left {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          text-align: start;
+      }
+
+      .oda-chat-right {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+      }
+
+      .oda-chat-left, [dir=rtl] .oda-chat-right {
+          align-items: flex-start;
+      }
+
+      .oda-chat-right, [dir=rtl] .oda-chat-left {
+          align-items: flex-end;
+      }
+
+      .oda-chat-message-wrapper {
+          display: flex;
+          max-width: 100%;
+      }
+
+      .oda-chat-left .oda-chat-message-wrapper, [dir=rtl] .oda-chat-right .oda-chat-message-wrapper {
+          flex-direction: row;
+      }
+
+      .oda-chat-right .oda-chat-message-wrapper, [dir=rtl] .oda-chat-left .oda-chat-message-wrapper {
+          flex-direction: row-reverse;
+      }
+
+      .oda-chat-icon-wrapper {
+          align-items: flex-end;
+          align-self: flex-end;
+          border-radius: 4px;
+          display: flex;
+          height: 32px;
+          justify-content: center;
+          min-width: 32px;
+          overflow: hidden;
+          width: 32px;
+      }
+
+      .oda-chat-left .oda-chat-icon-wrapper, [dir=rtl] .oda-chat-right .oda-chat-icon-wrapper {
+          margin-left: unset;
+          margin-right: 8px;
+      }
+
+      .oda-chat-right .oda-chat-icon-wrapper, [dir=rtl] .oda-chat-left .oda-chat-icon-wrapper {
+          margin-left: 8px;
+          margin-right: unset;
+      }
+
+      .oda-chat-message-icon {
+          height: 32px;
+          max-height: 32px;
+          max-width: 32px;
+          width: 32px;
+      }
+
+      .oda-chat-content-wrapper {
+          max-width: 100%;
+          overflow-x: auto;
+      }
+
+      .oda-chat-content-wrapper.oda-chat-with-icon {
+          max-width: 88%;
+      }
+
+      .oda-chat-message-bubble {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin: 0;
+          max-width: 350px;
+          padding: 20px;
+          position: relative;
+      }
+
+      .oda-chat-screen-reader-only {
+          height: 1px;
+          left: -20000px;
+          overflow: hidden;
+          position: absolute;
+          top: auto;
+          width: 1px;
+      }
+
+      .oda-chat-message-content {
+          line-height: 1.5;
+          margin: 4px;
+          overflow: hidden;
+          text-align: start;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+      }
+
+      .oda-chat-message-content a {
+          text-decoration: none;
+      }
+
+      .oda-chat-right .oda-chat-message-bubble, [dir=rtl] .oda-chat-left .oda-chat-message-bubble {
+          border-radius: 24px 24px 0 24px;
+          margin-left: 20px;
+          margin-right: unset;
+      }
+
+      .oda-chat-left .oda-chat-message-bubble, [dir=rtl] .oda-chat-right .oda-chat-message-bubble {
+          border-radius: 24px 24px 24px 0;
+          margin-left: unset;
+          margin-right: 20px;
+      }
+
+      .oda-chat-left .oda-chat-message-header {
+          border-radius: 24px 24px 0 0;
+          margin-bottom: 10px;
+      }
+
+      .oda-chat-left .oda-chat-message-footer {
+          border-radius: 0 0 24px 24px;
+          margin-top: 10px;
+      }
+
+      .oda-chat-left .oda-chat-has-header {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+      }
+
+      .oda-chat-left .oda-chat-has-footer {
+          border-bottom-right-radius: 0;
+      }
+
+      [dir=rtl] .oda-chat-left .oda-chat-has-footer {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: unset;
+      }
+
+      .oda-chat-attachment-image, .oda-chat-attachment-video {
+          width: 100%;
+      }
+
+      .oda-chat-attachment-audio {
+          width: 190px;
+      }
+
+      .oda-chat-bubble-wrapper {
+          display: flex;
+          flex-direction: row;
+      }
+      .oda-chat-status-message-container {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 24px;
+      }
+
+      .oda-chat-status-message-wrapper {
+          align-items: center;
+          align-self: center;
+          animation: vibrate 0.5s linear both;
+          background-color: #f3f3f3;
+          border-radius: 4px;
+          display: flex;
+          flex: 0 1 auto;
+          max-width: 80%;
+          padding: 10px 24px;
+      }
+
+      @keyframes vibrate {
+          0% {
+              -webkit-transform: translate(0);
+                      transform: translate(0);
+          }
+          20% {
+              -webkit-transform: translate(-2px, 2px);
+                      transform: translate(-2px, 2px);
+          }
+          40% {
+              -webkit-transform: translate(-2px, -2px);
+                      transform: translate(-2px, -2px);
+          }
+          60% {
+              -webkit-transform: translate(2px, 2px);
+                      transform: translate(2px, 2px);
+          }
+          80% {
+              -webkit-transform: translate(2px, -2px);
+                      transform: translate(2px, -2px);
+          }
+          100% {
+              -webkit-transform: translate(0);
+                      transform: translate(0);
+          }
+      }
+
+      .oda-chat-status-image {
+          max-width: 16px;
+          max-height: 16px;
+      }
+
+      .oda-chat-status-message {
+          color: #737373;
+          font-size: 14px;
+          margin-left: 8px;
+          text-align: start;
+      }
+
+      hr {
+          border-top: 1px solid #eee;
+          padding: 0;
+          margin: 10px 0;
+      }
+
+      .oda-chat-webview-container {
+          background-color: #fff;
+          bottom: 0;
+          box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.08),
+              0 -2px 2px rgba(0, 0, 0, 0.12),
+              0 -3px 4px rgba(0, 0, 0, 0.16),
+              0 -4px 8px rgba(0, 0, 0, 0.20);
+          display: flex;
+          flex-direction: column;
+          height: 0;
+          max-width: 100%;
+          position: absolute;
+          width: 100%;
+          z-index: 1;
+      }
+
+      .oda-chat-webview-container.oda-chat-none {
+          display: none;
+      }
+
+      .oda-chat-webview-container.oda-chat-webview-container-close {
+          animation: oda-chat-webview-slide-out-bottom .4s cubic-bezier(.55, .085, .68, .53) both;
+      }
+
+      @keyframes oda-chat-webview-slide-out-bottom {
+          0% {
+              transform: translateY(0);
+              opacity: 1;
+          }
+          95% {
+              opacity: 1;
+          }
+          100% {
+              transform: translateY(100%);
+              opacity: 0;
+          }
+      }
+
+      .oda-chat-webview-container.oda-chat-webview-container-open {
+          animation: oda-chat-webview-slide-in-bottom .4s cubic-bezier(.25, .46, .45, .94) both;
+      }
+
+      @keyframes oda-chat-webview-slide-in-bottom {
+          0% {
+              transform: translateY(100%);
+              opacity: 0;
+          }
+          1% {
+              opacity: 1;
+          }
+          100% {
+              transform: translateY(0%);
+              opacity: 1;
+          }
+      }
+
+      .oda-chat-webview-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          max-width: 100%;
+          height: 48px;
+      }
+
+      .oda-chat-webview-button-close {
+          align-items: center;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          flex: 0 0 auto;
+          justify-content: center;
+          margin: 4px;
+          padding: 4px;
+      }
+
+      .oda-chat-webview-button-close-icon {
+          height: 24px;
+          fill: #fff;
+          max-height: 32px;
+          max-width: 32px;
+          padding: 0;
+          width: 24px;
+      }
+
+      .oda-chat-progress-bar {
+          background-color: #dadada;
+          border-radius: 0;
+          border-style: none;
+          box-sizing: border-box;
+          display: block;
+          height: 4px;
+          margin: 0;
+          position: absolute;
+          overflow: hidden;
+          top: 48px;
+          width: 100%;
+      }
+
+      .oda-chat-progress-bar-overlay {
+          width: 25%;
+          height: 100%;
+          background-color: #33553c;
+          position: relative;
+          animation: oda-chat-progress-bar 2s linear infinite;
+      }
+
+      @keyframes oda-chat-progress-bar {
+          0% {
+              left: -35%;
+              right: 100%
+          }
+
+          60% {
+              left: 100%;
+              right: -90%
+          }
+
+          100% {
+              left: 100%;
+              right: -90%
+          }
+      }
+
+      .oda-chat-webview {
+          background-color: #fff;
+          border: none;
+          flex: 1 1 auto;
+          max-width: 100%;
+          width: 100%;
+      }
+
+      .oda-chat-webview-error {
+          align-items: center;
+          background-color: #eaeaea;
+          border: 1px solid #dadada;
+          border-radius: 4px;
+          bottom: 16px;
+          display: flex;
+          flex: 1 1 auto;
+          flex-direction: row;
+          justify-content: space-between;
+          left: 5%;
+          max-width: 400px;
+          padding: 8px 4px 8px 8px;
+          position: absolute;
+          width: 90%;
+          animation: webview-error-in .6s cubic-bezier(.390,.575,.565,1.000) both;
+      }
+
+      .oda-chat-webview-error.oda-chat-none {
+          animation: webview-error-out .6s cubic-bezier(.25,.46,.45,.94) both;
+      }
+
+      [dir=rtl] .oda-chat-webview-error {
+          flex-direction: row-reverse;
+          padding: 8px 8px 8px 4px;
+      }
+
+      .oda-chat-webview-error-text {
+          color: #161513;
+      }
+
+      .oda-chat-webview-alt-link {
+          font-weight: 700;
+      }
+
+      .oda-chat-webview-error-button-close svg {
+          fill: #333;
+      }
+
+      @keyframes webview-error-in{0%{transform:translateY(50px);opacity:0}100%{transform:translateY(0);opacity:1}}
+
+      @keyframes webview-error-out{0%{transform:translateY(0);opacity:1}100%{transform:translateY(50px);opacity:0}}
+      .oda-chat-footer-button:focus:enabled {
+        outline-color: #025e7e;
+      }
+
+      .oda-chat-header-button:focus:enabled {
+        outline-color: #fff;
+      }
+
+      .oda-chat-wrapper {
+        color: #161513;
+        font: 12px Verdana, Geneva, sans-serif;
+        bottom: 2px;
+        right: 2px;
+      }
+
+      .oda-chat-widget {
+        bottom: -2px;
+        right: -2px;
+      }
+
+      .oda-chat-button {
+        background-color: #025e7e;
+      }
+
+      .oda-chat-notification-badge {
+        background-color: #9a0007;
+        color: #fff;
+        right: -5px;
+        top: -5px;
+      }
+
+      .oda-chat-header {
+        background-color: #025e7e;
+      }
+
+      .oda-chat-header-button {
+        background-color: #025e7e;
+      }
+
+      .oda-chat-header-button svg {
+        fill: #fff;
+      }
+
+      .oda-chat-header, .oda-chat-title, .oda-chat-subtitle {
+        color: #fff;
+      }
+
+      .oda-chat-language-selection {
+        background-color: #025e7e;
+        outline-color: #fff;
+        color: #fff;
+      }
+
+      .oda-chat-conversation {
+        background-color: #fff;
+      }
+
+      .oda-chat-left .oda-chat-message-bubble, .oda-chat-left .oda-chat-message-header, .oda-chat-left .oda-chat-message-footer {
+        background-color: #e5f1ff;
+        color: #161513;
+        font: 12px Verdana, Geneva, sans-serif;
+      }
+
+      .oda-chat-right .oda-chat-message-bubble {
+        color: #161513;
+        background-color: #ececec;
+        font: 12px Verdana, Geneva, sans-serif;
+      }
+
+      .oda-chat-message-actions .oda-chat-action-postback {
+        background-color: #025e7e;
+        border-color: #025e7e;
+        border-style: solid;
+        border-width: 1px;
+        color: #fff;
+      }
+
+      .oda-chat-message-actions .oda-chat-action-postback:focus:enabled {
+        background-color: #053242;
+      }
+
+      .oda-chat-message-actions .oda-chat-action-postback:hover:enabled {
+        background-color: #06485f;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback {
+        background-color: #fff;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #0e7295;
+        color: #0e7295;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback:focus:enabled {
+        background-color: #053242;
+      }
+
+      .oda-chat-message-global-actions .oda-chat-action-postback:hover:enabled {
+        background-color: #025e7e;
+      }
+
+      .oda-chat-card {
+        background-color: #fcfbfa;
+      }
+
+      .oda-chat-card-description {
+        color: #3a3631;
+      }
+
+      .oda-chat-card-actions .oda-chat-action-postback {
+        background-color: #025e7e;
+        border-color: #025e7e;
+        border-style: solid;
+        border-width: 1px;
+        color: #fff;
+      }
+
+      .oda-chat-card-actions .oda-chat-action-postback:focus:enabled {
+        background-color: #053242;
+      }
+
+      .oda-chat-card-actions .oda-chat-action-postback:hover:enabled {
+        background-color: #06485f;
+      }
+
+      .oda-chat-round {
+        background-color: #4190ac;
+      }
+
+      .oda-chat-round:focus:enabled {
+        background-color: #5fa2ba;
+      }
+
+      .oda-chat-round:hover:enabled {
+        background-color: #0e7295;
+      }
+
+      .oda-chat-message-content a {
+        color: #0e7295;
+      }
+
+      .oda-chat-card-message-content a {
+        color: #0e7295;
+      }
+
+      .oda-chat-status-message-wrapper {
+        background-color: #e5f1ff;
+      }
+
+      .oda-chat-relative-timestamp, .oda-chat-timestamp-header {
+        color: #5b5652;
+      }
+
+      .oda-chat-footer {
+        background-color: #fff;
+        border-top: 1px solid #dadada;
+      }
+
+      .oda-chat-user-input {
+        caret-color: #025e7e;
+        background-color: #fff;
+        color: #161513;
+        font: 12px Verdana, Geneva, sans-serif;
+      }
+
+      .oda-chat-footer-button:hover:enabled .oda-chat-footer-button-svg-icon {
+        fill: #025e7e;
+      }
+
+      .oda-chat-share-popup-item:hover:enabled .oda-chat-share-popup-item-svg-icon {
+        fill: #025e7e;
+      }
+
+      .oda-chat-share-popup-item:focus:enabled .oda-chat-share-popup-item-svg-icon {
+        fill: #025e7e;
+      }
+
+      .oda-chat-footer-visualizer-wrapper {
+        background-color: #ececec;
+      }
+
+      .oda-chat-footer-recognition-wrapper {
+        background-color: #025e7e;
+      }
+
+      .oda-chat-recognition-text-view {
+        background-color: #025e7e;
+        color: #fff;
+        font: 12px Verdana, Geneva, sans-serif;
+      }
+
+      .oda-chat-button-switch-kbd .oda-chat-footer-button-svg-icon {
+        fill: #fff;
+      }
+
+      @media screen and (min-width: 426px) {
+      .oda-chat-wrapper {
+        bottom: 2px;
+        right: 2px;
+      }
+
+      .oda-chat-widget {
+        border-radius: 4px;
+        bottom: 0;
+        max-height: calc(100vh - 2px - 60px);
+        right: 0;
+        max-width: calc(100vw - 2px);
+        height: 80vh;
+        width: 25vw;
+      }
+
+      }
+
+      .page-title {
+          padding-top: 50px;
+          padding-bottom: 50px;
+          background-color: #99d7dd;
+          color: #008081;
+      }
+
+      .page-title > h1 {
+          font-size: 40px;
+      }
+
+      @media screen and (max-width: 426px) {
+          .page-title {
+              padding-left: 0px;
+              text-align: center;
+          }
+      }
+
+      .base-logo-header {
+        height: 90px !important;
+      }
+
+      .bnew-custom-nav {
+            background-color: #008AC4;
+            padding: 0px;
+            padding-right: 10px;
+        }
+
+        .bnew-custom-nav > .navbar-brand {
+            background-color: #00698D;
+            font-size: 16px;
+            padding: 16px;
+        }
+
+        .bnew-collapse {
+            width: 30%;
+            float: right;
+            position: absolute;
+            z-index: 1000;
+            right: 0;
+        }
+
+        .bnew-collapse-items-container {
+            background-color: #008AC4;
+        }
+
+        .bnew-menu-item {
+            color: #FFF;
+            display: block;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .bnew-menu-item-icon {
+            border: 2px solid #FFFFFF;
+            border-radius: 50%;
+            display: inline-block;
+            padding: 0.5em 0.6em;
+            margin-right: 10px;
+            margin-left: 18px;
+        }
+
+        .bnew-menu-separator {
+            width: 90%;
+            margin: auto;
+            border: solid 1px #FFF;
+        }
+
+
+        .bnew-navbar-collapse {
+            width: 40%;
+            float: right;
+            background-color: #008ac4;
+            color: #FFF !important;
+        }
+
+        .bnew-tablero-collapse {
+            padding-left: 35px;
+        }
+
+        .bnew-item-tablero {
+            border: 0px;
+        }
+    </style>
+
+  <style>
+        .ctc-career-track-list {
+            padding: 10px;
+            padding-right: 10px;
+            margin-top: 20px;
+            color: #FFF;
+            background-color: #367e87;
+            display: block;
+            font-weight: bold;
+            font-size: 21px;
+        }
+
+        .ctc-category-title {
+            padding-left: 20px;
+            padding-top: 5px;
+            text-transform: uppercase;
+            font-size: 22px;
+            font-weight: bold;
+            color: #367e87;
+            margin-top: 10px;
+        }
+
+        .ctc-category-course {
+            margin-top: 5px;
+            background-color: #e2e2e2;
+            padding-top: 3px;
+        }
+
+        .ctc-category-course .course-title {
+            color: #367e87;
+            font-size: 16px;
+        }
+
+        .ctc-action-btn {
+            display: inline-block;
+            float: right;
+            height: 30px;
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .ctc-action-btn.start {
+            color: #C5007E;
+        }
+
+        .ctc-action-btn.continue {
+            color: #D08000;
+        }
+
+        .ctc-action-btn.again {
+            color: #008266;
+        }
+
+        .ctc-course-btn {
+            padding: 5px;
+            font-size: 8px;
+            border-radius: 20px;
+            color: #FFF;
+            padding-left: 7.5px;
+            padding-right: 7.5px;
+        }
+
+        a.ctc-course-btn {
+            padding: 7px;
+        }
+
+        .ctc-course-btn:hover {
+            cursor: pointer;
+            color: #FFF;
+        }
+
+        .ctc-course-btn.start-btn {
+            background-color: #C5007E;
+        }
+
+        .ctc-course-btn.continue-btn {
+            background-color: #D08000;
+        }
+
+        .ctc-course-btn.again-btn {
+            background-color: #008266;
+        }
+
+        .ctc-action-form {
+            display: inline-block;
+        }
+    </style>
+
+    {% block extracss %}{% endblock %}
+  </head>
+
+  <body>
+
+
+    <nav class="navbar header">
+      <div class="d-flex flex-grow-1 align-items-center justify-content-center justify-content-sm-start">
+        <a class="navbar-brand" href="/">
+          <img id="logo_small" src="{% static 'images/logo-header-blanco.png' %}" class="img-fluid base-logo-header">
+        </a>
+      </div>
+      <div class="align-items-center justify-content-end d-flex" style="position: relative;">
+        <!-- Inicio SVG redes sociales -->
+        <div class="svgSocial">
+          <a href="/">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="50 50 100 100" enable-background="new 0 0 200 200" xml:space="preserve" width="80px"> <g> <path fill="#0069b3" d="M129.6,100c0,16.4-13.3,29.6-29.6,29.6S70.4,116.4,70.4,100c0-16.4,13.3-29.6,29.6-29.6 S129.6,83.6,129.6,100"></path> <path fill="#0069b3" d="M100,134.7c-19.1,0-34.7-15.6-34.7-34.7c0-19.1,15.6-34.7,34.7-34.7c19.1,0,34.7,15.6,34.7,34.7 C134.7,119.1,119.1,134.7,100,134.7z M100,75.5c-13.5,0-24.5,11-24.5,24.5c0,13.5,11,24.5,24.5,24.5c13.5,0,24.5-11,24.5-24.5 C124.5,86.5,113.5,75.5,100,75.5z"></path> </g> <path fill="#FFFFFF" d="M83.7,110.3c0,0,4.9,1,9.8-2.8c0,0-4.3,0.1-6.3-4.5c0,0,1.9,0.1,2.9-0.2c0,0-5-1.1-5.2-6.8 c0,0,1,0.9,2.9,0.9c0,0-4.9-3.5-1.9-8.9c0,0,5.4,7,13.7,7c0,0-1.2-7.1,6.1-8.2c0,0,2.9-0.6,5.5,2.1c0,0,2.7-0.4,4.2-1.7 c0,0-0.7,2.4-2.8,3.7c0,0,1.8-0.1,3.7-1c0,0-1.5,2.3-3.3,3.5c0,0,0.8,9.7-7.7,16.3C105.4,109.5,96,117.5,83.7,110.3"></path></svg>
+          </a>
+        </div>
+        <div class="svgSocial">
+          <a href="/">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="50 50 100 100" enable-background="new 0 0 200 200" xml:space="preserve" width="80px"> <g> <path fill="#0069b3" d="M129.7,100c0,16.4-13.3,29.7-29.7,29.7c-16.4,0-29.7-13.3-29.7-29.7c0-16.4,13.3-29.7,29.7-29.7 C116.4,70.3,129.7,83.6,129.7,100"></path> <path fill="#0069b3" d="M100,134.8c-19.2,0-34.8-15.6-34.8-34.8c0-19.2,15.6-34.8,34.8-34.8c19.2,0,34.8,15.6,34.8,34.8 C134.8,119.2,119.2,134.8,100,134.8z M100,75.3c-13.6,0-24.7,11.1-24.7,24.7c0,13.6,11.1,24.7,24.7,24.7 c13.6,0,24.7-11.1,24.7-24.7C124.7,86.4,113.6,75.3,100,75.3z"></path> </g> <path fill="#FFFFFF" d="M95.4,118.2V99.3h-4.9v-6.2h4.9c0,0-0.2-5,0.8-6.7c0,0,2.1-6,13.3-4.3v6.2h-2.8c0,0-3.5,0.1-3.1,4.7h5.9v6.3 h-5.8v18.8H95.4z"></path> </svg>
+          </a>
+        </div>
+        <div class="svgSocial">
+          <a href="/">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="175 170 460 460" enable-background="new 0 0 800 800" xml:space="preserve" width="80px"> <g> <g> <path fill="#0069b3" d="M537.4,399.2c0,75.5-61.2,136.8-136.8,136.8c-75.6,0-136.8-61.2-136.8-136.8 c0-75.5,61.2-136.8,136.8-136.8C476.2,262.4,537.4,323.7,537.4,399.2"></path> <path fill="#0069b3" d="M400.6,559.5c-88.4,0-160.2-71.9-160.2-160.2c0-88.4,71.9-160.2,160.2-160.2 c88.4,0,160.2,71.9,160.2,160.2C560.9,487.6,489,559.5,400.6,559.5z M400.6,285.9c-62.5,0-113.4,50.9-113.4,113.4 c0,62.5,50.9,113.4,113.4,113.4c62.5,0,113.4-50.9,113.4-113.4C514,336.7,463.1,285.9,400.6,285.9z"></path> </g> <path fill="#FFFFFF" d="M432.5,472.5h-63.8c-23.2,0-42.2-18.9-42.2-42.2v-63.8c0-23.2,18.9-42.2,42.2-42.2h63.8 c23.2,0,42.2,18.9,42.2,42.2v63.8C474.6,453.6,455.7,472.5,432.5,472.5z M368.6,332.4c-18.8,0-34.2,15.3-34.2,34.2v63.8 c0,18.8,15.3,34.2,34.2,34.2h63.8c18.8,0,34.2-15.3,34.2-34.2v-63.8c0-18.8-15.3-34.2-34.2-34.2H368.6z"></path> <path fill="#FFFFFF" d="M400.6,436.2c-20.8,0-37.8-16.9-37.8-37.8s16.9-37.8,37.8-37.8c20.8,0,37.8,16.9,37.8,37.8 S421.4,436.2,400.6,436.2z M400.6,368.6c-16.4,0-29.8,13.4-29.8,29.8s13.4,29.8,29.8,29.8c16.4,0,29.8-13.4,29.8-29.8 S417,368.6,400.6,368.6z"></path> <path fill="#FFFFFF" d="M450.2,358.1c0,4.4-3.6,8-8,8c-4.4,0-8-3.6-8-8c0-4.4,3.6-8,8-8C446.6,350.1,450.2,353.7,450.2,358.1"></path> </g> </svg>
+          </a>
+        </div>
+        <div class="svgSocial">
+          <a href="/">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="175 170 460 460" enable-background="new 0 0 800 800" xml:space="preserve" width="80px"> <g> <g> <path fill="#0069b3" d="M537,399.6c0,75.6-61.3,136.9-136.9,136.9c-75.6,0-137-61.3-137-136.9c0-75.6,61.3-136.9,137-136.9 C475.6,262.6,537,323.9,537,399.6"></path> <path fill="#0069b3" d="M400,556.8c-86.7,0-157.2-70.5-157.2-157.2c0-86.7,70.5-157.2,157.2-157.2c86.7,0,157.2,70.5,157.2,157.2 C557.2,486.2,486.7,556.8,400,556.8z M400,282.9c-64.3,0-116.7,52.3-116.7,116.7c0,64.3,52.3,116.7,116.7,116.7 c64.3,0,116.7-52.3,116.7-116.7C516.7,335.2,464.4,282.9,400,282.9z"></path> </g> <g> <g> <g> <g> <g> <g> <path fill="#FFFFFF" d="M460,398.4v43.3h-25.1v-40.4c0-10.1-3.6-17.1-12.7-17.1c-6.9,0-11.1,4.7-12.9,9.2 c-0.7,1.6-0.8,3.9-0.8,6.1v42.2h-25.1c0,0,0.3-68.4,0-75.5h25.1v10.7c-0.1,0.1-0.1,0.2-0.2,0.2h0.2v-0.2 c3.3-5.1,9.3-12.5,22.6-12.5C447.6,364.4,460,375.2,460,398.4L460,398.4z M344.4,441.7h25.1v-75.5h-25.1V441.7z M344.4,441.7 M370.3,340.6c0,7.1-5.8,12.9-12.9,12.9c-7.1,0-12.9-5.8-12.9-12.9c0-7.1,5.8-12.9,12.9-12.9 C364.5,327.7,370.3,333.5,370.3,340.6z"></path></g> </g> </g> </g> </g> </g> </g> </svg>
+          </a>
+        </div>
+      </div>
+      <div class="align-items-center justify-content-end header-title">
+        <h3 class="text-right text-white header-text-brand">PORTAL EMPLEO</h3>
+      </div>
+    </nav>
+
+
+    <div class="pos-f-t">
+        <nav class="navbar navbar-dark bnew-custom-nav">
+            <a class="navbar-brand" href="{{ settings.URL_PORTAL_EMPLEO }}" href="#">HOME</a>
+            {% if request.user.is_authenticated %}
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleMenu" aria-controls="navbarToggleMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            {% endif %}
+        </nav>
+        {% if request.user.is_authenticated %}
+        <div class="collapse bnew-collapse" id="navbarToggleMenu">
+            <div class="p-4 bnew-collapse-items-container">
+                <a class="bnew-menu-item" href="{% url 'home' %}">
+                    <i class="fas fa-home bnew-menu-item-icon"></i> {% trans 'Inicio' %}
+                </a>
+                <a class="bnew-menu-item" href="{% url 'diplomas' %}">
+                    <i class="fas fa-user-graduate bnew-menu-item-icon"></i> {% trans 'Constancias' %}
+                </a>
+                <div class="bnew-menu-separator"></div>
+                <br>
+                {% if request.user.is_staff or request.user.is_tutor or user.is_stakeholder%}
+                    <a class="bnew-menu-item" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fas fa-tachometer-alt bnew-menu-item-icon"></i> {% trans 'Tablero' %}
+                    </a>
+
+                    <div class="collapse bnew-tablero-collapse" id="collapseExample">
+                        {% if request.user.is_staff or request.user.is_stakeholder %}
+                            <a class="bnew-menu-item" href="{% url 'dashboard' %}">
+                                <i class="fas fa-tachometer-alt bnew-menu-item-icon bnew-item-tablero"></i>
+                                {% trans 'Admin' %}
+                            </a>
+                        {% endif %}
+                        {% if request.user.is_tutor %}
+                            <a class="bnew-menu-item" href="{% url 'dashboard_tutor' %}">
+                                <i class="fas fa-tachometer-alt bnew-menu-item-icon bnew-item-tablero"></i>
+                                {% trans 'Tutor' %}
+                            </a>
+                        {% endif %}
+                    </div>
+
+                {% endif %}
+                {% if request.user.is_staff %}
+                    <a class="bnew-menu-item" href="/admin_light/">
+                        <i class="fas fa-cog bnew-menu-item-icon"></i> {% trans 'Administrar' %}
+                    </a>
+                {%endif%}
+                <div class="bnew-menu-separator"></div>
+                <br>
+                <a class="bnew-menu-item" href="{% url 'users:update' %}">
+                    <div class="col-12">
+                        <img src="{% if user.avatar_thumbnail %}{{ user.avatar_thumbnail.url }}{% else %}https://ui-avatars.com/api/?font-size=0.40&name={% if user.name %}{{user.name}}%20{{user.last_name}}{% else %}{{ user.email }}{% endif %}{% endif %}" class="img-thumbnail img-fluid rounded-circle z-depth-0" alt="avatar image" id="avatar-navbar">
+                        &nbsp;{{ request.user.name }} {{ user.last_name }}
+                        Editar perfil
+                    </div>
+                </a>
+                <a class="bnew-menu-item" href="{% url 'account_logout' %}">
+                    <i class="fas fa-sign-out-alt bnew-menu-item-icon"></i> {% trans "Sign Out" %}
+                </a>
+                
+
+            </div>
+          </div>
+        {% endif %}
+    </div>
+
+    {% if not is_home_page and not '/cursos/' in request.path and not hide_title %}
+        <div class="container-fluid page-title">
+            <div class="row justify-content-center">
+                <h1 class="col-11 col-md-9 col-lg-8">
+                    {%if page_title %}
+                        {{ page_title }}
+                    {% else %}
+                        Cursos cortos 
+                    {% endif %}
+                </h1>
+            </div>
+        </div>
+    {% endif %}
+
+    <br>
+
+
+    <div class="container-fluid">
+    {% block content %}
+    {% endblock content %}
+    </div>
+
+    <br>
+
+    {% if not is_home_page %}
+
+        <div class="home-separator"></div>
+
+        <div class="container px-4">
+            <div class="row flex-column ut-space-y-4 my-4 flex-md-row justify-content-md-center ut-space-md-y-0 ut-space-md-x-8">
+                <a class="p-3 ut-bg-secondary text-white col-12 align-items-center d-flex col-md-5 p-lg-5" href="{% url 'public-segments' %}" style="background-color: #99D7DD;">
+                    <div class="row align-items-center">
+                        <div class="col-12 d-flex align-items-center justify-content-between">
+                            <p class="font-weight-bold ut-p-no-style mr-5 green-text-home-card">Videos informativos</p>
+                            <svg class="svg-inline--fa fa-plus fa-w-14 plus-size" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg><!-- <i class="fa fa-plus plus-size"></i> Font Awesome fontawesome.com -->
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    {% endif %}
+
+    <div class="utilities">
+        <hr class="ut-bg-terceary mt-5 mb-2" style="height:.2rem">
+        <div class="container mx-auto ut-space-y-4 d-flex flex-column font-weight-bold flex-md-row ut-space-md-y-0 ut-space-md-x-4">
+            <div class="d-flex align-items-center">
+                <a class="d-flex align-items-center" href="https://www.argentina.gob.ar/trabajo/agencias-territoriales/listado">
+                    <p class="p-2 ut-bg-terceary rounded-circle text-white ut-p-no-style text-center" style="width:2.5rem;height:2.5rem;">AT</p>
+                    <p class="ml-2 ut-text-terceary ut-p-no-style footer-bar-links">AGENCIAS TERRITORIALES</p>
+                </a>
+            </div>
+            <div class="d-flex align-items-center">
+                <a class="d-flex align-items-center" href="https://www.argentina.gob.ar/trabajo/mapa-oficinas">
+                    <p class="p-2 ut-bg-terceary rounded-circle text-white ut-p-no-style text-center" style="width:2.5rem;height:2.5rem;">OE</p>
+                    <p class="ml-2 ut-text-terceary ut-p-no-style footer-bar-links">OFICINAS DE EMPLEO</p>
+                </a>
+            </div>
+        </div>
+        <hr class="ut-bg-terceary mt-2" style="height:.2rem">
+    </div>
+
+    <div class="footerPA justify-content-left pt-4 pb-2 mt-4">
+		<div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center justify-content-center justify-content-sm-start">
+                        <a href="/">
+                            <img id="logo_small" src="{% static 'images/logo-footer.png' %}" class="img-fluid w-100" style="max-width:15rem;">
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+		</div>
+	</div>
+
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="helpModalLabel">Ayuda</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li><i class="fas fa-redo"></i>: {% trans 'Ícono para volver a ver un capítulo ya visto entero.' %}</li>
+              <li><i class="fas fa-play-circle"></i>: {% trans 'Ícono para ver un capítulo no visto entero.' %}</li>
+              <li><i class="fas fa-download"></i>: {% trans 'Ícono para descarga de documentación. Se activa cuando se termina de ver un capítulo que tiene documentación asociada. Para pasar al siguiente capítulo es necesario que descargues la documentación del capítulo.' %}</li>
+              <li><i class="fas fa-tasks"></i>: {% trans 'Ícono para responder cuestionario asociado a un capítulo. Para poder avanzar en el curso, debés responder correctamente el cuestionario.' %}</li>
+              <li><i class="fas fa-sync-alt"></i>: {% trans 'Ícono para volver a responder un cuestionario.' %}</li>
+              <li><i class="fas fa-forward"></i>: {% trans 'Ícono para avanzar al siguiente capítulo. Se habilitará cuando hayas visualizado el capítulo anterior, descargado sus documentos asociados y respondido el cuestionario del mismo (si es que tiene).' %}</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn red-button" data-dismiss="modal">{% trans 'Volver' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Error genérico -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="helpModalLabel">Aviso</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Cerrar' %}">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {% trans 'Se están experimentando problemas de conexión, por favor intente nuevamente recargando la aplicación.' %}
+          </div>
+          <div class="modal-footer" style="justify-content: center;">
+              <button type="button" class="btn red-button" id="btn-refresh"><i class="fas fa-redo"></i>&nbsp;&nbsp;{% trans 'Recargar aplicación' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block modal %}{% endblock modal %}
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% block javascript %}
+
+      <!-- Required by Bootstrap v4.1.1 -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+      <!-- timeout de sesiones por IDLE. Tiene que venir después de jQuery -->
+      {% include 'session_security/all.html' %}
+
+      {% if settings.SENTRY_FRONTEND_DSN != 'invalid' %}
+        <script src="{% static 'raven-js/dist/raven.min.js' %}"></script>
+        <script>Raven.config('{{ settings.SENTRY_FRONTEND_DSN }}').install();</script>
+      {% endif %}
+
+      
+      <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js" integrity="sha256-VKITM616rVzV+MI3kZMNUDoY5uTsuSl1ZvEeZhNoJVk=" crossorigin="anonymous"></script>
+
+      <script src="{% static 'holderjs/holder.min.js' %}"></script>
+
+      <!-- Your stuff: Third-party javascript libraries go here -->
+      <script src="https://player.vimeo.com/api/player.js"></script>
+      <!-- <script src="{% static '@vimeo/player/dist/player.min.js' %}"></script> -->
+
+      <!-- place project specific Javascript in this file -->
+
+      <script src="{% static 'js-cookie/src/js.cookie.js' %}"></script>
+
+      <!-- Summernote -->
+      <link href="{% static 'summernote/summernote-lite.css' %}" rel="stylesheet">
+      <script src="{% static 'summernote/summernote-lite.min.js' %}"></script>
+
+      <!-- Slick -->
+      <link rel="stylesheet" type="text/css" href="{% static 'slick/slick.css' %}"/>
+      <link rel="stylesheet" type="text/css" href="{% static 'slick/slick-theme.css' %}"/>
+      <script type="text/javascript" src="{% static 'slick/slick.js' %}"></script>
+
+      <script>
+          $(document).ready(function() {
+              //Init SummerNote
+              $('#summernote').summernote();
+          });
+      </script>
+
+        {% if request.user.is_authenticated %}
+        <script>
+              //Inbox Badge
+              let tries = 2;
+              function setInboxBadge() {
+                let badges = $('.inbox-badge');
+                if(badges.length > 0 && tries > 0) {
+                  $.get("{% url 'mensajes:get_unread_messages' %}", function(data) {
+                    $.each(badges, function(i,badge){
+                      badge.innerHTML = data;
+                      if(data == 0) {
+                        badge.style.visibility = 'hidden';
+                      } else {
+                        badge.style.visibility = 'visible';
+                      }
+                    });
+                  }).fail(function(error) {
+                    tries--;
+                    if(tries == 0) {
+                      $("#errorModal").modal();
+                      Raven.captureException(error)
+                    } else {
+                      setInboxBadge();
+                    }
+                  });
+                }
+              }
+              setInboxBadge();
+              setInterval(function() {setInboxBadge()}, 30000);
+        </script>
+        {% endif %}
+
+    {% endblock javascript %}
+    <script>
+      if ('serviceWorker' in navigator) {
+        console.log("registering service worker");
+        navigator.serviceWorker.register('/service-worker.js');
+      }
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', function(e) {
+        console.log("beforeinstallprompt event");
+          // Prevent Chrome 67 and earlier from automatically showing the prompt
+          e.preventDefault();
+          // Stash the event so it can be triggered later.
+          deferredPrompt = e;
+          // Update UI notify the user they can add to home screen
+          if( document.getElementById("android_install_button") ) {
+            console.log("mostrar boton");
+            $('#android_install_button').removeClass("d-none");
+          }
+      });
+    </script>
+
+    {% block extrajavascript %}
+    {% endblock %}
+    {% if request.META.HTTP_REFERER and 'login' in request.META.HTTP_REFERER and user.is_authenticated %}
+      <script>
+        if ($('#top-navbar') != null)
+          $('#top-navbar').hide();
+        if ($('#bottom-navbar') != null)
+          $('#bottom-navbar').hide();
+      </script>
+
+    {% endif %}
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+    <script>
+      $(function () {
+        $('#btn-refresh').click(function(){
+           location.reload(true);
+        });
+      })
+    </script>
+
+  </body>
+</html>

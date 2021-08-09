@@ -1,0 +1,1458 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-02 19:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: pagos/models.py:36
+#, python-brace-format
+msgid "Curso \"{self.orden.curso.title}\""
+msgstr ""
+
+#: pagos/models.py:48
+msgid "Inscripción a curso"
+msgstr ""
+
+#: pagos/templates/pagos/error.html:5
+#, python-format
+msgid ""
+"\n"
+"    <h3>Error procesando el pago</h3>\n"
+"    <p>Ha ocurrido un error procesando el pago.</p>\n"
+"    <p>La pasarela de pagos ha respondido: %(message)s</p>\n"
+"    "
+msgstr ""
+
+#: templates/403.html:10 templates/404.html:10
+msgid ""
+"\n"
+"\t\t\t<h1>:(</h1>\n"
+"\t\t\t<h5>oops... ocurrió alguna acción no prevista</h5>\n"
+"\t\t\t<h2>¡no te alarmes tiene solución!</h2>\n"
+"\n"
+"\t\t\t<p>\n"
+"\t\t\tTodas las acciones realizadas fueron previamente guardadas.\n"
+"\t\t\t</p>\n"
+"\n"
+"\t\t\t<p>\n"
+"\t\t\tSólo tienes que regresar al inicio de la plataforma para continuar o "
+"volver a ingresar. Si el problema persiste envía un correo al soporte "
+"técnico a la dirección de correo indicada en la sección de ayuda y nos "
+"ocuparemos de resolverlo.\n"
+"\t\t\t</p>\n"
+"            "
+msgstr ""
+
+#: templates/500.html:7
+msgid "Error del servidor"
+msgstr ""
+
+#: templates/500.html:9
+msgid "Algo salió mal."
+msgstr ""
+
+#: templates/500.html:11
+msgid ""
+"Ya se registró y dio aviso de este error para resolverlo. Mientras tanto, "
+"ud. puede intentar refrescar la página en unos momentos. Si el problema "
+"persiste, comuníquese con la administración del sistema."
+msgstr ""
+
+#: templates/account/account_inactive.html:5
+#: templates/account/account_inactive.html:8
+msgid "Account Inactive"
+msgstr ""
+
+#: templates/account/account_inactive.html:10
+msgid "This account is inactive."
+msgstr ""
+
+#: templates/account/email.html:7
+msgid "Account"
+msgstr ""
+
+#: templates/account/email.html:10
+msgid "E-mail Addresses"
+msgstr ""
+
+#: templates/account/email.html:13
+msgid "The following e-mail addresses are associated with your account:"
+msgstr ""
+
+#: templates/account/email.html:27
+msgid "Verified"
+msgstr ""
+
+#: templates/account/email.html:29
+msgid "Unverified"
+msgstr ""
+
+#: templates/account/email.html:31
+msgid "Primary"
+msgstr ""
+
+#: templates/account/email.html:37
+msgid "Make Primary"
+msgstr ""
+
+#: templates/account/email.html:38
+msgid "Re-send Verification"
+msgstr ""
+
+#: templates/account/email.html:39
+msgid "Remove"
+msgstr ""
+
+#: templates/account/email.html:46
+msgid "Warning:"
+msgstr ""
+
+#: templates/account/email.html:46
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+
+#: templates/account/email.html:51
+msgid "Add E-mail Address"
+msgstr ""
+
+#: templates/account/email.html:56
+msgid "Add E-mail"
+msgstr ""
+
+#: templates/account/email.html:66
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr ""
+
+#: templates/account/email/email_confirmation_message.html:8
+#, python-format
+msgid ""
+"\n"
+"¡Te saluda la %(current_site.name)s!\n"
+"<br>\n"
+"Estás recibiendo este correo porque se registró un usuario con esta cuenta "
+"de correo en nuestro sistema de capacitaciones.\n"
+"<br>\n"
+"Para confirmar el alta, por favor hacé click en el siguiente link: <a href="
+"\"%(activate_url)s\">%(activate_url)s</a>\n"
+"<br>\n"
+msgstr ""
+
+#: templates/account/email/email_confirmation_signup_message.html:8
+#, python-format
+msgid ""
+"\n"
+"¡Te saluda la %(current_site.name)s!\n"
+"<p>\n"
+"Estás recibiendo este correo porque se registró un usuario con esta cuenta "
+"de correo en nuestro sistema de capacitaciones.</p>\n"
+"<p>\n"
+"Para confirmar el alta, por favor hacé click en el siguiente link: <a href="
+"\"%(activate_url)s\">%(activate_url)s</a></p>\n"
+msgstr ""
+
+#: templates/account/email/email_confirmation_signup_message.html:17
+#, python-format
+msgid ""
+"\n"
+"Gracias de parte de %(current_site.name)s!\n"
+msgstr ""
+
+#: templates/account/email/password_reset_key_message.html:7
+#, python-format
+msgid ""
+"\n"
+"\t¡Saludos de %(current_site.name)s!\n"
+"\t<br><br>\n"
+"\tEstás recibiendo este correo electrónico porque usted u otra persona ha "
+"solicitado una contraseña para su cuenta de usuario.\n"
+"\tSe puede ignorar de forma segura si no solicitó un reestablecimiento de "
+"contraseña. Haga click en el siguiente enlace para reestablecer su "
+"contraseña:\n"
+"\t<br><br>\n"
+"\t<a href=\"%(password_reset_url)s\">%(password_reset_url)s</a>\n"
+"\t<br><br>\n"
+"\t¡Gracias de parte de %(current_site.name)s!\n"
+"    "
+msgstr ""
+
+#: templates/account/email/password_reset_key_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+msgstr ""
+
+#: templates/account/email/password_reset_key_message.txt:8
+#, python-format
+msgid "In case you forgot, your username is %(username)s."
+msgstr ""
+
+#: templates/account/email/password_reset_key_message.txt:10
+#, python-format
+msgid "Thank you for using %(site_name)s!\n"
+msgstr ""
+
+#: templates/account/email_confirm.html:6
+#: templates/account/email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr ""
+
+#: templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: templates/account/email_confirm.html:20
+msgid "Confirm"
+msgstr ""
+
+#: templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+
+#: templates/account/landing.html:7 templates/account/login.html:7
+#: templates/account/multiple_sessions.html:7 templates/base.html:380
+msgid "Sign In"
+msgstr ""
+
+#: templates/account/landing.html:29
+msgid "¿Es tú primer ingreso?"
+msgstr ""
+
+#: templates/account/landing.html:32 templates/account/login.html:75
+msgid "Registrarme"
+msgstr ""
+
+#: templates/account/landing.html:35
+msgid "¿Ya tenés cuenta?"
+msgstr ""
+
+#: templates/account/landing.html:38 templates/account/login.html:68
+msgid "Ingresar"
+msgstr ""
+
+#: templates/account/login.html:72
+msgid "Olvidé mi contraseña"
+msgstr ""
+
+#: templates/account/logout.html:5 templates/account/logout.html:8
+#: templates/account/logout.html:17 templates/base.html:356
+msgid "Sign Out"
+msgstr ""
+
+#: templates/account/logout.html:10
+msgid "Are you sure you want to sign out?"
+msgstr ""
+
+#: templates/account/multiple_sessions.html:29
+msgid ""
+"Lo sentimos, su usuario ya posee una sesión activa. Por favor cierre la "
+"sesión anterior o espere 30 minutos y vuelva a intentarlo."
+msgstr ""
+
+#: templates/account/multiple_sessions.html:32
+msgid "Iniciar sesión"
+msgstr ""
+
+#: templates/account/password_change.html:6
+#: templates/account/password_change.html:9
+#: templates/account/password_change.html:14
+#: templates/account/password_reset_from_key.html:5
+#: templates/account/password_reset_from_key.html:8
+#: templates/account/password_reset_from_key_done.html:4
+#: templates/account/password_reset_from_key_done.html:7
+msgid "Change Password"
+msgstr ""
+
+#: templates/account/password_reset.html:7
+#: templates/account/password_reset.html:11
+#: templates/account/password_reset_done.html:6
+#: templates/account/password_reset_done.html:9
+msgid "Password Reset"
+msgstr ""
+
+#: templates/account/password_reset.html:16
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+
+#: templates/account/password_reset.html:21
+msgid "Reset My Password"
+msgstr ""
+
+#: templates/account/password_reset.html:24
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr ""
+
+#: templates/account/password_reset_done.html:15
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:8
+msgid "Bad Token"
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:12
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:18
+msgid "change password"
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:21
+#: templates/account/password_reset_from_key_done.html:8
+msgid "Your password is now changed."
+msgstr ""
+
+#: templates/account/password_set.html:6 templates/account/password_set.html:9
+#: templates/account/password_set.html:14
+msgid "Set Password"
+msgstr ""
+
+#: templates/account/signup.html:6
+msgid "Signup"
+msgstr ""
+
+#: templates/account/signup.html:9 templates/account/signup.html:19
+#: templates/base.html:376
+msgid "Sign Up"
+msgstr ""
+
+#: templates/account/signup.html:11
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+
+#: templates/account/signup_closed.html:5
+#: templates/account/signup_closed.html:8
+msgid "Sign Up Closed"
+msgstr ""
+
+#: templates/account/signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr ""
+
+#: templates/account/verification_sent.html:5
+#: templates/account/verification_sent.html:8
+#: templates/account/verified_email_required.html:5
+#: templates/account/verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr ""
+
+#: templates/account/verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: templates/account/verification_sent.html:13
+msgid "Ante un problema contáctanos en"
+msgstr ""
+
+#: templates/account/verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+
+#: templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: templates/account/verified_email_required.html:20
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+
+#: templates/admin_light/404.html:4 templates/admin_light/404.html:8
+msgid "Page not found"
+msgstr ""
+
+#: templates/admin_light/404.html:10
+msgid "We're sorry, but the requested page could not be found."
+msgstr ""
+
+#: templates/admin_light/500.html:11
+msgid "Server error (500)"
+msgstr ""
+
+#: templates/admin_light/500.html:14
+msgid "Server Error <em>(500)</em>"
+msgstr ""
+
+#: templates/admin_light/500.html:15
+msgid ""
+"There's been an error. It's been reported to the site administrators via "
+"email and should be fixed shortly. Thanks for your patience."
+msgstr ""
+
+#: templates/admin_light/actions.html:8
+msgid "Run the selected action"
+msgstr ""
+
+#: templates/admin_light/actions.html:8
+msgid "Go"
+msgstr ""
+
+#: templates/admin_light/actions.html:16
+msgid "Click here to select the objects across all pages"
+msgstr ""
+
+#: templates/admin_light/actions.html:16
+#, python-format
+msgid "Select all %(total_count)s %(module_name)s"
+msgstr ""
+
+#: templates/admin_light/actions.html:18
+msgid "Clear selection"
+msgstr ""
+
+#: templates/admin_light/app_index.html:9
+#: templates/admin_light/auth/user/change_password.html:13
+#: templates/admin_light/change_form.html:18
+#: templates/admin_light/change_list.html:31
+#: templates/admin_light/delete_confirmation.html:14
+#: templates/admin_light/delete_selected_confirmation.html:14
+#: templates/admin_light/invalid_setup.html:6
+#: templates/admin_light/object_history.html:6
+#: templates/admin_light/registration/password_reset_complete.html:6
+#: templates/admin_light/registration/password_reset_confirm.html:7
+#: templates/admin_light/registration/password_reset_done.html:6
+#: templates/admin_light/registration/password_reset_form.html:7
+msgid "Home"
+msgstr ""
+
+#: templates/admin_light/auth/user/add_form.html:6
+msgid ""
+"First, enter a username and password. Then, you'll be able to edit more user "
+"options."
+msgstr ""
+
+#: templates/admin_light/auth/user/add_form.html:8
+msgid "Enter a username and password."
+msgstr ""
+
+#: templates/admin_light/auth/user/change_password.html:17
+#: templates/admin_light/auth/user/change_password.html:55
+#: templates/admin_light/base.html:160
+msgid "Change password"
+msgstr ""
+
+#: templates/admin_light/auth/user/change_password.html:28
+#: templates/admin_light/change_form.html:43
+#: templates/admin_light/change_list.html:51
+#: templates/admin_light/login.html:23
+#: templates/admin_light/registration/password_change_form.html:21
+msgid "Please correct the error below."
+msgstr ""
+
+#: templates/admin_light/auth/user/change_password.html:28
+#: templates/admin_light/change_form.html:43
+#: templates/admin_light/change_list.html:51
+#: templates/admin_light/login.html:23
+#: templates/admin_light/registration/password_change_form.html:21
+msgid "Please correct the errors below."
+msgstr ""
+
+#: templates/admin_light/auth/user/change_password.html:32
+#, python-format
+msgid "Enter a new password for the user <strong>%(username)s</strong>."
+msgstr ""
+
+#: templates/admin_light/base.html:145
+msgid "Welcome,"
+msgstr ""
+
+#: templates/admin_light/base.html:154
+msgid "View site"
+msgstr ""
+
+#: templates/admin_light/base.html:167
+msgid "Log out"
+msgstr ""
+
+#: templates/admin_light/base_site.html:3
+msgid "Django site admin"
+msgstr ""
+
+#: templates/admin_light/change_form.html:21
+#: templates/admin_light/change_list_object_tools.html:8
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin_light/change_form_object_tools.html:5
+#: templates/admin_light/object_history.html:10
+msgid "History"
+msgstr ""
+
+#: templates/admin_light/change_list.html:62
+msgid "Filter"
+msgstr ""
+
+#: templates/admin_light/change_list_results.html:17
+msgid "Remove from sorting"
+msgstr ""
+
+#: templates/admin_light/change_list_results.html:18
+#, python-format
+msgid "Sorting priority: %(priority_number)s"
+msgstr ""
+
+#: templates/admin_light/change_list_results.html:19
+msgid "Toggle sorting"
+msgstr ""
+
+#: templates/admin_light/delete_confirmation.html:18
+#: templates/admin_light/related_widget_wrapper.html:30
+#: templates/admin_light/submit_line.html:7
+#: templates/admin_light/widgets/related_widget_wrapper.html:24
+msgid "Delete"
+msgstr ""
+
+#: templates/admin_light/delete_confirmation.html:24
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+
+#: templates/admin_light/delete_confirmation.html:31
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+
+#: templates/admin_light/delete_confirmation.html:38
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+
+#: templates/admin_light/delete_confirmation.html:40
+#: templates/admin_light/delete_selected_confirmation.html:39
+msgid "Objects"
+msgstr ""
+
+#: templates/admin_light/delete_confirmation.html:47
+#: templates/admin_light/delete_selected_confirmation.html:50
+msgid "Yes, I'm sure"
+msgstr ""
+
+#: templates/admin_light/delete_confirmation.html:48
+#: templates/admin_light/delete_selected_confirmation.html:51
+msgid "No, take me back"
+msgstr ""
+
+#: templates/admin_light/delete_selected_confirmation.html:17
+msgid "Delete multiple objects"
+msgstr ""
+
+#: templates/admin_light/delete_selected_confirmation.html:23
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would result in deleting related "
+"objects, but your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+
+#: templates/admin_light/delete_selected_confirmation.html:30
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would require deleting the following "
+"protected related objects:"
+msgstr ""
+
+#: templates/admin_light/delete_selected_confirmation.html:37
+#, python-format
+msgid ""
+"Are you sure you want to delete the selected %(objects_name)s? All of the "
+"following objects and their related items will be deleted:"
+msgstr ""
+
+#: templates/admin_light/edit_inline/stacked.html:12
+#: templates/admin_light/edit_inline/tabular.html:34
+#: templates/admin_light/related_widget_wrapper.html:12
+#: templates/admin_light/widgets/related_widget_wrapper.html:10
+msgid "Change"
+msgstr ""
+
+#: templates/admin_light/edit_inline/stacked.html:12
+#: templates/admin_light/edit_inline/tabular.html:34
+#: templates/admin_light/related_widget_wrapper.html:15
+msgid "View"
+msgstr ""
+
+#: templates/admin_light/edit_inline/stacked.html:14
+#: templates/admin_light/edit_inline/tabular.html:36
+msgid "View on site"
+msgstr ""
+
+#: templates/admin_light/edit_inline/tabular.html:20
+msgid "Delete?"
+msgstr ""
+
+#: templates/admin_light/filter.html:2
+#, python-format
+msgid " By %(filter_title)s "
+msgstr ""
+
+#: templates/admin_light/includes/object_delete_summary.html:2
+msgid "Summary"
+msgstr ""
+
+#: templates/admin_light/invalid_setup.html:12
+msgid ""
+"Something's wrong with your database installation. Make sure the appropriate "
+"database tables have been created, and make sure the database is readable by "
+"the appropriate user."
+msgstr ""
+
+#: templates/admin_light/login.html:39
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+
+#: templates/admin_light/login.html:59
+msgid "Forgotten your password or username?"
+msgstr ""
+
+#: templates/admin_light/login.html:63
+#: templates/admin_light/registration/password_reset_complete.html:18
+msgid "Log in"
+msgstr ""
+
+#: templates/admin_light/object_history.html:22
+msgid "Date/time"
+msgstr ""
+
+#: templates/admin_light/object_history.html:23
+msgid "User"
+msgstr ""
+
+#: templates/admin_light/object_history.html:24
+msgid "Action"
+msgstr ""
+
+#: templates/admin_light/object_history.html:38
+msgid ""
+"This object doesn't have a change history. It probably wasn't added via this "
+"admin site."
+msgstr ""
+
+#: templates/admin_light/pagination.html:10
+#: templates/admin_light/search_form.html:9
+msgid "Show all"
+msgstr ""
+
+#: templates/admin_light/pagination.html:11
+#: templates/admin_light/submit_line.html:4
+msgid "Save"
+msgstr ""
+
+#: templates/admin_light/popup_response.html:3
+msgid "Popup closing..."
+msgstr ""
+
+#: templates/admin_light/registration/logged_out.html:9
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr ""
+
+#: templates/admin_light/registration/logged_out.html:11
+msgid "Log in again"
+msgstr ""
+
+#: templates/admin_light/registration/password_change_done.html:14
+msgid "Your password was changed."
+msgstr ""
+
+#: templates/admin_light/registration/password_change_form.html:26
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: templates/admin_light/registration/password_change_form.html:54
+#: templates/admin_light/registration/password_reset_confirm.html:32
+msgid "Change my password"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_complete.html:7
+#: templates/admin_light/registration/password_reset_done.html:7
+#: templates/admin_light/registration/password_reset_form.html:8
+msgid "Password reset"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_complete.html:16
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_confirm.html:8
+msgid "Password reset confirmation"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_confirm.html:18
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_confirm.html:24
+msgid "New password:"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_confirm.html:29
+msgid "Confirm password:"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_confirm.html:38
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_done.html:15
+msgid ""
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_done.html:17
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_form.html:16
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_form.html:22
+msgid "Email address:"
+msgstr ""
+
+#: templates/admin_light/registration/password_reset_form.html:25
+msgid "Reset my password"
+msgstr ""
+
+#: templates/admin_light/related_widget_wrapper.html:11
+#: templates/admin_light/widgets/related_widget_wrapper.html:9
+#, python-format
+msgid "Change selected %(model)s"
+msgstr ""
+
+#: templates/admin_light/related_widget_wrapper.html:14
+#, python-format
+msgid "View selected %(model)s"
+msgstr ""
+
+#: templates/admin_light/related_widget_wrapper.html:22
+#: templates/admin_light/widgets/related_widget_wrapper.html:16
+#, python-format
+msgid "Add another %(model)s"
+msgstr ""
+
+#: templates/admin_light/related_widget_wrapper.html:23
+#: templates/admin_light/widgets/related_widget_wrapper.html:17
+msgid "Add"
+msgstr ""
+
+#: templates/admin_light/related_widget_wrapper.html:29
+#: templates/admin_light/widgets/related_widget_wrapper.html:23
+#, python-format
+msgid "Delete selected %(model)s"
+msgstr ""
+
+#: templates/admin_light/search_form.html:7
+msgid "Search"
+msgstr ""
+
+#: templates/admin_light/search_form.html:9
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin_light/search_form.html:9
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr ""
+
+#: templates/admin_light/submit_line.html:9
+msgid "Save as new"
+msgstr ""
+
+#: templates/admin_light/submit_line.html:10
+msgid "Save and add another"
+msgstr ""
+
+#: templates/admin_light/submit_line.html:11
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/admin_light/submit_line.html:11
+msgid "Save and view"
+msgstr ""
+
+#: templates/admin_light/submit_line.html:12
+msgid "Close"
+msgstr ""
+
+#: templates/base.html:4
+msgid "Hola, "
+msgstr ""
+
+#: templates/base.html:5
+msgid "gracias por ingresar"
+msgstr ""
+
+#: templates/base.html:15
+msgid "Gestión de Contenidos Interactivos"
+msgstr ""
+
+#: templates/base.html:17
+msgid ""
+"Soluciones de gestión de contenidos interactivos, formación y compliance "
+"para abordar los cambios globales, digitales, legales y económicos."
+msgstr ""
+
+#: templates/base.html:115 templates/base.html:117
+#, python-format
+msgid ""
+"Para instalar la app, click en <img src='%(navigation_action_icon_url)s'>  y "
+"después en el ícono <img src='%(add_to_home_screen_icon_url)s'> para agregar "
+"a inicio."
+msgstr ""
+
+#: templates/base.html:115 templates/base.html:117
+msgid "Agregar a inicio"
+msgstr ""
+
+#: templates/base.html:174 templates/base.html:463
+msgid "Inicio"
+msgstr ""
+
+#: templates/base.html:190 templates/pages/home.html:88
+msgid "Mis contenidos"
+msgstr "Mis cursos"
+
+#: templates/base.html:202 templates/pages/home.html:93
+msgid "Contenidos"
+msgstr "Cursos"
+
+#: templates/base.html:214
+msgid "Próximos contenidos"
+msgstr "Próximos cursos"
+
+#: templates/base.html:226 templates/pages/home.html:98
+msgid "Biblioteca"
+msgstr ""
+
+#: templates/base.html:238
+msgid "Comentarios"
+msgstr ""
+
+#: templates/base.html:251 templates/pages/home.html:108
+msgid "Insignias"
+msgstr ""
+
+#: templates/base.html:264
+msgid "Mis tareas"
+msgstr ""
+
+#: templates/base.html:282
+msgid "Mis transmisiones"
+msgstr ""
+
+#: templates/base.html:296
+msgid "Tablero"
+msgstr ""
+
+#: templates/base.html:302
+msgid "Admin"
+msgstr ""
+
+#: templates/base.html:305 templates/cursos/course_detail.html:24
+#: templates/cursos/course_list.html:28
+msgid "Tutor"
+msgstr ""
+
+#: templates/base.html:320
+msgid "Administrar"
+msgstr ""
+
+#: templates/base.html:340
+msgid "Editar perfil"
+msgstr ""
+
+#: templates/base.html:366
+msgid "Mensajes"
+msgstr ""
+
+#: templates/base.html:423
+msgid "Ícono para volver a ver un capítulo ya visto entero."
+msgstr ""
+
+#: templates/base.html:424
+msgid "Ícono para ver un capítulo no visto entero."
+msgstr ""
+
+#: templates/base.html:425
+msgid ""
+"Ícono para descarga de documentación. Se activa cuando se termina de ver un "
+"capítulo que tiene documentación asociada. Para pasar al siguiente capítulo "
+"es necesario que descargues la documentación del capítulo."
+msgstr ""
+
+#: templates/base.html:426
+msgid ""
+"Ícono para responder cuestionario asociado a un capítulo. Para poder avanzar "
+"en el curso, debés responder correctamente el cuestionario."
+msgstr ""
+
+#: templates/base.html:427
+msgid "Ícono para volver a responder un cuestionario."
+msgstr ""
+
+#: templates/base.html:428
+msgid ""
+"Ícono para avanzar al siguiente capítulo. Se habilitará cuando hayas "
+"visualizado el capítulo anterior, descargado sus documentos asociados y "
+"respondido el cuestionario del mismo (si es que tiene)."
+msgstr ""
+
+#: templates/base.html:432 templates/cursos/downloadabledocument_detail.html:9
+#: templates/cursos/downloadabledocument_detail.html:21
+#: templates/cursos/ver_certificado.html:9
+#: templates/cursos/ver_certificado.html:23
+msgid "Volver"
+msgstr ""
+
+#: templates/base.html:444 templates/cursos/questionnaire_detail.html:65
+msgid "Cerrar"
+msgstr ""
+
+#: templates/base.html:449
+msgid ""
+"Se están experimentando problemas de conexión, por favor intente nuevamente "
+"recargando la aplicación."
+msgstr ""
+
+#: templates/base.html:452
+msgid "Recargar aplicación"
+msgstr ""
+
+#: templates/base.html:468
+msgid "Ayuda"
+msgstr ""
+
+#: templates/cursos/categories_list.html:11
+#: templates/cursos/courses_list.html:12 templates/cursos/courses_list.html:14
+msgid "Atrás"
+msgstr ""
+
+#: templates/cursos/categories_list.html:16
+#: templates/cursos/categories_list.html:19
+#: templates/cursos/courses_list.html:20 templates/cursos/courses_list.html:23
+msgid "Buscar"
+msgstr ""
+
+#: templates/cursos/categories_list.html:33
+msgid "Ver cursos"
+msgstr ""
+
+#: templates/cursos/categories_list.html:39
+msgid "No hay categorias para mostrar."
+msgstr ""
+
+#: templates/cursos/course_breadcrumb.html:10
+msgid "En vivo"
+msgstr ""
+
+#: templates/cursos/course_detail.html:5
+#: templates/cursos/course_finished.html:14
+#: templates/cursos/livetracking_detail.html:7
+#: templates/cursos/max_retrials_exhausted.html:5
+#: templates/cursos/questionnaire_detail.html:6
+#: templates/cursos/slidetracking_detail.html:14
+#: templates/cursos/videotracking_detail.html:14
+msgid "Cursos"
+msgstr ""
+
+#: templates/cursos/course_detail.html:6
+#: templates/cursos/course_finished.html:15
+#: templates/cursos/max_retrials_exhausted.html:4
+#: templates/cursos/questionnaire_detail.html:5
+msgid "Volver a los cursos"
+msgstr ""
+
+#: templates/cursos/course_detail.html:17 templates/cursos/course_list.html:21
+msgid "Descargar certificado"
+msgstr ""
+
+#: templates/cursos/course_detail.html:26 templates/cursos/courses_list.html:64
+msgid "Enviar mensaje"
+msgstr ""
+
+#: templates/cursos/course_detail.html:39 templates/cursos/course_list.html:43
+msgid "Repasar"
+msgstr ""
+
+#: templates/cursos/course_detail.html:41 templates/cursos/course_list.html:45
+#: templates/pages/home.html:76
+msgid "Continuar"
+msgstr ""
+
+#: templates/cursos/course_detail.html:44 templates/cursos/course_list.html:48
+msgid "Iniciar"
+msgstr ""
+
+#: templates/cursos/course_finished.html:6
+#: templates/cursos/questionnaire_detail.html:107
+msgid "¡Felicitaciones! ¡Terminaste el curso!"
+msgstr ""
+
+#: templates/cursos/course_finished.html:10
+#: templates/cursos/mis_certificados.html:27
+#: templates/cursos/questionnaire_detail.html:111
+msgid "Certificado"
+msgstr ""
+
+#: templates/cursos/course_list.html:30
+msgid "Enviar mail"
+msgstr ""
+
+#: templates/cursos/course_unenroll.html:10
+#, python-format
+msgid ""
+"\n"
+"        <p>¿Seguro que querés desinscribirte del curso "
+"%(object.course.title)s?</p>\n"
+"        <p>Al desinscribirse perderás todo el progreso que hayas alcanzado "
+"en este curso.</p>\n"
+"        "
+msgstr ""
+
+#: templates/cursos/course_unenroll.html:14
+msgid "Confirmar"
+msgstr ""
+
+#: templates/cursos/course_unenroll.html:15
+msgid "Cancelar"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:5
+msgid "Transmisiones en vivo"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:6
+msgid "Próximas transmisiones"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:7
+msgid "Volver a ver el capítulo"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:8
+msgid "Volver a ver"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:9
+msgid "Ver el capítulo"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:10
+msgid "Ver"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:11
+#: templates/cursos/livetracking_detail.html:5
+#: templates/cursos/slidetracking_detail.html:5
+#: templates/cursos/todas_las_descargas.html:43
+#: templates/cursos/videotracking_detail.html:5
+msgid "Descargar documentación"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:12
+#: templates/cursos/downloadabledocument_detail.html:17
+#: templates/cursos/livetracking_detail.html:6
+#: templates/cursos/slidetracking_detail.html:6
+#: templates/cursos/ver_certificado.html:19
+#: templates/cursos/videotracking_detail.html:6
+msgid "Descargar"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:13
+msgid "Responder cuestionario"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:14
+#: templates/cursos/slidetracking_detail.html:8
+#: templates/cursos/videotracking_detail.html:8
+msgid "Responder"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:67
+#: templates/cursos/livetracking_detail.html:55
+#: templates/cursos/slidetracking_detail.html:74
+#: templates/cursos/videotracking_detail.html:70
+msgid "Tarea"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:96
+#: templates/cursos/livetracking_detail.html:78
+#: templates/cursos/slidetracking_detail.html:128
+#: templates/cursos/videotracking_detail.html:140
+msgid "Descargar documento"
+msgstr ""
+
+#: templates/cursos/course_videos_list.html:106
+#: templates/cursos/slidetracking_detail.html:136
+#: templates/cursos/videotracking_detail.html:150
+msgid "Ir al foro"
+msgstr ""
+
+#: templates/cursos/courses_list.html:44
+msgid "Fecha de inicio"
+msgstr ""
+
+#: templates/cursos/courses_list.html:46
+msgid "Costo"
+msgstr ""
+
+#: templates/cursos/courses_list.html:49
+msgid "Inscripto"
+msgstr ""
+
+#: templates/cursos/courses_list.html:58
+msgid "IR"
+msgstr ""
+
+#: templates/cursos/courses_list.html:72
+msgid "Desinscribirse"
+msgstr ""
+
+#: templates/cursos/courses_list.html:79
+msgid "Inscribirse"
+msgstr ""
+
+#: templates/cursos/courses_list.html:89
+msgid "No hay cursos para mostrar."
+msgstr ""
+
+#: templates/cursos/courses_list.html:108 templates/cursos/icon_button.html:52
+#, python-format
+msgid ""
+"El capítulo %(next_segment.title)s no puede iniciarse hasta el %(dia)s a las "
+"%(hora)shs"
+msgstr ""
+
+#: templates/cursos/courses_list.html:111 templates/cursos/icon_button.html:55
+#: templates/cursos/questionnaire_detail.html:102 templates/pages/home.html:158
+#: templates/pages/home.html:181
+msgid "Aceptar"
+msgstr ""
+
+#: templates/cursos/livetracking_detail.html:26
+msgid "El evento comenzará pronto"
+msgstr ""
+
+#: templates/cursos/max_retrials_exhausted.html:20
+#: templates/cursos/questionnaire_detail.html:124
+#, python-format
+msgid ""
+"\n"
+"            Terminaste el cuestionario sobre el capítulo \"%(title)s\".\n"
+"        "
+msgstr ""
+
+#: templates/cursos/max_retrials_exhausted.html:25
+#: templates/cursos/questionnaire_detail.html:129
+#, python-format
+msgid ""
+"\n"
+"            Respondiste el %(score)s%% de las preguntas correctamente.\n"
+"        "
+msgstr ""
+
+#: templates/cursos/max_retrials_exhausted.html:30
+msgid "Lo sentimos, agotaste la cantidad máxima de intentos."
+msgstr ""
+
+#: templates/cursos/mis_certificados.html:37
+msgid "Ud. no tiene ningún certificado."
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:7
+#: templates/cursos/segment_tracking_js.html:6
+msgid "Ir al siguiente capítulo para continuar"
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:8
+#: templates/cursos/slidetracking_detail.html:11
+#: templates/cursos/videotracking_detail.html:11
+msgid "Siguiente"
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:9
+msgid "Ir al capítulo para completarlo"
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:10
+msgid "Completar"
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:24
+msgid "CORRECTO"
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:24
+msgid "INCORRECTO"
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:65
+msgid "Siguiente pregunta"
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:134
+msgid ""
+"Para poder avanzar, debés volver a responder el cuestionario y acertar más "
+"respuestas."
+msgstr ""
+
+#: templates/cursos/questionnaire_detail.html:154
+msgid "VOLVER A INTENTAR"
+msgstr ""
+
+#: templates/cursos/segment_tracking_js.html:3
+msgid "Descargar documentación para continuar"
+msgstr ""
+
+#: templates/cursos/segment_tracking_js.html:4
+msgid "Responder el cuestionario para continuar"
+msgstr ""
+
+#: templates/cursos/segment_tracking_js.html:5
+#: templates/cursos/slidetracking_detail.html:9
+#: templates/cursos/videotracking_detail.html:9
+msgid "Completar tarea para continuar"
+msgstr ""
+
+#: templates/cursos/slidetracking_detail.html:7
+#: templates/cursos/videotracking_detail.html:7
+msgid "Responder el cuestionario"
+msgstr ""
+
+#: templates/cursos/slidetracking_detail.html:10
+#: templates/cursos/videotracking_detail.html:10
+msgid "Ir al siguiente capítulo"
+msgstr ""
+
+#: templates/cursos/slidetracking_detail.html:12
+#: templates/cursos/videotracking_detail.html:12
+msgid "Ir al capítulo anterior"
+msgstr ""
+
+#: templates/cursos/slidetracking_detail.html:13
+#: templates/cursos/slidetracking_detail.html:27
+#: templates/cursos/videotracking_detail.html:13
+msgid "Anterior"
+msgstr ""
+
+#: templates/cursos/slidetracking_detail.html:31
+msgid "Ver siguiente diapositiva para continuar"
+msgstr ""
+
+#: templates/cursos/todas_las_descargas.html:59
+msgid "Ud. no tiene documentación a descargar, para ello avance en los cursos"
+msgstr ""
+
+#: templates/mensajes/conversacion.html:15
+msgid "Inbox"
+msgstr ""
+
+#: templates/mensajes/conversacion.html:20
+msgid "Curso"
+msgstr ""
+
+#: templates/mensajes/conversacion.html:24
+msgid "Asunto"
+msgstr ""
+
+#: templates/mensajes/conversacion.html:33 templates/mensajes/inbox.html:27
+msgid "De"
+msgstr ""
+
+#: templates/mensajes/conversacion.html:49
+msgid "Nuevo mensaje"
+msgstr ""
+
+#: templates/mensajes/conversacion.html:59
+#: templates/mensajes/iniciar_conversacion.html:44
+msgid "Enviar"
+msgstr ""
+
+#: templates/mensajes/inbox.html:25
+msgid "A"
+msgstr ""
+
+#: templates/mensajes/inbox.html:39
+msgid "No hay conversaciones"
+msgstr ""
+
+#: templates/mensajes/inbox.html:54
+#, python-format
+msgid ""
+"Página %(pagination_data.current_page)s de %(pagination_data.total_pages)s"
+msgstr ""
+
+#: templates/mensajes/inbox.html:75
+msgid "Refrescar"
+msgstr ""
+
+#: templates/mensajes/inbox.html:80
+msgid "Nueva conversación"
+msgstr ""
+
+#: templates/mensajes/iniciar_conversacion.html:39
+msgid "Mensaje"
+msgstr ""
+
+#: templates/pages/home.html:12
+msgid "Transmisiones en vivo <span style='font-weight: bold'>AHORA</span>"
+msgstr ""
+
+#: templates/pages/home.html:13
+msgid "Próximas transmisiones en vivo"
+msgstr ""
+
+#: templates/pages/home.html:29
+msgid "Mi contenido"
+msgstr ""
+
+#: templates/pages/home.html:59
+msgid "Accesos directos"
+msgstr ""
+
+#: templates/pages/home.html:74
+msgid "Comenzar"
+msgstr ""
+
+#: templates/pages/home.html:76
+msgid "Repasar cursos"
+msgstr ""
+
+#: templates/pages/home.html:82
+msgid "No existen cursos disponibles"
+msgstr ""
+
+#: templates/pages/home.html:120 templates/pages/home.html:134
+msgid "Instalar app"
+msgstr ""
+
+#: templates/pages/home.html:155
+#, python-format
+msgid ""
+"El capítulo %(next_segment.title)s del curso %(next_segment.course)s no "
+"puede iniciarse hasta el %(dia)s a las %(hora)shs"
+msgstr ""
+
+#: templates/pages/home.html:176
+#, python-format
+msgid ""
+"El curso <b>%(course.title)s</b> no puede iniciarse hasta el\n"
+"                                    %(dia)s a las %(hora)shs"
+msgstr ""
+
+#: templates/session_security/dialog.html:6
+msgid "Your session is about to expire"
+msgstr ""
+
+#: templates/session_security/dialog.html:7
+msgid "Mueva el mouse o presiona una tecla para extender su sesión."
+msgstr ""
+
+#: templates/users/user_form.html:14
+msgid "Guardar"
+msgstr ""
+
+#: templates/users/user_form.html:15
+msgid "Modificar direcciones de mail"
+msgstr ""
+
+#: templates/users/user_form.html:16
+msgid "Cambiar contraseña"
+msgstr ""

@@ -1,0 +1,30 @@
+{% load static %}
+
+<style>
+
+    .iil-icon-container > * {
+        display:inline-block;
+        vertical-align:middle;
+    }
+
+    .iil-text {
+        width:100px;
+        text-align: left;
+        font-size: 14px;
+        font-weight: bolder;
+        line-height: 15px;
+        color: #6f6f6e !important;
+    }
+
+    .iil-image {
+        width:65px;
+    }
+
+</style>
+
+<a class="iil-icon-container {{ extra_css }}" href="{{ url }}" {% if id %}id="{{ id }}"{% endif %} title="{% if tooltip %}{{ tooltip }}{% else %}{{ title }}{% endif %}" data-toggle="tooltip">
+    <img class="iil-image" src="{% static image_url %}">
+    <span class="iil-text">
+        {{text}}
+    </span>
+</a>

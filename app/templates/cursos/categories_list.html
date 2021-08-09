@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block breadcrumb %}
+    {% include 'breadcrumb.html' with breadcrumb=breadcrumb %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+    <div class="container">
+        <a href="{% url 'home' %}"><i class="fas fa-chevron-left"></i> {% trans 'Atrás' %}</a>
+
+        <form action="{% url 'courses_search' %}" method="get">
+            <div class="form-row align-items-center">
+                <div class="col-9 col-md-11">
+                    <input type="text" class="form-control mb-2" name="t" value="{{ request.GET.t }}" placeholder="{% trans 'Buscar' %}">
+                </div>
+                <div class="col-3 col-md-1">
+                <button type="submit" class="btn white-text btn-primary mb-2">{% trans 'Buscar' %}</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            {% for category in categories_list %}
+                <div class="col-6 col-md-4 col-lg-3 category-col">
+                    <div class="card">
+                        <div class="card-body category-card">
+                            <img width="110px" height="110px" src="{% if category.image %}{{ category.image.url }}{% else %}holder.js/110x110{% endif %}" alt="{{category.title}}" style="object-fit:cover;">
+                            <br>
+                            {{ category.title }}
+                            <br>
+                            <a class="btn btn-primary white-text" href="{% url 'category_courses' category=category.id %}">{% trans 'Ver cursos' %}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if categories_list|length == 0 %}
+                {% trans 'No hay categorias para mostrar.' %}
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

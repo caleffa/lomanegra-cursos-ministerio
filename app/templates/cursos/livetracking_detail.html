@@ -1,0 +1,131 @@
+{% extends 'base_new.html' %}
+{% load i18n static %}
+{% load randint %}
+
+{% trans 'Descargar documentación' as descargar_documentacion_str %}
+{% trans 'Descargar' as descargar_str %}
+{% trans 'Cursos' as cursos_str %}
+
+{% block breadcrumb %}
+    {% include 'cursos/course_breadcrumb.html' %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+    {% include 'components/title_and_user.html' with title='Mis cursos' subtitle='Mirá la oferta de opciones y llevá un registro de tus cursos realizados' %}
+    {% include 'components/back_to_all_courses.html' %}
+
+    {% with tracking.get_downloadable_documents_and_tracking.items|length as documents_length %}
+
+        <div class="container">
+    	
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-9">
+                <div id="event-live-container" style="padding:56.25% 0 0 0;position:relative;" class="{% if not tracking.video.is_broadcasting_now %}d-none{% endif %}">
+                    {% if tracking.video.is_broadcasting_now %}
+                    <iframe src="https://vimeo.com/event/{{ tracking.video.vimeo_id }}/embed" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    {% endif %}
+                </div>
+                <div id="event-off-container" style="padding:56.25% 0 0 0;position:relative; background-color: #000000AA; color: white; display: flex; justify-content: center;" class="{% if tracking.video.is_broadcasting_now %}d-none{% endif %}">
+                    <h3>{% trans 'El evento comenzará pronto' %}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center" id="document-downloads">
+            <div class="col-12 col-md-10 col-lg-9 mt-1" style="font-size: 1.5rem;">
+                <div class="row">
+                    <div class="col">
+                        {% if documents_length == 1 %}
+                            {% for document,document_tracking in tracking.get_downloadable_documents_and_tracking.items %}
+                                {% random_number 8 as num_random_id %}
+                                {% url 'download_document' documentpk=document.id as download_url %}
+                                  {% with random_id=num_random_id|stringformat:"i" video_id=video.id|stringformat:"i" document_id=document.id|stringformat:"i" %}
+                                    {% with document_url=download_url|add:"?rand="|add:random_id onclick="return registerDownloadAndMoveForward("|add:video_id|add:", "|add:document_id|add:");" document_element_id="document_download_"|add:document_id %}
+                                      {% if document_tracking %}
+                                          {% include 'cursos/icon_button.html' with url=document_url tooltip=descargar_documentacion_str title=descargar_str icon="fa-download" a_tag_extra_css="visto download" onclick=onclick target="_self" extra_css="pr-1" id=document_element_id %}
+                                      {% else %}
+                                          {% include 'cursos/icon_button.html' with url=document_url tooltip=descargar_documentacion_str title=descargar_str icon="fa-download" a_tag_extra_css="download" onclick=onclick target="_self" extra_css="pr-1" id=document_element_id %}
+                                      {% endif %}
+                                    {% endwith %}
+                                  {% endwith %}
+                            {% endfor %}
+                        {% endif %}
+
+
+                        {% for tarea in video.tareas %}
+                            <a class="p-1 download" style="display: block; font-size: 16px;" href="{% url 'tareas:tarea' tarea=tarea.id %}?prev={{request.path}}" style="font-size: 14px;">
+                                <i class="fas fa-file-alt" {% if tarea.obligatoria and user_has_pending_tareas %}id="tarea-obligatoria"{% endif %}></i>
+                                {% trans 'Tarea' %}: {{ tarea.titulo }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="col text-right">
+{#                        {% url 'enrolled_courses' as cursos_url %}#}
+{#                        {% include 'cursos/icon_button.html' with url=cursos_url title=cursos_str icon="fa-book-reader" %}#}
+
+                    </div>
+                </div>
+                {% if documents_length > 1 %}
+                    {% for document,document_tracking in tracking.get_downloadable_documents_and_tracking.items %}
+                        <div class="row mt-1 {% if not tracking.watched_full %}d-none{% endif %} document-downloads">
+                            <a
+                                    class="{% if document_tracking %}visto{% endif %} col"
+                                    href="{% url 'download_document' documentpk=document.id %}?rand={% random_number 8 %}"
+                                    onclick="return registerDownloadAndMoveForward({{document.id}});"
+{#                                    download#}
+                                    target="_self"
+                                    style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" 
+                                    >
+                                <i class="fas fa-download" 
+                                    id="document_download_{{document.id}}"
+                                    title="{% trans 'Descargar documento' %}"
+                                    data-toggle="tooltip"
+                                    style="font-size: 1.5rem;"></i>&nbsp;{{ document }}
+                            </a>
+                       </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% for forum in video.forums %}
+                    <a class="p-1 download" style="display: block; font-size: 16px;" href="{% url 'forum' forum=forum.id %}?prev={{request.path}}" style="font-size: 14px;">
+                        <i class="fas fa-comment-dots" title="Ir al foro" data-toggle="tooltip"></i>
+                        {{ forum.title }}
+                    </a>
+                {% endfor %}
+
+            </div>
+        </div>
+        
+
+    {% endwith %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        var prevState = null;
+        $(function() {
+            var updateStatus = function(isLive) {
+                if(prevState === null) {
+                    prevState = isLive;
+                } else {
+                    if (prevState !== isLive) {
+                        window.location.reload();
+                    }
+                }
+            }
+            var checkLiveStreamStatus = function() {
+                var id = {{ tracking.video.id }};
+                var url = '/api/segment_is_live/' + id.toString() + '/';
+                $.get(url, function(data) {
+                    console.log(data);
+                    updateStatus(data.is_broadcasting_now);
+                });
+            }
+            setInterval(checkLiveStreamStatus, 15000);
+        })
+    </script>
+{% endblock javascript %}

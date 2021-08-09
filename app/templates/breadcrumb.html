@@ -1,0 +1,21 @@
+<nav aria-label="breadcrumb" style="margin-top: -9px;position: fixed;width: 100vw; z-index: 1;">
+    <ol class="breadcrumb" style="border-radius: 0;">
+        <div style="max-width: 80%; white-space: nowrap; display: inherit;">
+            <li class="breadcrumb-item shortened-breadcrumb no-max" data-toggle="tooltip" data-placement="bottom" title="{{ breadcrumb.first.title }}">
+                {% if breadcrumb.first.url %}
+                    <a href="{{breadcrumb.first.url}}">{{ breadcrumb.first.title }}</a>
+                {% else %}
+                    {{ breadcrumb.first.title }}
+                {% endif %}
+            </li>
+            {% if breadcrumb.second %}
+                <li class="breadcrumb-item shortened-breadcrumb active no-max" data-toggle="tooltip" data-placement="bottom" title="{{ breadcrumb.second.title }}" aria-current="page">{{ breadcrumb.second.title }}</li>
+            {% endif %}
+        </div>
+        {% if breadcrumb.page1 and breadcrumb.page2 %}
+            <li class="ml-auto"></li>
+            <li>{{ breadcrumb.page1 }}/{{ breadcrumb.page2 }}</li>
+        {% endif %}
+    </ol>
+</nav>
+<div style="margin-bottom: 55px;"></div>

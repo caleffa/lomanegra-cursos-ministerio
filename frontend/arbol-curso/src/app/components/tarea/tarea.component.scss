@@ -1,0 +1,19 @@
+.card-body.progress {
+    padding: 0px;
+    height: 7px;
+}
+
+.progress .bar-container {
+    display: block;
+    width: 100%;
+    height: 7px;
+    background-color: whitesmoke;
+}
+
+.progress .bar {
+    display: block;
+    height: 7px;
+    background-color: #007bff;
+    -webkit-transition: width 2s;
+    transition: width 2s;
+}

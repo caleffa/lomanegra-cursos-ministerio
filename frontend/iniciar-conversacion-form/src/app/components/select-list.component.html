@@ -1,0 +1,35 @@
+<div class="row" [hidden]="!multiple">
+    <div class="col-5">
+        <ul class="list-group" *ngIf="selectedItems.length != 0">
+            <li class="list-group-item" *ngFor="let item of selectedItems">
+                {{ item }} <i (click)="deleteItem(item)" class="fas fa-trash"></i>
+            </li>
+        </ul>
+        <ul class="list-group" *ngIf="selectedItems.length == 0">
+            <li class="list-group-item">
+                (ninguno)
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-7">
+        <input type="text" [(ngModel)]="searchValue" class="form-control" (ngModelChange)="onChange()" placeholder="Buscar">
+        <ul class="list-group" [hidden]="hiddeDropdown">
+            <li class="list-group-item" *ngFor="let option of dropdownOptions" (click)="addOption(option)">
+                {{ option }}
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<span [hidden]="multiple">
+    <input type="text" [(ngModel)]="searchValue" class="form-control" (ngModelChange)="onChange()" placeholder="Buscar">
+    <ul class="list-group" [hidden]="hiddeDropdown">
+        <li class="list-group-item" *ngFor="let option of dropdownOptions" (click)="selectOption(option)">
+            {{ option }}
+        </li>
+    </ul>
+</span>
+
+<input type="hidden" name="{{name}}" value="{{inputValue}}">

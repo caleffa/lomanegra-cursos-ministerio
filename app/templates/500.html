@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Server Error{% endblock %}
+
+{% block content %}
+<h1>{% trans 'Error del servidor' %}</h1>
+
+<h3>{% trans 'Algo salió mal.' %}</h3>
+
+<p>{% trans 'Ya se registró y dio aviso de este error para resolverlo. Mientras tanto, ud. puede intentar refrescar la página en unos momentos. Si el problema persiste, comuníquese con la administración del sistema.' %}</p>
+{% endblock content %}
+
+

@@ -1,0 +1,66 @@
+<div class="card">
+    <div class="card-header">
+        Pregunta de estrellas
+    </div>
+    <div class="card-body">
+        <form [formGroup]="controller.formGroup">
+            <div class="row">
+                <div class="col-6">
+                    <label>Texto pregunta</label>
+                    <textarea formControlName="texto" class="form-control"></textarea>
+                    <div class="validation-errors" *ngFor="let validation of validationMessages.texto">
+                        <div class="error-message" *ngIf="showErrors('texto', validation)">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label>Imagen</label>
+                    <div [hidden]="!getImageUrl('imagen_url')" class="card">
+                        <div class="card-body">
+                            <img src="{{ getImageUrl('imagen_url') }}" class="imagen-preview"/>
+                        </div>
+                    </div>
+                    <input type="file" (change)="uploadImage($event, 'imagen')"  accept=".png, .jpg, .jpeg, .gif" [hidden]="!controller.isEditing.value"/>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+
+                <div class="col-2 star-col">
+                    <i class="fas fa-star mb-2"></i>
+                    <input type="text" class="form-control" formControlName="texto_estrella_1">
+                </div>
+
+                <div class="col-2 star-col">
+                    <i class="fas fa-star mb-2"></i>
+                    <input type="text" class="form-control" formControlName="texto_estrella_2">
+                </div>
+
+                <div class="col-2 star-col">
+                    <i class="fas fa-star mb-2"></i>
+                    <input type="text" class="form-control" formControlName="texto_estrella_3">
+                </div>
+
+                <div class="col-2 star-col">
+                    <i class="fas fa-star mb-2"></i>
+                    <input type="text" class="form-control" formControlName="texto_estrella_4">
+                </div>
+
+                <div class="col-2 star-col">
+                    <i class="fas fa-star mb-2"></i>
+                    <input type="text" class="form-control" formControlName="texto_estrella_5">
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="card-footer" [hidden]="!controller.isEditing.value">
+        <button class="btn btn-success float-right ml-2" (click)="save()" [disabled]="!controller.formGroup.valid">Aceptar</button>
+        <button class="btn btn-danger float-right" (click)="reset()" >Cancelar</button>
+    </div>
+</div>
+

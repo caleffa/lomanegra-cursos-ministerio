@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+   <table class="table table-striped">
+      <thead>
+        <tr>
+          {% for th in table_header %}
+          <th scope="col">{{th}}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for tr in table_data %}
+        <tr>
+          {% for td in tr %}
+          <td>{{ td }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p><a href="javascript:history.back()"><i class="fas fa-angle-double-left"></i> Volver </a></p>
+{% endblock %}

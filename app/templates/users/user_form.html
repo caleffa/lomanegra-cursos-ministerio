@@ -1,0 +1,25 @@
+{% extends "base_new.html" %}
+{% load i18n crispy_forms_tags %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block content %}
+
+{% include 'components/title_and_user.html' with title='Editar perfil' subtitle='' %}
+
+  <img src="{% if user.avatar_thumbnail %}{{ user.avatar_thumbnail.url }}{% else %}https://ui-avatars.com/api/?name={{user.name}}{% endif %}" class="img-thumbnail img-fluid rounded-circle z-depth-0" alt="avatar image">
+  <h1 style="display: inline;">{{ user.username }}</h1>
+  <form class="form-horizontal" method="post" action="{% url 'users:update' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-secondary btn-responder"><i class="fas fa-save"></i> {% trans 'Guardar' %}</button>
+        <a class="btn btn-secondary btn-responder" href="{% url 'account_email' %}" role="button">{% trans 'Modificar direcciones de mail' %}</a>
+        <a class="btn btn-secondary btn-responder" href="{% url 'account_change_password' %}" role="button">{% trans 'Cambiar contraseña' %}</a>
+      </div>
+    </div>
+  </form>
+
+
+{% endblock %}

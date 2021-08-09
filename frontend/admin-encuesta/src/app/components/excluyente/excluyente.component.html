@@ -1,0 +1,60 @@
+<div class="card">
+    <div class="card-header">
+        Pregunta excluyente
+    </div>
+    <div class="card-body">
+        <form [formGroup]="controller.formGroup">
+            <div class="row">
+
+                <div class="col-6">
+                    Opciones:
+                    <div *ngFor="let opcion of getOpciones(); index as i; trackBy: trackByFn" formArrayName="opciones">
+                        <div [formGroupName]="i" class="row">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Respuesta {{i+1}}" formControlName="texto">
+                                <div class="input-group-append">
+                                    <span (click)="removeOpcion(opcion, i)" class="input-group-text" id="basic-addon2">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="validation-errors" >
+                        <div class="error-message" *ngIf="noOpcion">
+                            Debe ingresar opciones
+                        </div>
+                    </div>
+                    
+                    <div class="hover" [hidden]="!controller.isEditing.value" (click)="addOption()">
+                        <i class="fas fa-plus-circle mr-2"></i> Agregar mas opciones
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label>Texto pregunta</label>
+                    <textarea formControlName="texto" class="form-control"></textarea>
+                    <div class="validation-errors" *ngFor="let validation of validationMessages.texto">
+                        <div class="error-message" *ngIf="showErrors('texto', validation)">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+
+                    <label>Imagen</label>
+                    <div [hidden]="!getImageUrl('imagen_url')" class="card">
+                        <div class="card-body">
+                            <img src="{{ getImageUrl('imagen_url') }}" class="imagen-preview"/>
+                        </div>
+                    </div>
+                    <input type="file" (change)="uploadImage($event, 'imagen')"  accept=".png, .jpg, .jpeg, .gif" [hidden]="!controller.isEditing.value"/>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer" [hidden]="!controller.isEditing.value">
+        <button class="btn btn-success float-right ml-2" (click)="save()" [disabled]="!controller.formGroup.valid || noOpcion">Aceptar</button>
+        <button class="btn btn-danger float-right" (click)="reset()" >Cancelar</button>
+    </div>
+</div>
+

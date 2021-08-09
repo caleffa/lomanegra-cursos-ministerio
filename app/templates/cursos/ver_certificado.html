@@ -1,0 +1,42 @@
+{% extends 'base_new.html' %}
+{% load i18n staticfiles %}
+
+{% block content %}
+
+    {% include 'components/title_and_user.html' with title='Constancia' subtitle='' %}
+    {% include 'components/back_to_all_courses.html' %}
+
+    <div class="container">
+
+        {% with '/static/pdfjs/web/viewer.html?file='|add:document_url as document_url %}
+            <iframe src="{{ document_url }}" width="100%" style="height: calc(100vh - 180px);" frameborder="0" allowfullscreen webkitallowfullscreen></iframe>
+        {% endwith %}
+
+        <div class="row">
+            <div class="col">
+                <a class="d-none" data-toggle="tooltip" title="{% trans 'Descargar' %}" id="download-link" href="{{ document_url }}" download><i class="fa fa-download"></i></a>
+            </div>
+            <div class="col ml-auto"></div>
+            <div class="col text-right">
+                <a data-toggle="tooltip" title="{% trans 'Volver' %}" href="#" class="go-back-link"><i class="fa fa-backward"></i></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrajavascript %}
+    <script type="text/javascript">
+        $(function() {
+            $('.go-back-link').click(function() {
+                window.location.href = document.referrer;
+                return false;
+            })
+        });
+
+        $(function(){
+            if(!isIos() || !isInStandaloneMode()) {
+                $('#download-link').removeClass('d-none');
+            }
+        });
+    </script>
+{% endblock %}

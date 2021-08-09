@@ -1,0 +1,48 @@
+<style>
+
+    .btac-row {
+        margin-bottom: 20px;
+    }
+
+    .btac-col {
+        padding: 0px;
+    }
+
+    .btac-arrow-btn {
+        float: right;
+        padding: 7px 11px 6px 11px;
+        background-color: #008080;
+        color: #FFF !important;
+        border-radius: 20px;
+        margin-right: 10px;
+        margin-top: 3px;
+        font-size: 14px !important;
+    }
+
+    .btac-back-button {
+        float: right;
+        padding: 5px 20px 5px 20px;
+        font-weight: bold;
+        border: solid 3px #008080;
+        color: #008080 !important;
+        font-size: 16px !important;
+    }
+
+    .btac-back-button:hover {
+        border: solid 3px #367e87;
+    }
+
+    .btac-back-button:hover, .btac-arrow-btn:hover {
+        background-color: #367e87;
+        color: #FFF !important;
+        cursor: pointer;
+    }
+
+</style>
+
+<div class="row justify-content-center btac-row">
+    <div class="btac-col col-11 col-md-9 col-lg-8">
+        <a class="btac-back-button" href="{% url 'categories' %}"> VOLVER A TODOS LOS CURSOS </a>
+        <a class="btac-arrow-btn" href="{% url 'categories' %}"><i class="fas fa-arrow-left"></i> </a>
+    </div>
+</div>

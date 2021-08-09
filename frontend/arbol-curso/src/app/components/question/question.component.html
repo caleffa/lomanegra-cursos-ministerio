@@ -1,0 +1,68 @@
+<ng-template #componentModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Pregunta</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCloseModal();modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <label for="questionText">Texto pregunta</label>
+                    <textarea class="form-control" formControlName="text" [class.is-invalid]="getValidity('text')"></textarea>
+                    <div [hidden]="!getValidity('text')" class="validation-error">
+                        {{ getErrors('text') }}
+                    </div>
+
+                    <div class="form-check" >
+                        <input type="checkbox" class="form-check-input" id="questionOneCorrect" 
+                            formControlName="has_only_one_correct_answer" [class.is-invalid]="getValidity('has_only_one_correct_answer')">
+                        <label class="form-check-label" for="questionOneCorrect">Tiene una sola respuesta correcta</label>
+                    </div>
+
+                    <label for="questionCorrect">Mostrar cantidad de opciones correctas</label>
+                    <input type="number" class="form-control" formControlName="show_correct_options"
+                        [class.is-invalid]="getValidity('show_correct_options')"/>
+                    <div [hidden]="!getValidity('show_correct_options')" class="validation-error">
+                        {{ getErrors('show_correct_options') }}
+                    </div>
+
+                    <label for="questionIncorrect">Mostrar cantidad de opciones incorrectas</label>
+                    <input type="number" class="form-control" formControlName="show_incorrect_options"
+                        [class.is-invalid]="getValidity('show_incorrect_options')"/>
+                    <div [hidden]="!getValidity('show_incorrect_options')" class="validation-error">
+                        {{ getErrors('show_incorrect_options') }}
+                    </div>
+                    
+                    <label for="questionOkText">Texto a mostrar caso correcto (opcional)</label>
+                    <textarea class="form-control" formControlName="text_after_correct_answer"
+                        [class.is-invalid]="getValidity('text_after_correct_answer')"></textarea>
+                    <div [hidden]="!getValidity('text_after_correct_answer')" class="validation-error">
+                        {{ getErrors('text_after_correct_answer') }}
+                    </div>
+
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="">Imagen</label>
+                    <div [hidden]="!imgLink">
+                        <img src="{{imgLink}}" class="imagen_url"/>
+                    </div>
+                    <input type="file" class="form-control" (change)="uploadDocument($event)" accept=".png, .jpg, .jpeg, .gif" />
+
+                    <label for="questionErrorText">Texto a mostrar caso incorrecto (opcional)</label>
+                    <textarea class="form-control" formControlName="text_after_incorrect_answer"
+                        [class.is-invalid]="getValidity('text_after_incorrect_answer')"></textarea>
+                    <div [hidden]="!getValidity('text_after_incorrect_answer')" class="validation-error">
+                        {{ getErrors('text_after_incorrect_answer') }}
+                    </div>
+                </div>
+            <br>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="save()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="onCloseModal();modal.dismiss()">Cancelar</button>
+    </div>
+</ng-template>

@@ -1,0 +1,356 @@
+{#{% debug %}#}
+{% extends 'base_new.html' %}
+{% load i18n crispy_forms_tags staticfiles %}
+
+{% trans "Volver a los cursos" as volver_a_los_cursos_str %}
+{% trans "Cursos" as cursos_str %}
+{% trans "Ir al siguiente capítulo para continuar" as siguiente_capitulo_str %}
+{% trans "Siguiente" as siguiente_str %}
+{% trans "Ir al capítulo para completarlo" as completar_capitulo_str %}
+{% trans "Completar" as completar_str %}
+
+{% block content %}
+
+<style>
+
+    .qud-card {
+        border: 0px;
+    }
+
+    .qud-question-text {
+        padding: 18px;
+        font-size: 22px;
+        color: #008082;
+        border: 0px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .qud-options-row {
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: flex-end;
+    }
+
+    .qud-option-col {
+        background-color: #e2e2e2;
+        color: #008081;
+        white-space: normal;
+        padding: 11px;
+        font-size: 21px;
+        font-weight: bold;
+    }
+
+    .qud-aceptar-btn {
+        background-color: #008082;
+        color: #FFF;
+        font-weight: bold;
+        font-size: 17px;
+        margin-top: 20px;
+        padding: 10px 20px 10px 20px;
+    }
+
+    .qud-modal-content {
+        border-radius: 0px;
+    }
+
+    .qud-modal-title {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .qud-correct-title {
+        color: #009366
+    }
+
+    .qud-incorrect-title {
+        color: #d6017e
+    }
+
+    .qud-answer-check {
+        height: 30vh;
+    }
+
+    .qud-answer-modal-text {
+        font-size: 22px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #008082;
+        margin-top: 15px;
+    }
+
+    .qud-answer-modal-option {
+        margin: auto;
+        white-space: normal;
+        background-color: #e2e2e2;
+        color: #008081;
+        font-size: 21px;
+        margin-bottom: 11px !important;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .qud-active {
+        color: #FFF;
+    }
+
+    .qud-active.qud-correct {
+        background-color: #009366;
+    }
+
+    .qud-active.qud-incorrect {
+        background-color: #d6017e;
+    }
+
+    .qud-answer-check-in-option {
+        width: 30px;
+        height: 30px;
+    }
+
+    .qud-next-btn {
+        margin: auto;
+        border: solid 3px #008081;
+        color: #008081;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .qud-next-icon {
+        color: #008081;
+        margin-left: 10px;
+    }
+
+    .qud-section-title {
+        text-transform: uppercase;
+        color: #008081;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .qud-cert-download {
+        background-color: #e2e2e2;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 10px;
+        margin-top: 20px;
+    }
+
+    .qud-download-img {
+        height: 60px;
+        float: right;
+    }
+
+    .qud-download-text {
+        color: #008081 !important;
+        display: inline-block;
+        margin-top: 13px;
+    }
+
+</style>
+
+{% if not finished_course %}
+
+    {% include 'components/title_and_user.html' with title='Cuestionario' subtitle='Elegí la opción correcta respondiendo al siguiente cuestionario.' %}
+
+{% endif %}
+
+<br>
+
+{% if last_question %}
+    <div class="modal animated zoomInDown" tabindex="-1" role="dialog" id="answerModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content qud-modal-content">
+          <div class="modal-body">
+            {% if last_answer.option.is_correct %}
+                <div class="row justify-content-center qud-modal-title qud-correct-title">
+                    {% trans 'CORRECTO' %}
+                </div>
+            {% else%}
+                <div class="row justify-content-center qud-modal-title qud-incorrect-title">
+                    {% trans 'INCORRECTO' %}
+                </div>
+            {% endif %}
+
+            <br>
+
+            <div class="row d-flex justify-content-center">
+
+                {% if last_answer.option.is_correct %}
+                    <img class="answer-check qud-answer-check" src="{% static 'img/correct.svg' %}" style="width: 100%;">
+                {% else %}
+                    <img class="answer-check qud-answer-check" src="{% static 'img/wrong.svg' %}" style="width: 100%;">
+                {% endif %}
+
+            </div>
+            <p class="text-center qud-answer-modal-text">
+            {% if last_answer.option.is_correct %}
+                {% if last_question.question.text_after_correct_answer %}
+                    {{last_question.question.text_after_correct_answer}}
+                {% else %}
+                    {{last_question.question.text}}
+                {% endif %}
+            {% else %}
+                {% if last_question.question.text_after_incorrect_answer %}
+                    {{last_question.question.text_after_incorrect_answer}}
+                {% else %}
+                    {{last_question.question.text}}
+                {% endif %}
+            {% endif %}
+            </p>
+
+            <div class="btn-group-vertical btn-group-toggle btn-block row">
+                {% for option in last_question.options.all %}
+                    <label class="btn btn-secondary btn-block 
+                        {% if option.id == last_answer.option.id %}qud-active{% endif %} 
+                        {% if option.is_correct %}qud-correct{%else%}qud-incorrect{%endif%}
+                        col-10 qud-answer-modal-option">
+                        {{ option.text }}
+                        {% if option.is_correct %}
+                            <img class="answer-check qud-answer-check-in-option" src="{% static 'img/correct.svg' %}">
+                        {% endif %}
+                    </label>
+                {% endfor %}
+                <button type="button" class="btn col-10 qud-next-btn" data-dismiss="modal">
+                    {% if question %}{% trans 'Siguiente pregunta' %}{% else %}{% trans 'Cerrar' %}{% endif %}
+                    <i class="fas fa-arrow-circle-right qud-next-icon"></i>
+                </button>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+{% endif %}
+
+{% if question %}
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 col-lg-7">
+            <div class="card qud-card">
+              {% if question.question.image %}
+                  <img class="card-img-top mx-auto" src="{{ question.question.image.url }}" style="height: 100%;">
+              {% else %}
+                  <img class="card-img-top mx-auto" src="{% static 'img/generic-question.png' %}" style="height: 100%;">
+              {% endif %}
+              <div class="qud-question-text">
+                {{question.question.text}}
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+
+        
+    </style>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-10 col-lg-7">
+                <div class="btn-group-vertical btn-group-toggle btn-block row qud-options-row" data-toggle="buttons">
+                    {% for option in question.questionnaireoption_set.all %}
+                        <label class="btn btn-secondary btn-block col-5 qud-option-col" style="white-space: normal;">
+                            <input type="radio" name="option" value="{{option.id}}" required autocomplete="off"> {{option.option.text}}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-10 col-lg-7">
+                <button type="submit" class="btn btn-secondary btn-responder float-right qud-aceptar-btn">{% trans 'Aceptar' %}</button>
+            </div>
+        </div>
+    </form>
+{% elif finished_course %}
+    <div class="row justify-content-center">
+
+        <div class="qud-section-title col-11 col-md-9 col-lg-8">
+            {% trans '¡Felicitaciones! ¡Terminaste el curso!' %}
+        </div>
+
+        <a class="qud-cert-download col-11 col-md-9 col-lg-8" href="{% url 'view-diploma' course_enrollment.id %}">
+            <div class="qud-download-text">{% trans 'Descargar la constancia' %}</div>
+            <img src="{% static 'images/descargas.png' %}" class="qud-download-img">
+        </a>
+
+    </div>
+{% elif finished_questionnaire %}
+    <div class="row justify-content-center">
+        <div class="col-8">
+            {% if must_retake_questionnaire %}
+                <img src="{% static 'img/icono_cruz.png' %}" class="img-fluid" style="margin: 0 auto; display: block; max-height: 20rem;">
+            {% else %}
+                <img src="{% static 'img/CursoOK.png' %}" class="img-fluid" style="margin: 0 auto; display: block; max-height: 20rem;">
+            {% endif %}
+        </div>
+    </div>
+
+    <p class="text-center" style="font-size: 1.25rem;">
+        {% blocktrans with title=questionnaire.video.title %}
+            Terminaste el cuestionario sobre el capítulo "{{ title }}".
+        {% endblocktrans %}
+    </p>
+    <p class="text-center" style="font-size: 1.25rem;">
+        {% blocktrans with score=questionnaire.score %}
+            Respondiste el {{ score }}% de las preguntas correctamente.
+        {% endblocktrans %}
+    </p>
+    {% if must_retake_questionnaire %}
+        <p class="text-center" style="font-size: 1.25rem;">{% blocktrans %}Para poder avanzar, debés volver a responder el cuestionario y acertar más respuestas.{% endblocktrans %}</p>
+    {% endif %}
+{% endif %}
+
+
+    <div class="row mt-1">
+        {% if tracking.watched_full %}
+            <p><i class="fas fa-tasks"></i> Responder cuestionario</p>
+        {% endif %}
+    </div>
+    <div class="row mt-3">
+        <div class="col"></div>
+        {% if finished_questionnaire %}
+            {% if must_retake_questionnaire %}
+                <div class="col text-center">
+                    <a href="{% url 'questionnaire' course=questionnaire.video.course.slug order=questionnaire.video.order %}">
+                        <button type="button" class="btn red-button">{% trans 'VOLVER A INTENTAR' %}</button>
+                    </a>
+                </div>
+            {% elif has_pending_assignments %}
+                {% if questionnaire.video.type_of_segment == questionnaire.video.VIDEO %}
+                    {% url 'video' course=questionnaire.video.course.slug order=questionnaire.video.order as next_url%}
+                {% else %}
+                    {% url 'slide' course=questionnaire.video.course.slug order=questionnaire.video.order as next_url %}
+                {% endif %}
+                <div class="col text-center">
+                    {% include 'cursos/icon_button.html' with next_segment=questionnaire.video url=next_url tooltip=completar_capitulo_str title=completar_str icon="fa-forward" extra_style="font-size: 2.5rem; vertical-align: middle;"  id="next_segment_link" %}
+                </div>
+            {% elif has_next_video %}
+                {% if questionnaire.video.next_segment.type_of_segment == questionnaire.video.VIDEO %}
+                    {% url 'video' course=questionnaire.video.course.slug order=questionnaire.video.order|add:"1" as next_url%}
+                {% else %}
+                    {% url 'slide' course=questionnaire.video.course.slug order=questionnaire.video.order|add:"1" as next_url %}
+                {% endif %}
+                <div class="col text-center">
+                    {% include 'cursos/icon_button.html' with next_segment=questionnaire.video.next_segment url=next_url tooltip=siguiente_capitulo_str title=siguiente_str icon="fa-forward" extra_style="font-size: 2.5rem; vertical-align: middle;"  id="next_segment_link" %}
+                </div>
+            {% endif %}
+        {% endif %}
+        <div class="col"></div>
+    </div>
+{% endblock %}
+
+{% block extrajavascript %}
+<script>
+    $(function(){
+       $('#answerModal').modal('show')
+    });
+    $('#answerModal').on('hidden.bs.modal', function (e) {
+        $("#next_segment_link").tooltip('show');
+        window.setTimeout(function() {
+                $("#next_segment_link").tooltip('hide');
+            }, TOOLTIP_TIMEOUT);
+    })
+</script>
+{% endblock %}

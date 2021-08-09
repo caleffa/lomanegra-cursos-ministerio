@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-02 19:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: foros/forms.py:19
+msgid "El comentario no puedo estar vacío"
+msgstr ""
+
+#: foros/templates/forum_view.html:9
+msgid "Volver"
+msgstr ""
+
+#: foros/templates/forum_view.html:12
+msgid "Agregar comentario"
+msgstr ""
+
+#: foros/templates/forum_view.html:15
+msgid "Responder a"
+msgstr ""
+
+#: foros/templates/forum_view.html:31
+msgid "Enviar mensaje"
+msgstr ""
+
+#: foros/templates/forum_view.html:32
+msgid "Cancelar"
+msgstr ""
+
+#: foros/templates/forum_view.html:33
+msgid "Responder"
+msgstr ""
+
+#: foros/templates/forum_view.html:44
+msgid "Comentarios"
+msgstr ""
+
+#: foros/templates/forum_view.html:95
+msgid "Aún no hay comentarios"
+msgstr ""
+
+#: foros/templates/forum_view.html:170
+msgid "¿Estás seguro/a de querer borrar el comentario?"
+msgstr ""
+
+#: foros/templates/forum_view.html:176
+msgid "Ha ocurrido un error al intentar borrar el comentario"
+msgstr ""
+
+#: foros/templates/forum_view.html:188
+msgid "Ha ocurrido un error al intentar guardar el comentario"
+msgstr ""
+
+#: foros/templates/my_comments.html:37
+msgid "Ir al foro"
+msgstr ""
+
+#: foros/templates/my_comments.html:54
+msgid "Ud. no tiene foros habilitados, para ello avance en los cursos"
+msgstr ""

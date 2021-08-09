@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+    <div class="container">
+    <hr style='margin-bottom:0px;'>
+{% for course,course_data in courses.items %}
+{#  <div class="row">#}
+    <div class="media">
+      <a href="{% url 'course' course.slug %}"><img class="align-self-start mr-3 course-list-thumb" src="{% if course.image %}{{ course.course_list_thumbnail.url }}{% else %}holder.js/55x55{% endif %}" alt="{{course.title}}"></a>
+      <div class="media-body">
+        <div class="row">
+
+          <div class="col">
+            <h5 >{{course.title}}</h5>
+          </div>
+            
+        </div>
+        {% if course_data.enrollment.is_complete %}
+          <p class="diploma-download"><a href="{% url 'view-diploma' course_data.enrollment.id %}"><i class="fas fa-user-graduate"></i> - {% trans 'Descargar constancia' %}</a></p>
+        {% endif %}
+        
+        <p class="descripcion-curso" style="margin-bottom: 0px;">{{course.description}}</p>
+
+        {% if course.tutor %}
+          
+          <span class="course-tutor">{% trans 'Tutor' %}: {{course.tutor.name}} {{course.tutor.last_name}} | ({{ course.tutor.email }}) | </span>
+          <a href="mailto:{{course.tutor.email}}" target="blank_" class="mb-2 course-tutor-mail">
+            <i class="fas fa-envelope"></i> {% trans 'Enviar mail' %}
+          </a>
+        {% endif %}
+
+        {% if course_data.next_segment %}
+            <p>
+                <a href="{% if not course_data.next_segment.is_enabled %}#{% else %}{{ course_data.next_url }}{% endif %}"
+                {% if not course_data.next_segment.is_enabled %}
+                    data-toggle="modal"
+                    data-target="#notEnabledModal{{ course_data.next_segment.id }}"
+                {% endif %}>
+                    {% if course_data.enrollment %}
+                        {% if course_data.enrollment.is_complete %}
+                            {% trans 'Repasar' %}
+                        {% else %}
+                            {% trans 'Continuar' %}
+                        {% endif %}
+                    {% else %}
+                        {% trans 'Iniciar' %}
+                    {% endif %}
+                </a>
+            </p>
+        {% endif %}
+
+      </div>
+    </div>
+{#  </div>#}
+
+  {% include 'cursos/course_videos_list.html' %}
+  <hr>
+        
+        
+{% endfor %}
+    </div>
+{% endblock %}
+{% block extrajavascript %}
+  {% include 'cursos/js_courses.html' %}
+  <script>
+  {% for course,course_data in courses.items %}
+    {% for video,tracking in course_data.videos.items %}
+      {% if video.order == 1 or course_data.enrollment.next_allowed_video.order >= video.order %}
+          {% if video.is_enabled %}
+            $('#video-thumb-link-{{video.id}}').click(function() {
+              {% if video.type_of_segment == video.VIDEO %}
+                window.location.href = "{% url 'video' course=video.course.slug order=video.order %}"
+              {% elif video.type_of_segment == video.SLIDES %}
+                window.location.href = "{% url 'slide' course=video.course.slug order=video.order %}"
+              {% elif video.type_of_segment == video.GENIALLY %}
+                window.location.href = "{% url 'genially' course=video.course.slug order=video.order %}"
+              {% elif video.type_of_segment == video.GENERIC %}
+                window.location.href = "{% url 'generic' course=course.slug order=video.order as segment_url %}"
+              {% endif %}
+            });
+          {% else %}
+              $('#video-thumb-link-{{video.id}}').click(function() {
+                  $('#notEnabledModal{{video.id}}').modal('show');
+              });
+          {% endif %}
+      {% else %}
+        $('#video-thumb-link-{{video.id}}').click(function(e) { e.preventDefault(); /* no hacer nada */ });
+      {% endif %}
+      pending_downloads[{{video.id}}] = new Set({{tracking.get_pending_downloads}});
+      has_questionnaire[{{video.id}}] = {% if video.has_questions %}true{% else %}false{%endif%};
+    {% endfor %}
+  {% endfor %}
+  </script>
+
+{% endblock %}

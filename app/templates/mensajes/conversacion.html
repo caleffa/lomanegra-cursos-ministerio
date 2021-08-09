@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block breadcrumb %}
+    {% include 'breadcrumb.html' with breadcrumb=breadcrumb %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row adjustable-row ">
+
+            <div class="col col-12">
+                <a href="#" onClick="goBack()"><i class="fas fa-chevron-left"></i> {% trans 'Inbox' %}</a>
+
+                <br>
+        
+                {% if conversacion.curso %}
+                    {% trans 'Curso' %}: {{ conversacion.curso.title }} <a class="btn btn-primary btn-sm white-text" href="{{ course_url }}">Ver</a>
+                {% endif %}
+                
+                <br>
+                {% trans 'Asunto' %}: {{ conversacion.asunto }}
+            </div>
+
+        </div>
+
+        {% for mensaje in mensajes %}
+
+            <div class="row adjustable-row top message-header mt-2 {% if mensaje.emisor == request.user %} me {% else %} other {% endif %}">
+                <div class="col col-8">
+                    {% trans 'De' %}: {{ mensaje.emisor.name }} {{ mensaje.emisor.last_name }}
+                </div>
+                <div class="col col-4">
+                    {{ mensaje.fecha_creacion.day }}/{{ mensaje.fecha_creacion.month }}/{{ mensaje.fecha_creacion.year }}
+                </div>
+            </div>
+            <div class="row adjustable-row bottom message-body">
+                {% autoescape off %} {{ mensaje.cuerpo }} {% endautoescape %}
+            </div>
+
+        {% endfor %}
+
+        {% if conversacion.permite_responder or conversacion.iniciador == request.user %}
+
+            <div class="row adjustable-row mt-3">
+                <div class="col col-5 col-md-4 col-lg-3 white-text" style="background-color:#4154B3;">
+                    {% trans 'Nuevo mensaje' %}
+                </div>
+            </div>
+
+            <form class="row adjustable-row" action="{% url 'mensajes:send_message' %}" method="POST">
+                {% csrf_token %}
+                <textarea required id="summernote" name="cuerpo"></textarea>
+                <input type="hidden" name="conv_id" value="{{conversacion.id}}"/>
+                <div class="col col-12">
+                    <div class="float-right mt-1">
+                        <button type="submit" class="btn btn-primary">{% trans 'Enviar' %}</button>
+                    </div>
+                </div>
+        </form>
+
+        {% endif %}
+        
+    </div>
+
+    <script type="text/javascript">
+        function goBack() {
+            window.location.href = document.referrer;
+        }
+    </script>
+
+{% endblock %}

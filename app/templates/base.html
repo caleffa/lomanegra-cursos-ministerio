@@ -1,0 +1,603 @@
+{% load static i18n sass_tags %}
+{% load compress %}
+
+{% trans 'Hola, ' as hello %}
+{% trans 'gracias por ingresar' as thanks_for_signin %}
+
+{% static 'img/Navigation_Action.png' as navigation_action_icon_url %}
+{% static 'img/2Add_to_home_screen_icon.png' as add_to_home_screen_icon_url %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}Portal de empleo{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" property="description" content="Portal de Empleo del Ministerio de Trabajo."/>
+    <meta name="author" content="Ministerio de Trabajo" />
+    <meta name="copyright" content=" Ministerio de Trabajo copyright" />
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/favicon/apple-touch-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/favicon/apple-touch-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/favicon/apple-touch-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/favicon/apple-touch-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'img/favicon/apple-touch-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/favicon/apple-touch-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/favicon/apple-touch-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+    <link rel="mask-icon" href="{% static 'img/favicon/safari-pinned-tab.svg' %}" color="#f70f1f">
+    <link rel="shortcut icon" href="{% static 'img/favicon/favicon.ico' %}" type="image/x-icon">
+    <meta name="msapplication-TileColor" content="#f70f1f">
+    <meta name="msapplication-config" content="{% static 'img/favicon/browserconfig.xml' %}">
+    <meta name="theme-color" content="#f70f1f">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+    <!-- Splash screens for apple devices -->
+    <!-- Taken from: https://medium.com/@applification/progressive-web-app-splash-screens-80340b45d210 -->
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-640x1136.png' %}" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-750x1334.png' %}" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-1242x2208.png' %}" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-1125x2436.png' %}" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-1536x2048.png' %}" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-1668x2224.png' %}" media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="{% static 'img/splash/launch-2048x2732.png' %}" media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+
+    {% block css %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+
+
+    <!-- Your stuff: Third-party CSS libraries go here -->
+
+    <!-- This file stores project-specific CSS -->
+
+    <!-- <link href="{% static 'css/project.css' %}" rel="stylesheet"> -->
+{#    {% compress css %}#}
+        <link href="{% sass_src 'scss/project.scss' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'css/animate.css' %}" rel="stylesheet" type="text/css" />
+{#    {% endcompress %}#}
+
+    {% endblock %}
+
+    <script type="text/javacsript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
+
+    <script type="text/javascript" src="{% static 'js/ios.js' %}"></script>
+
+    <script type="text/javascript">
+        // constantes
+        var TOOLTIP_TIMEOUT = 5000; // milliseconds
+
+        // Polyfill para tener Math.trunc en IE
+        Math.trunc = Math.trunc || function(x) {
+          if (isNaN(x)) {
+            return NaN;
+          }
+          if (x > 0) {
+            return Math.floor(x);
+          }
+          return Math.ceil(x);
+        };
+    </script>
+
+    <!-- Vue.js -->
+
+      <!-- development version, includes helpful console warnings -->
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+{#        <!-- production version, optimized for size and speed -->#}
+{#        <script src="https://cdn.jsdelivr.net/npm/vue"></script>#}
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+
+
+    {% block extrahead %}
+    {% endblock %}
+
+  </head>
+
+  <body>
+    <!-- Popup para indicación de instalación de app cuando el botón está en la barra superior -->
+    <div id="install-app-instructions-top" data-toggle="popover" data-placement="bottom" data-content="{% blocktrans %}Para instalar la app, click en <img src='{{ navigation_action_icon_url }}'>  y después en el ícono <img src='{{ add_to_home_screen_icon_url }}'> para agregar a inicio.{% endblocktrans %}" data-trigger="manual" data-html="true" data-title="{% trans 'Agregar a inicio' %}"></div>
+    <!-- Popup para instalación de app cuando el botón está en la barra inferior -->
+    <div id="install-app-instructions-bottom" data-toggle="popover" data-placement="top" data-content="{% blocktrans %}Para instalar la app, click en <img src='{{ navigation_action_icon_url }}'>  y después en el ícono <img src='{{ add_to_home_screen_icon_url }}'> para agregar a inicio.{% endblocktrans %}" data-trigger="manual" data-html="true" data-title="{% trans 'Agregar a inicio' %}"></div>
+
+    {% if request.META.HTTP_REFERER and 'login' in request.META.HTTP_REFERER and user.is_authenticated %}
+      <div id='splash_screen' class='col-xs-12'>
+        <div id='splash_screen_content' class="col-lg-8 col-xs-12 col-centered">
+          <img src="{% static 'img/logo_blanco.png' %}" width="120px" alt="">
+            {% if user.name and user.last_name %}
+              <p>{{ hello }} {{user.name}} {{user.last_name}},</p>
+            {% else %}
+              <p>{{ hello }} {{user}},</p>
+            {% endif %}
+          <p>{{ thanks_for_signin }}</p>
+        </div>
+      </div>
+      <script>
+         setTimeout(function(){
+            $('#splash_screen').hide();
+            if ($('#top-navbar') != null)
+              $('#top-navbar').show();
+            if ($('#bottom-navbar') != null)
+              $('#bottom-navbar').show();
+         }, 2000);
+      </script>
+    {% endif %}
+
+    {% block top-navbar %}
+
+    <div id='top-navbar' class="m-b-1">
+      <nav class="navbar fixed-top navbar-dark navbar-expand-f">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-title">
+          <img srcset="{% static 'img/logo_blanco.png' %} 1x, {% static 'img/logo_blanco.png' %} 2x"
+               src="{% static 'img/logo_blanco.png' %}" alt="">
+        </div>
+
+        <div class="navbar-brand"  id="top-navbar-brand">
+            {% if request.user.is_authenticated %}
+              <a href="{% url 'mensajes:inbox' %}" ><i class="fas fa-bell inbox-icon" title="Mensajes" data-toggle="tooltip"></i></a>
+              <span class="badge badge-pill badge-danger inbox-badge"></span>
+            {% endif %}
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+
+            {% if not request.user.is_stakeholder or request.user.is_staff or request.user.is_tutor %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">
+                  <div class="row align-items-center">
+                    <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">
+                      <i class="fas fa-home" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>
+                    </div>
+                    <div class="nav-link-label col-m-8 col-sm-8 col-8 d-lg-none" style="padding: 0;">
+                      &nbsp;{% trans 'Inicio' %}
+                    </div>
+                  </div>
+                </a>
+              </li>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+
+              {% if not request.user.is_stakeholder or request.user.is_staff or request.user.is_tutor %}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url 'enrolled_courses' %}">#}
+{#                      <div class="row align-items-center">#}
+{#                        <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">#}
+{#                          <i class="fas fa-play" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>#}
+{#                        </div>#}
+{#                        <div class="nav-link-label col-m-8 col-sm-8 col-8 d-lg-none" style="padding: 0;">#}
+{#                          &nbsp;{% trans 'Mis contenidos' %}#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url 'categories' %}">#}
+{#                      <div class="row align-items-center">#}
+{#                        <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">#}
+{#                          <i class="fas fa-play" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>#}
+{#                        </div>#}
+{#                        <div class="nav-link-label col-m-8 col-sm-8 col-8 d-lg-none" style="padding: 0;">#}
+{#                          &nbsp;{% trans 'Contenidos' %}#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url 'not_started_courses' %}">#}
+{#                      <div class="row align-items-center">#}
+{#                        <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">#}
+{#                          <i class="fas fa-play" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>#}
+{#                        </div>#}
+{#                        <div class="nav-link-label col-m-8 col-sm-8 col-8 d-lg-none" style="padding: 0;">#}
+{#                          &nbsp;{% trans 'Próximos contenidos' %}#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url 'downloads' %}">#}
+{#                      <div class="row align-items-center">#}
+{#                        <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">#}
+{#                          <i class="fas fa-download" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>#}
+{#                        </div>#}
+{#                        <div class="nav-link-label col-m-8 col-sm-8 col-8 d-lg-none" style="padding: 0;">#}
+{#                          &nbsp;{% trans 'Biblioteca' %}#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url 'my_comments' %}">#}
+{#                      <div class="row align-items-center">#}
+{#                        <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">#}
+{#                          <i class="fas fa-comment-dots" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>#}
+{#                        </div>#}
+{#                        <div class="nav-link-label col-m-11 col d-lg-none" style="padding: 0;">#}
+{#                          &nbsp;{% trans 'Comentarios' %}#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </a>#}
+{#                </li>#}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'diplomas' %}">
+                      <div class="row align-items-center">
+                        <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">
+                          <i class="fas fa-user-graduate" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>
+                        </div>
+                        <div class="nav-link-label col-m-11 col d-lg-none" style="padding: 0;">
+                          &nbsp;{% trans 'Constancias' %}
+                        </div>
+                      </div>
+                    </a>
+                </li>
+
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="{% url 'tareas:tareas' %}">#}
+{#                    <div class="row align-items-center">#}
+{#                      <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">#}
+{#                        <i class="fas fa-file-alt" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>#}
+{#                      </div>#}
+{#                      <div class="nav-link-label col-m-11 col d-lg-none" style="padding: 0;">#}
+{#                        &nbsp;{% trans 'Mis tareas' %}#}
+{#                      </div>#}
+{#                    </div>#}
+{#                  </a>#}
+{#                </li>#}
+
+              {% endif %}
+
+              {% if request.user.is_staff or request.user.is_tutor or user.is_stakeholder%}
+                <div class="dropdown-divider"></div>
+                  {% if request.user.is_tutor %}
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'mis_transmisiones' %}">
+                            <div class="row align-items-center">
+                                <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">
+                                  <i class="fas fa-video" style="font-size: 20px; display: inline-block; padding: 0.5em 0.6em;"></i>
+                                </div>
+                                <div class="nav-link-label col-m-8 col-sm-8 col-8 d-lg-none" style="padding: 0;">
+                                  &nbsp;{% trans 'Mis transmisiones' %}
+                                </div>
+                            </div>
+                          </a>
+                        </li>
+                  {% endif %}
+                <li class="nav-item dropdown">
+                {# URL provided by django-allauth/account/urls.py #}
+                  <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="row align-items-center">
+                        <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">
+                          <i class="fas fa-tachometer-alt" style="font-size: 20px; display: inline-block; padding: 0.5em 0.6em;"></i>
+                        </div>
+                        <div class="nav-link-label col-m-8 col-sm-8 col-8 d-lg-none" style="padding: 0;">
+                          &nbsp;{% trans 'Tablero' %}
+                        </div>
+                    </div>
+                  </a>
+                  <div class="dropdown-menu">
+                    {% if request.user.is_staff or request.user.is_stakeholder %}
+                      <a class="dropdown-item" href="{% url 'dashboard' %}">{% trans 'Admin' %}</a>
+                    {% endif %}
+                    {% if request.user.is_tutor %}
+                      <a class="dropdown-item" href="{% url 'dashboard_tutor' %}">{% trans 'Tutor' %}</a>
+                    {% endif %}
+                  </div>
+
+                </li>
+              {% endif %}
+              {% if request.user.is_staff %}
+                <li class="nav-item">
+                {# URL provided by django-allauth/account/urls.py #}
+                  <a class="nav-link" href="/admin_light/">
+                    <div class="row align-items-center">
+                        <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">
+                          <i class="fas fa-cog" style="font-size: 20px; display: inline-block; padding: 0.5em 0.6em;"></i>
+                        </div>
+                        <div class="nav-link-label col-m-8 col-sm-8 col-8 d-lg-none" style="padding: 0;">
+                          &nbsp;{% trans 'Administrar' %}
+                        </div>
+                    </div>
+                  </a>
+                </li>
+              {% endif %}
+
+              <div class="dropdown-divider"></div>
+              <li class="nav-item d-lg-none">
+                {# URL provided by django-allauth/account/urls.py #}
+                <a class="nav-link" href="{% url 'users:update' %}">
+                  <div class="row align-items-center">
+                    <div class="nav-link-icon col-m-4 col-sm-4 col-4">
+                      <img src="{% if user.avatar_thumbnail %}{{ user.avatar_thumbnail.url }}{% else %}https://ui-avatars.com/api/?font-size=0.40&name={% if user.name %}{{user.name}}%20{{user.last_name}}{% else %}{{ user.email }}{% endif %}{% endif %}" class="img-thumbnail img-fluid rounded-circle z-depth-0" alt="avatar image" id="avatar-navbar">
+                    </div>
+                    <div class="nav-link-label col-m-8 col-sm-8 col-8">
+                      <div class="row d-lg-none">
+                          &nbsp;{{ request.user.name }} {{ user.last_name }}
+                      </div>
+                      <div class="row">
+                        <i class="fas fa-edit d-lg-none"></i><span>{% trans 'Editar perfil' %}</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+
+
+              <li class="nav-item">
+                {# URL provided by django-allauth/account/urls.py #}
+                <a class="nav-link" href="{% url 'account_logout' %}">
+                  <div class="row align-items-center">
+                    <div class="nav-link-icon col-m-4 col-sm-4 col-4 d-lg-none">
+                      <i class="fas fa-sign-out-alt" style="font-size: 20px; border: 2px solid #FFFFFF; border-radius: 50%; display: inline-block; padding: 0.5em 0.6em;"></i>
+                    </div>
+                    <div class="nav-link-label col-m-11 col d-lg-none" style="padding: 0;">
+                      &nbsp;{% trans "Sign Out" %}
+                    </div>
+                  </div>
+                </a>
+              </li>
+
+              <li class="nav-item not-collapsed-bell">
+                <a class="nav-link" href="{% url 'mensajes:inbox' %}">
+                  <div class="row align-items-center">
+                    <div class="d-none d-lg-block nav-lg-item" style="padding: 0;">
+                        <i class="fas fa-bell inbox-icon" title="{% trans 'Mensajes' %}" data-toggle="tooltip"></i>
+                        <span class="badge badge-pill badge-danger inbox-badge"></span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+
+            {% else %}
+              <li class="nav-item">
+                {# URL provided by django-allauth/account/urls.py #}
+                <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+              </li>
+              <li class="nav-item">
+                {# URL provided by django-allauth/account/urls.py #}
+                <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+              </li>
+            {% endif %}
+              <li class="nav-item">
+                   {# Item en blanco a propósito #}
+                   <div style="height: 75px"></div>
+              </li>
+          </ul>
+        </div>
+
+      </nav>
+    </div>
+    {% endblock top-navbar %}
+    {% block breadcrumb %}
+    {% endblock breadcrumb %}
+
+{#    <div class="container">#}
+
+{#      {% if messages %}#}
+{#          {% for message in messages %}#}
+{#              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>#}
+{#          {% endfor %}#}
+{#      {% endif %}#}
+
+      <div class="container-fluid">
+        {% block content %}
+        {% endblock content %}
+      </div>
+
+{#    </div> <!-- /container -->#}
+
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="helpModalLabel">Ayuda</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li><i class="fas fa-redo"></i>: {% trans 'Ícono para volver a ver un capítulo ya visto entero.' %}</li>
+              <li><i class="fas fa-play-circle"></i>: {% trans 'Ícono para ver un capítulo no visto entero.' %}</li>
+              <li><i class="fas fa-download"></i>: {% trans 'Ícono para descarga de documentación. Se activa cuando se termina de ver un capítulo que tiene documentación asociada. Para pasar al siguiente capítulo es necesario que descargues la documentación del capítulo.' %}</li>
+              <li><i class="fas fa-tasks"></i>: {% trans 'Ícono para responder cuestionario asociado a un capítulo. Para poder avanzar en el curso, debés responder correctamente el cuestionario.' %}</li>
+              <li><i class="fas fa-sync-alt"></i>: {% trans 'Ícono para volver a responder un cuestionario.' %}</li>
+              <li><i class="fas fa-forward"></i>: {% trans 'Ícono para avanzar al siguiente capítulo. Se habilitará cuando hayas visualizado el capítulo anterior, descargado sus documentos asociados y respondido el cuestionario del mismo (si es que tiene).' %}</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn red-button" data-dismiss="modal">{% trans 'Volver' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Error genérico -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="helpModalLabel">Aviso</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Cerrar' %}">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {% trans 'Se están experimentando problemas de conexión, por favor intente nuevamente recargando la aplicación.' %}
+          </div>
+          <div class="modal-footer" style="justify-content: center;">
+              <button type="button" class="btn red-button" id="btn-refresh"><i class="fas fa-redo"></i>&nbsp;&nbsp;{% trans 'Recargar aplicación' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block bottom-navbar %}
+
+    <nav id='bottom-navbar' class="navbar fixed-bottom navbar-light navbar-expand">
+{#    <div class="d-flex flex-row">#}
+        <div class="flex-grow-1">
+            <a class="navbar-brand" href="{% url 'home' %}" style="color: white;"><i class="fas fa-home fa-lg" title="{% trans 'Inicio' %}" data-toggle="tooltip"></i></a>
+        </div>
+        {% if request.user.is_authenticated %}
+        <div>
+            <a class="navbar-brand" data-toggle="modal" data-target="#helpModal" href="#">
+              <i class="fas fa-question-circle fa-lg" title="{% trans 'Ayuda' %}" data-toggle="tooltip"></i>
+            </a>
+        </div>
+        {% endif %}
+{#    </div>#}
+{#        {% block footer %}#}
+{#        {% endblock %}#}
+    </nav>
+    {% endblock bottom-navbar %}
+
+    {% block modal %}{% endblock modal %}
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% block javascript %}
+
+      <!-- Required by Bootstrap v4.1.1 -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+      <!-- timeout de sesiones por IDLE. Tiene que venir después de jQuery -->
+      {% include 'session_security/all.html' %}
+
+      {% if settings.SENTRY_FRONTEND_DSN != 'invalid' %}
+        <script src="{% static 'raven-js/dist/raven.min.js' %}"></script>
+        <script>Raven.config('{{ settings.SENTRY_FRONTEND_DSN }}').install();</script>
+      {% endif %}
+
+      
+      <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js" integrity="sha256-VKITM616rVzV+MI3kZMNUDoY5uTsuSl1ZvEeZhNoJVk=" crossorigin="anonymous"></script>
+
+      <script src="{% static 'holderjs/holder.min.js' %}"></script>
+
+      <!-- Your stuff: Third-party javascript libraries go here -->
+      <script src="https://player.vimeo.com/api/player.js"></script>
+      <!-- <script src="{% static '@vimeo/player/dist/player.min.js' %}"></script> -->
+
+      <!-- place project specific Javascript in this file -->
+
+      <script src="{% static 'js-cookie/src/js.cookie.js' %}"></script>
+
+      <!-- Summernote -->
+      <link href="{% static 'summernote/summernote-lite.css' %}" rel="stylesheet">
+      <script src="{% static 'summernote/summernote-lite.min.js' %}"></script>
+
+      <!-- Slick -->
+      <link rel="stylesheet" type="text/css" href="{% static 'slick/slick.css' %}"/>
+      <link rel="stylesheet" type="text/css" href="{% static 'slick/slick-theme.css' %}"/>
+      <script type="text/javascript" src="{% static 'slick/slick.js' %}"></script>
+
+      <script>
+          $(document).ready(function() {
+              //Init SummerNote
+              $('#summernote').summernote();
+          });
+      </script>
+
+        {% if request.user.is_authenticated %}
+        <script>
+              //Inbox Badge
+              let tries = 2;
+              function setInboxBadge() {
+                let badges = $('.inbox-badge');
+                if(badges.length > 0 && tries > 0) {
+                  $.get("{% url 'mensajes:get_unread_messages' %}", function(data) {
+                    $.each(badges, function(i,badge){
+                      badge.innerHTML = data;
+                      if(data == 0) {
+                        badge.style.visibility = 'hidden';
+                      } else {
+                        badge.style.visibility = 'visible';
+                      }
+                    });
+                  }).fail(function(error) {
+                    tries--;
+                    if(tries == 0) {
+                      $("#errorModal").modal();
+                      Raven.captureException(error)
+                    } else {
+                      setInboxBadge();
+                    }
+                  });
+                }
+              }
+              setInboxBadge();
+              setInterval(function() {setInboxBadge()}, 30000);
+        </script>
+        {% endif %}
+
+    {% endblock javascript %}
+    <script>
+      if ('serviceWorker' in navigator) {
+        console.log("registering service worker");
+        navigator.serviceWorker.register('/service-worker.js');
+      }
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', function(e) {
+        console.log("beforeinstallprompt event");
+          // Prevent Chrome 67 and earlier from automatically showing the prompt
+          e.preventDefault();
+          // Stash the event so it can be triggered later.
+          deferredPrompt = e;
+          // Update UI notify the user they can add to home screen
+          if( document.getElementById("android_install_button") ) {
+            console.log("mostrar boton");
+            $('#android_install_button').removeClass("d-none");
+          }
+      });
+    </script>
+
+    {% block extrajavascript %}
+    {% endblock %}
+    {% if request.META.HTTP_REFERER and 'login' in request.META.HTTP_REFERER and user.is_authenticated %}
+      <script>
+        if ($('#top-navbar') != null)
+          $('#top-navbar').hide();
+        if ($('#bottom-navbar') != null)
+          $('#bottom-navbar').hide();
+      </script>
+
+    {% endif %}
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+    <script>
+      $(function () {
+        $('#btn-refresh').click(function(){
+           location.reload(true);
+        });
+      })
+    </script>
+
+  </body>
+</html>

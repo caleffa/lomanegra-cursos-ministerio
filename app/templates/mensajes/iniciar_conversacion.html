@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <!-- Angular element iniciar-conversacion-form -->
+{#    <script type="text/javascript" src="{% static 'elements/iniciar-conversacion-form.js' %}"></script>#}
+
+    <script type="text/javascript" src="{% static 'elements/iniciar-conversacion-form/runtime.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/iniciar-conversacion-form/es2015-polyfills.js' %}" nomodule></script>
+    <script type="text/javascript" src="{% static 'elements/iniciar-conversacion-form/polyfills.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/iniciar-conversacion-form/scripts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/iniciar-conversacion-form/styles.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/iniciar-conversacion-form/vendor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/iniciar-conversacion-form/main.js' %}"></script>
+
+{% endblock %}
+
+{% block breadcrumb %}
+    {% include 'breadcrumb.html' with breadcrumb=breadcrumb %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="container mt-2">
+
+    <div class="row justify-content-center">
+        <div class="col col-12 col-md-9 col-lg-7">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+            {% endif %}
+            <form class="row" method="POST" action="{% url 'mensajes:iniciar_conversacion' %}">
+                {% csrf_token %}
+
+                <iniciar-conversacion-form config="{{ config }}"></iniciar-conversacion-form>
+
+                <label>{% trans 'Mensaje' %} *:</label>
+                <textarea id="summernote" name="cuerpo"></textarea>
+
+                <div class="col col-12">
+                    <div class="float-right mt-1">
+                        <button type="submit" class="btn btn-primary">{% trans 'Enviar' %}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

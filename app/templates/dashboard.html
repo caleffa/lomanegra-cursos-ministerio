@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extrahead %}
+    <!--Load the Google Charts AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart', 'treemap']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawCharts);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      {% autoescape off %}
+      function drawCharts() {
+        {% for metric in metrics %}
+            {% if metric.data %}
+                // Create the data table.
+                var data_{{metric.id}} = new google.visualization.DataTable();
+                {% for column in metric.chart_columns %}
+                    data_{{metric.id}}.addColumn('{{column.0}}', '{{column.1}}');
+                {% endfor %}
+                data_{{metric.id}}.addRows( {{metric.data.table_data}} );
+
+                // Set chart options
+                var options = { 'hAxis': { 'textPosition': 'none' },
+                                'legend': { 'position': 'none'},
+                                'backgroundColor': 'transparent',
+                                'width': '100%',
+                                'height': '100%',
+                                'chartArea': {
+                                    'left': "3%",
+                                    'top': "3%",
+                                    'height': "94%",
+                                    'width': "94%"
+                                },
+                };
+
+                // Instantiate and draw our chart, passing in some options.
+                {% if metric.chart_type == 'column' %}
+                    options['vAxis'] = {
+                        minValue: 0
+                    };
+                    
+                    var chart = new google.visualization.ColumnChart(document.getElementById('chart_{{metric.id}}'));
+                    var chart_modal = new google.visualization.ColumnChart(document.getElementById('chart_modal_body_{{metric.id}}'));
+                    {% elif metric.chart_type == 'pie' %}
+                    options['pieHole'] = 0.4;
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_{{metric.id}}'));
+                    var chart_modal = new google.visualization.PieChart(document.getElementById('chart_modal_body_{{metric.id}}'));
+                    {% elif metric.chart_type == 'treemap' %}
+                    options['maxPostDepth'] = 1;
+                    var chart = new google.visualization.TreeMap(document.getElementById('chart_{{metric.id}}'));
+                    var chart_modal = new google.visualization.TreeMap(document.getElementById('chart_modal_body_{{metric.id}}'));
+                {% endif %}
+                chart.draw(data_{{metric.id}}, options );
+                options['legend'] = null;
+                chart_modal.draw(data_{{metric.id}}, options );
+            {% endif %}
+        {% endfor %}
+      }
+      {% endautoescape %}
+    </script>
+{% endblock %}
+{% block content %}
+    <!--Div that will hold the pie chart-->
+    <div class="card-deck">
+        {% for metric in metrics %}
+            <div class="card mb-3" style="min-width: 250px;">
+                <!-- <img class="card-img-top" src="..." alt="{{metric.name}}" style="min-width: 200px;"> -->
+                <div class="card-header">
+                    {{ metric.name }}
+                    {% if metric.subtitle %}
+                        <div class="card-subtitle text-muted">&laquo;{{ metric.subtitle }}&raquo;</div>
+                    {% endif %}
+                </div>
+                <div class="card-body dashboard-card-body align-items-center d-flex justify-content-center">
+                    {% if metric.data %}
+                    <div id="chart_{{metric.id}}" class="dashboard-chart"></div>
+                    {% elif metric.chart_number %}
+                    <span class="chart-number">{{metric.chart_number}}</span>
+                    {% elif metric.img %}
+                    <img class="card-img-bottom" src="{% static metric.img %}" alt="Descargar">
+                    {% else %}
+                    <img class="card-img-bottom" src="{% static 'img/chart.png' %}" alt="Sin información suficiente">
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <nav class="nav nav-pills nav-justified flex-sm-row flex-nowrap dashboard-card-links">
+                        {% if metric.data %}<a class="nav-item nav-link" href="#" data-toggle="modal" data-target="#chart_modal_{{metric.id}}">Gráfico</a>{% endif %}
+                        {% if metric.html_url %}
+                            <a class="nav-item nav-link" href="{{ metric.html_url }}">Ver datos</a>
+                        {% endif %}
+                        {% if metric.xls_url %}
+                            <a class="nav-item nav-link" href="{{ metric.xls_url }}">Descargar</a>
+                        {% endif %}
+                    </nav>
+                    <!-- <a class="card-link" href="">Gráfico</a>
+                    {% if metric.html_url %}
+                        <a class="card-link" href="{{ metric.html_url }}">Ver datos</a>
+                    {% endif %}
+                    {% if metric.xls_url %}
+                        <a class="card-link" href="{{ metric.xls_url }}" download="">Descargar</a>
+                    {% endif %} -->
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% for metric in metrics %}
+    <div class="modal fade" id="chart_modal_{{metric.id}}" tabindex="-1" role="dialog" aria-labelledby="chart_modal_label_{{metric.id}}" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="chart_modal_label_{{metric.id}}">{{metric.name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="chart_modal_body_{{metric.id}}" align='center'></div>
+          </div>
+          <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+{% endblock %}

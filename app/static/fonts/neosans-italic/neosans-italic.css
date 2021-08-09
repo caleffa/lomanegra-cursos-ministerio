@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'NeoSansItalic';
+    src: url('neosans-italic.eot');
+    src: url('neosans-italic.eot') format('embedded-opentype'),
+         url('neosans-italic.woff') format('woff'),
+         url('neosans-italic.ttf') format('truetype'),
+         url('neosans-italic.svg#NeoSansItalic') format('svg');
+}

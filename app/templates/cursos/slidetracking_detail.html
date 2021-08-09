@@ -1,0 +1,200 @@
+{% extends 'base_new.html' %}
+{% load i18n static %}
+{% load randint %}
+
+{% trans 'Descargar documentación' as descargar_documentacion_str %}
+{% trans 'Descargar' as descargar_str %}
+{% trans 'Responder el cuestionario' as responder_cuestionario_str %}
+{% trans 'Responder' as responder_str %}
+{% trans 'Completar tarea para continuar' as completar_tarea_str %}
+{% trans 'Ir al siguiente capítulo' as siguiente_capitulo_str %}
+{% trans 'Siguiente' as siguiente_str %}
+{% trans 'Ir al capítulo anterior' as anterior_capitulo_str %}
+{% trans 'Anterior' as anterior_str %}
+{% trans 'Cursos' as cursos_str %}
+
+{% block breadcrumb %}
+    {% include 'cursos/course_breadcrumb.html' %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+    <style>
+
+        .vtd-video-title-row {
+            margin-bottom: 10px;
+        }
+
+        .vtd-video-title-col {
+            background-color: #e2e2e2;
+            padding: 15px;
+            font-size: 23px;
+            color: #008082;
+            font-weight: bold;
+        }
+
+        .vtd-video-container {
+            padding: 0px;
+        }
+
+        .vtd-buttons-bar-row {
+            margin-top: 5px;
+        }
+
+        .vtd-buttons-bar {
+            background-color: #e2e2e2;
+            padding: 5px;
+        }
+    </style>
+
+    {% with tracking.get_downloadable_documents_and_tracking.items|length as documents_length %}
+
+    {% include 'components/title_and_user.html' with title='Mis cursos' subtitle='Mirá la oferta de opciones y llevá un registro de tus cursos realizados' %}
+
+        <div class="container">
+
+        <div class="row justify-content-center vtd-video-title-row">
+            <div class="vtd-video-title-col col-12 col-md-10 col-lg-9">
+                {{tracking.video.title}}
+            </div>
+        </div>
+    	
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-9 slide-container" style="padding: 0px;">
+                {% if not is_first_slide %}
+                    <a href="{% url 'slide_specific' course=video.course.slug order=video.order slide=slide.previous_slide.id %}"><i class="fas fa-chevron-left slide-prev" title="{% trans 'Anterior' %}" data-toggle="tooltip"></i></a>
+                {% endif %}
+                <img src="{{ slide.image.url }}" class="img-fluid" alt="Responsive image">
+                {% if not is_last_slide %}
+                    <a href="{% url 'slide_specific' course=video.course.slug order=video.order slide=slide.next_slide.id %}"><i class="fas fa-chevron-right slide-next" title="{% trans 'Ver siguiente diapositiva para continuar' %}" data-toggle="tooltip" id="next_slide"></i></a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="justify-content-center vtd-buttons-bar-row row">
+            <div class="col-12 col-md-10 col-lg-9 vtd-buttons-bar">
+                <div class="row mt-1" style="font-size: 1.5rem;">
+
+                <div class="col-2">
+                        {% if documents_length == 1 %}
+                            {% for document,document_tracking in tracking.get_downloadable_documents_and_tracking.items %}
+                                {% random_number 8 as num_random_id %}
+                                {% url 'download_document' documentpk=document.id as download_url %}
+                                  {% with random_id=num_random_id|stringformat:"i" video_id=video.id|stringformat:"i" document_id=document.id|stringformat:"i" %}
+                                    {% with document_url=download_url|add:"?rand="|add:random_id onclick="return registerDownloadAndMoveForward("|add:video_id|add:", "|add:document_id|add:");" document_element_id="document_download_"|add:document_id %}
+                                      {% if document_tracking %}
+                                          {% include 'cursos/icon_button.html' with url=document_url tooltip=descargar_documentacion_str title=descargar_str icon="fa-download" a_tag_extra_css="visto download" onclick=onclick target="_self" extra_css="pr-1" id=document_element_id %}
+                                      {% else %}
+                                          {% include 'cursos/icon_button.html' with url=document_url tooltip=descargar_documentacion_str title=descargar_str icon="fa-download" a_tag_extra_css="download" onclick=onclick target="_self" extra_css="pr-1" id=document_element_id %}
+                                      {% endif %}
+                                    {% endwith %}
+                                  {% endwith %}
+                            {% endfor %}
+                        {% endif %}
+
+                        {% for tarea in video.tareas %}
+                            <a class="p-1 download" style="display: block; font-size: 16px;" href="{% url 'tareas:tarea' tarea=tarea.id %}?prev={{request.path}}" style="font-size: 14px;">
+                                <i class="fas fa-file-alt" {% if tarea.obligatoria and user_has_pending_tareas %}id="tarea-obligatoria"{% endif %}></i>
+                                {% trans 'Tarea' %}: {{ tarea.titulo }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="col-10 text-right">
+
+                        {% url 'questionnaire' course=video.course.slug order=video.order as questionnaire_url %}
+
+                        {% if tracking.can_answer_questionnaire and questions.count > 0 %}
+                            {% if tracking.has_answered_questionnaire %}
+                                {% include 'components/image_icon_link.html' with image_url='images/cuestionario.png' text="Responder el cuestionario" url=questionnaire_url title=responder_str icon="fa-tasks" tooltip=responder_cuestionario_str a_tag_extra_css="visto"  extra_style="border-right: 3px solid lightgray; padding-inline-end: 10px; -webkit-padding-end: 10px; padding-right: 10px;" id="answer" %}
+                            {% else %}
+                                {% include 'components/image_icon_link.html' with image_url='images/cuestionario.png' text="Responder el cuestionario" url=questionnaire_url title=responder_str icon="fa-tasks" tooltip=responder_cuestionario_str a_tag_extra_css="visto"  extra_style="border-right: 3px solid lightgray; padding-inline-end: 10px; -webkit-padding-end: 10px; padding-right: 10px;" id="answer" %}
+                            {% endif %}
+                        {% else %}
+                            {% if questions.count > 0 %}
+                                {% include 'components/image_icon_link.html' with image_url='images/cuestionario.png' text="Responder el cuestionario" url=questionnaire_url title=responder_str icon="fa-tasks" tooltip=responder_cuestionario_str a_tag_extra_css="visto"  extra_style="border-right: 3px solid lightgray; padding-inline-end: 10px; -webkit-padding-end: 10px; padding-right: 10px;" id="answer" %}
+                            {% endif %}
+                        {% endif %}
+
+{#                        {% url 'enrolled_courses' as cursos_url %}#}
+{#                        {% include 'cursos/icon_button.html' with url=cursos_url title=cursos_str icon="fa-book-reader" %}#}
+
+                        {% if video.order > 1 %}
+                            {% if video.previous_segment.type_of_segment == video.VIDEO %}
+                                {% url 'video' course=video.course.slug order=video.order|add:"-1" as prev_url %}
+                            {% elif video.previous_segment.type_of_segment == video.SLIDES %}
+                                {% url 'slide' course=video.course.slug order=video.order|add:"-1" as prev_url %}
+                            {% elif video.previous_segment.type_of_segment == video.GENIALLY %}
+                                {% url 'genially' course=video.course.slug order=video.order|add:"-1" as prev_url %}
+                            {% elif video.previous_segment.type_of_segment == video.GENERIC %}
+                                {% url 'generic' course=video.course.slug order=video.order|add:"-1" as prev_url %}
+                            {% endif %}
+
+                            {% include 'cursos/icon_button.html' with url=prev_url title=anterior_str icon="fa-backward" tooltip=anterior_capitulo_str %}
+                        {% endif %}
+
+                        {% if not video.is_last %}
+                            {% if video.next_segment.type_of_segment == video.VIDEO %}
+                                {% url 'video' course=video.course.slug order=video.order|add:"1" as next_url %}
+                            {% elif video.next_segment.type_of_segment == video.SLIDES %}
+                                {% url 'slide' course=video.course.slug order=video.order|add:"1" as next_url %}
+                            {% elif video.next_segment.type_of_segment == video.GENIALLY %}
+                                {% url 'genially' course=video.course.slug order=video.order|add:"1" as next_url %}
+                            {% elif video.next_segment.type_of_segment == video.GENERIC %}
+                                {% url 'generic' course=video.course.slug order=video.order|add:"1" as next_url %}
+                            {% endif %}
+
+                            {% if course_enrollment.next_allowed_video and course_enrollment.next_allowed_video != video %}
+                                {% include 'cursos/icon_button.html' with next_segment=video.next_segment url=next_url title=siguiente_str icon="fa-forward" tooltip=siguiente_capitulo_str id="next-segment" %}
+                            {% else %}
+                                {% include 'cursos/icon_button.html' with next_segment=video.next_segment url=next_url title=siguiente_str icon="fa-forward" tooltip=siguiente_capitulo_str id="next-segment" extra_css="d-none" %}
+                            {% endif %}
+                        {% else %}
+                            {% if is_last_slide or tracking.watched_full %}
+                                {% if not pending_downloads and not user_has_pending_tareas %}
+                                    {% url 'get-diploma' video.course.slug as next_url %}
+                                    {% include 'cursos/icon_button.html' with url=next_url title=siguiente_str icon="fa-forward" tooltip=siguiente_str id="next-segment" %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% if documents_length > 1 %}
+                    {% for document,document_tracking in tracking.get_downloadable_documents_and_tracking.items %}
+                        <div class="row mt-1 {% if not tracking.watched_full %}d-none{% endif %} document-downloads">
+                            <a
+                                 class="{% if document_tracking %}visto{% endif %} col"
+                                 href="{% url 'download_document' documentpk=document.id %}?rand={% random_number 8 %}"
+                                 onclick="return registerDownloadAndMoveForward({{document.id}});"
+                                 target="_self"
+                                 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
+                            >
+                                <i class="fas fa-download" title="{% trans 'Descargar documento' %}" data-toggle="tooltip" id="document_download_{{document.id}}" style="font-size: 1.5rem;"></i>&nbsp;{{ document }}
+                            </a>
+                       </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% for forum in video.forums %}
+                    <a class="p-1 download" style="display: block; font-size: 16px;" href="{% url 'forum' forum=forum.id %}?prev={{request.path}}" style="font-size: 14px;">
+                        <i class="fas fa-comment-dots" title="{% trans 'Ir al foro' %}" data-toggle="tooltip"></i>
+                        {{ forum.title }}
+                    </a>
+                {% endfor %}
+
+            </div>
+        </div>
+        </div>
+    {% endwith %}
+{% endblock %}
+
+{% block extrajavascript %}
+    <script>
+        function showNextSlideTooltip() {
+            $("#next_slide").tooltip('show');
+                window.setTimeout(function() {
+                    $("#next_slide").tooltip('hide');
+                }, TOOLTIP_TIMEOUT);
+        }
+    </script>
+    {% include 'cursos/segment_tracking_js.html' %}
+{% endblock %}

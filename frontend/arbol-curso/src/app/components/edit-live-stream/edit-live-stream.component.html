@@ -1,0 +1,13 @@
+<button class="fa-button fa-button-small mr-1" (click)="load()">
+    <i class="fas fa-edit d-lg-none"></i>
+</button>
+
+<!-- Modal spinner -->
+<ng-template #spinnerModal let-modal>
+    <div class="modal-body">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+
+
+<app-live-stream [spinner]="spinnerModal" #liveStreamComp></app-live-stream>

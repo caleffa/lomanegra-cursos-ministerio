@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+<style>
+	body {
+		background-color: white;
+	}
+</style>
+{% endblock %}
+
+{% trans "Transmisiones en vivo <span style='font-weight: bold'>AHORA</span>" as transmisiones_en_vivo_str %}
+{% trans "Próximas transmisiones en vivo" as proximos_transmisiones_str %}
+
+{% block content %}
+<div class="container">
+
+    {% if current_live_segments %}
+        {% include 'cursos/transmisiones_scroll.html' with title=transmisiones_en_vivo_str segments=current_live_segments %}
+    {% endif %}
+    {% if following_live_segments %}
+        {% include 'cursos/transmisiones_scroll.html' with title=proximas_transmisiones_str segments=following_live_segments %}
+    {% endif %}
+
+    <div class="collapse-card card">
+        <div class="card-header">
+            <h2 class="mb-0">
+                <i class="fas fa-caret-down collapse-card-icon" data-toggle="collapse" data-target="#contentCollapse" aria-expanded="true"></i>
+                <span class="collapse-card-title">{% trans 'Mi contenido' %}</span>
+            </h2>
+        </div>
+
+        <div id="contentCollapse" class="collapse show">
+            <div class="card-body">
+                <div class="row col mt-1 courses-slider">
+                    {% for course, enrollment in enrolled_courses.items %}
+                        <div class="course-thumb mr-1">
+                            {% if course.start_date <= current_time %}
+                                <a href="{% url 'course' course=course.slug %}">
+                            {% else %}
+                                <a href="#" data-toggle="modal" data-target="#notEnabledModal{{course.id}}">
+                            {% endif %}
+                                <img src="{% if course.image %}{{ course.course_carousel_thumbnail.url }}{% else %}holder.js/70x70{% endif %}" class="img-thumbnail img-fluid rounded-circle z-depth-0 {% if enrollment.is_complete %}course-complete{% endif %}{% if not enrollment %}course-not-started{% endif %}" alt="{{course.title}}" title="{{course.title}}">
+                            </a>
+                        </div>                        
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr style="color: white; background-color: white;">
+
+    <div class="collapse-card card">
+        <div class="card-header">
+            <h2 class="mb-0">
+
+                <i class="fas fa-caret-down collapse-card-icon" data-toggle="collapse" data-target="#shortcutsCollapse" aria-expanded="true"></i>
+                <span class="collapse-card-title">{% trans 'Accesos directos' %}</span>
+            </h2>
+        </div>
+
+        <div id="shortcutsCollapse" class="collapse show">
+            <div class="card-body">
+
+                {% if object_list %}
+                    {% if next_segment_is_enabled %}
+                        <a class="acceso-button" href="{{ continue_url }}">
+                    {% else %}
+                        <a class="acceso-button" href="#" data-toggle="modal" data-target="#notEnabledModalHome{{ next_segment.id }}">
+                    {% endif %}
+                        <img src="{% static 'img/accesos/continuar.png' %}">
+                        {% if has_not_started_yet %}
+                            {% trans 'Comenzar' %}
+                        {% else %}
+                            {% if all_courses_finished %} {% trans 'Repasar cursos' %} {% else %} {% trans 'Continuar' %}{% endif %}
+                        {% endif %}
+                    </a>
+                {% else %}
+                    <a class="acceso-button disabled">
+                        <img src="{% static 'img/accesos/continuar.png' %}">
+                        {% trans 'No existen cursos disponibles' %}
+                    </a>
+                {% endif %}
+
+                <a class="acceso-button" href="{% url 'enrolled_courses' %}">
+                    <img src="{% static 'img/accesos/mis-contenidos.png' %}">
+                    {% trans 'Mis contenidos' %}
+                </a>
+
+                <a class="acceso-button" href="{% url 'categories' %}">
+                    <img src="{% static 'img/accesos/contenidos.png' %}">
+                    {% trans 'Activar Cursos' %}
+                </a>
+
+                <a class="acceso-button" href="{% url 'downloads' %}">
+                    <img src="{% static 'img/accesos/biblioteca.png' %}">
+                    {% trans 'Biblioteca' %}
+                </a>
+
+                <a class="acceso-button" href="{% url 'my_comments' %}">
+                    <img src="{% static 'img/accesos/foros.png' %}">
+                    Foros
+                </a>
+
+                <a class="acceso-button" href="{% url 'diplomas' %}">
+                    <img src="{% static 'img/accesos/insignias.png' %}">
+                    {% trans 'Constancias' %}
+                </a>
+                <hr style="color: white; background-color: white;">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="boton-home text-center rounded d-none" id="android_install_button">
+                            <div class="row my-1 align-items-center justify-content-around">
+                                <div class="col-2 my-2">
+                                    <img src="{% static 'img/boton_android.svg' %}" style="height: 4em;">
+                                </div>
+                                <div class="col-6 text-left">
+                                    <span class="boton-home-caption">{% trans 'Instalar app' %}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="boton-home text-center rounded d-none" id="ios_install_button">
+                            <div class="row my-1 align-items-center justify-content-around">
+                                <div class="col-2 my-2">
+                                    <img src="{% static 'img/boton_ios.svg' %}" style="height: 4em;">
+                                </div>
+                                <div class="col-6 text-left">
+                                    <span class="boton-home-caption">{% trans 'Instalar app' %}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    {% if not next_segment_is_enabled %}
+        <div class="modal fade" id="notEnabledModalHome{{next_segment.id}}" tabindex="-1" role="dialog" aria-labelledby="notEnabledModalHomeLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center;">
+                        <i class="fas fa-calendar-alt" style="font-size: 200px;color:#1da4fc;"></i>
+                        <br>
+                        <div class="row justify-content-center mt-2">
+                            <div class="col-12 col-md-7" style="color:#212529;">
+                                {% blocktrans with dia=next_segment.enabled_since|date:"d/m/Y" hora=next_segment.enabled_since|date:"H:i"%}El capítulo {{next_segment.title}} del curso {{ next_segment.course }} no puede iniciarse hasta el {{ dia }} a las {{ hora }}hs{% endblocktrans %}
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Aceptar' %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+    {% for course, enrollment in enrolled_courses.items %}
+        {% if course.start_date > current_time %}
+            <div class="modal fade" id="notEnabledModal{{course.id}}" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body" style="text-align: center;">
+                            <i class="fas fa-calendar-alt" style="font-size: 200px;color:#1da4fc;"></i>
+                            <br>
+                            <div class="row justify-content-center mt-2">
+                                <div class="col-12 col-md-7" style="color:#212529;">
+                                    {% blocktrans with dia=course.start_date|date:"d/m/Y" hora=course.start_date|date:"H:i"%}El curso <b>{{ course.title }}</b> no puede iniciarse hasta el
+                                    {{ dia }} a las {{ hora }}hs{% endblocktrans %}
+
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Aceptar' %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
+
+{% block extrajavascript %}
+<script>
+
+    $(document).ready(function() {
+        $('.courses-slider').slick({
+            dots: true,
+            infinite: true,
+            centerMode: false,
+            variableWidth: true,
+            slidesToShow: 10,
+            slidesToScroll: 3,
+            arrows: true
+        });
+    });
+
+	document.getElementById("android_install_button").addEventListener("click", function(e) {
+		console.log('calling home installer');
+  		// Show the prompt
+  		deferredPrompt.prompt();
+
+		// Wait for the user to respond to the prompt
+		deferredPrompt.userChoice
+		.then(function(choiceResult) {
+		  if (choiceResult.outcome === 'accepted') {
+		    console.log('User accepted the A2HS prompt');
+		  } else {
+		    console.log('User dismissed the A2HS prompt');
+		  }
+		  deferredPrompt = null;
+		});
+	});
+
+  	
+
+
+	// Checks if should display install popup notification:
+	if (isIos() && !isInStandaloneMode()) {
+		if( document.getElementById("ios_install_button") ) {
+            console.log("mostrar boton ios");
+            $('#ios_install_button').removeClass("d-none");
+        } 
+		document.getElementById("ios_install_button").addEventListener("click", function(e) {
+  			console.log('calling home installer');
+  			if (isIpad() || window.matchMedia("(orientation: landscape)").matches ) {
+  				$('#install-app-instructions-top').popover('show');
+  			} else {
+	  			$('#install-app-instructions-bottom').popover('show');
+	  		}
+		});
+		$('#install-app-instructions-bottom').on('shown.bs.popover', function () {
+			setTimeout( function() {
+				$('#install-app-instructions-bottom').popover('hide');
+			}, 6000);
+		});
+		$('#install-app-instructions-top').on('shown.bs.popover', function () {
+			setTimeout( function() {
+				$('#install-app-instructions-top').popover('hide');
+			}, 6000);
+		});
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Page not found{% endblock %}
+
+{% block content %}
+<div class='error-404'>
+	<div class='row justify-content-center align-items-center'>
+		<div class='col-lg-4 col-10'>
+            {% blocktrans %}
+			<h1>:(</h1>
+			<h5>oops... ocurrió alguna acción no prevista</h5>
+			<h2>¡no te alarmes tiene solución!</h2>
+
+			<p>
+			Todas las acciones realizadas fueron previamente guardadas.
+			</p>
+
+			<p>
+			Sólo tienes que regresar al inicio de la plataforma para continuar o volver a ingresar. Si el problema persiste envía un correo al soporte técnico a la dirección de correo indicada en la sección de ayuda y nos ocuparemos de resolverlo.
+			</p>
+            {% endblocktrans %}
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block extrajavascript %}
+<script>
+    var x = document.getElementsByTagName("body")[0];
+    x.style.backgroundColor = "grey";
+</script>
+{% endblock %}

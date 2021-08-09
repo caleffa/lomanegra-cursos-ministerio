@@ -1,0 +1,42 @@
+.tree-btn {
+    color: grey;
+    padding: 7px;
+    font-size: 1.3rem;
+}
+
+.tree-btn:hover {
+    color: blue;
+}
+
+.validation-error {
+    color: red;
+    font-size: 14px;
+}
+
+span.Segment {
+    //font-size: xx-large;
+    padding: 10px;
+}
+
+span.SegmentSection {
+    //font-size: x-large;
+    padding: 10px;
+}
+
+span.Question {
+    //font-size: larger;
+    padding: 10px;
+}
+
+span.Option {
+    //font-size: large;
+    padding: 10px;
+}
+
+tree-node-expander {
+    margin-top: 7px;
+}
+
+mat-spinner {
+    margin: auto !important;
+}

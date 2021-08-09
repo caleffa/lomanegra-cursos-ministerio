@@ -1,0 +1,29 @@
+<ng-template #componentModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Opción</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCloseModal();modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-6">
+                    <label for="optionText">Texto respuesta</label>
+                    <textarea class="form-control" formControlName="text" [class.is-invalid]="getValidity('text')">
+                    </textarea>
+                </div>
+                <div class="col-6">
+                    <div class="form-check" [class.is-invalid]="getValidity('is_correct')">
+                        <input type="checkbox" class="form-check-input" id="optionIsCorrect" formControlName="is_correct">
+                        <label class="form-check-label" for="optionIsCorrect">Es correcta</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="save()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="onCloseModal();modal.dismiss()">Cancelar</button>
+    </div>
+</ng-template>

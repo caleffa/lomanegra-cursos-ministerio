@@ -1,0 +1,92 @@
+version: '3.4'
+x-django-common:
+  &django-common-config
+  build:
+    context: .
+    args:
+      http_proxy: ${http_proxy}
+      NGENV: ${NGENV}
+  environment:
+    - DEBUG=${DEBUG}
+    - SECRET_KEY=${SECRET_KEY}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    - DEPLOYMENT_ENVIRONMENT=${DEPLOYMENT_ENVIRONMENT}
+    - VIRTUAL_HOST=${VIRTUAL_HOST}
+    - MAILTRAP_HOST_PASSWORD=${MAILTRAP_HOST_PASSWORD}
+    - MAILGUN_API_KEY=${MAILGUN_API_KEY}
+    - GIT_COMMIT=${CI_COMMIT_SHA}
+    - JWT_KEY=${JWT_KEY}
+    - LOGLEVEL=${LOGLEVEL}
+    - API_NOTIFICACIONES_URL=${API_NOTIFICACIONES_URL}
+    - API_NOTIFICACIONES_APIKEY=${API_NOTIFICACIONES_APIKEY}
+    - URL_PORTAL_EMPLEO=${URL_PORTAL_EMPLEO}
+    - TZ=America/Argentina/Buenos_Aires
+  networks:
+    - backend
+
+services:
+  app:
+    << : *django-common-config
+    expose:
+      - "9000"
+    command: /init.sh
+    depends_on:
+      - postgres
+
+  nginx:
+    #image: nginx:mainline-alpine
+    build:
+      context: ./
+      dockerfile: Dockerfile-nginx
+    networks:
+      - webproxy
+      - backend
+    depends_on:
+      - app
+    labels:
+      - "traefik.backend=lomanegra-${DEPLOYMENT_ENVIRONMENT}-nginx"
+      - "traefik.docker.network=${TRAEFIK_NETWORK}"
+      - "traefik.frontend.rule=Host:${VIRTUAL_HOST}"
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.default.protocol=http"
+  postgres:
+    image: postgres:10-alpine
+    expose:
+      - "5432"
+    environment:
+      # if the data volume you're using is a fs mountpoint (like with GCE persistent disks), Postgres initdb
+      # recommends a subdirectory (for example /var/lib/postgresql/data/pgdata ) be created to contain the data.
+      PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - backend
+  memcached:
+    image: memcached:1.5-alpine
+    command: memcached -m 128
+    expose:
+      - "11211"
+    networks:
+      - backend
+  rabbitmq:
+    image: rabbitmq:3.7-alpine
+    networks:
+      - backend
+    environment:
+      - RABBITMQ_DEFAULT_USER=everycompliance
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_VHOST=django
+  celery:
+    << : *django-common-config
+    command: /usr/bin/supervisord -c /etc/supervisord.conf
+    depends_on:
+      - postgres
+      - rabbitmq
+      - app
+
+
+networks:
+  webproxy:
+    external:
+      name: ${TRAEFIK_NETWORK}
+  backend:
+    driver: bridge

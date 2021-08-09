@@ -1,0 +1,45 @@
+{% extends "base_new.html" %}
+{% load i18n static %}
+
+
+{% block content %}
+<hr>
+
+{% if object_list.count > 0 %}
+  {% for object in object_list %}
+
+{#  <div class="row">#}
+    <div class="media">
+      <a href="{% url 'course' object.course.slug %}"><img class="align-self-start mr-3 course-list-thumb" src="{% if object.course.image %}{{ object.course.image.url }}{% else %}holder.js/55x55{% endif %}" alt="{{object.course.title}}"></a>
+      <div class="media-body">
+        <div class="row">
+          <div class="col">
+            <h5 >{{object.course.title}}</h5>
+          </div>
+        </div>
+        <p class="descripcion-curso">{{object.course.description}}</p>
+
+      </div>
+    </div>
+{#  </div>#}
+    <div class="text-center" style="width: 100%;">
+        <img class="img-fluid" src="{% static 'img/certificate-flat.png' %}">
+    </div>
+    <p class="text-center" style="font-size: 2rem;"><a href="{% url 'view-diploma' object.id %}"><i class="fa fa-download"></i> {% trans 'Constancia' %}</a></p>
+
+  <hr>
+  {% endfor %}
+
+{% else %}
+    <div class="text-center" style="width: 100%;">
+        <i class="fas fa-user-graduate fa-8x"></i>
+    </div>
+    <p class="text-center" style="font-size: 1.5rem; margin-top:10px">
+      {% trans 'Ud. no tiene ninguna constancia.' %}
+    </p>    
+
+  <hr>
+
+{% endif %}
+
+{% endblock %}

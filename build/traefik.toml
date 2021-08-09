@@ -1,0 +1,29 @@
+debug = true
+checkNewVersion = true
+logLevel = "INFO"
+defaultEntryPoints = ["https","http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
+    [[entryPoints.https.tls.certificates]]
+        certFile = "/certs/*.atenea.app/fullchain.pem"
+        keyFile = "/certs/*.atenea.app/privkey.pem"
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "local.everycompliance.com.ar"
+watch = true
+exposedbydefault = false
+
+[web]
+address = ":8080"
+
+[accessLog]

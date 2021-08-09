@@ -1,0 +1,15 @@
+{% load i18n %}
+<nav aria-label="breadcrumb" style="margin-top: -9px;">
+    <ol class="breadcrumb" style="border-radius: 0;">
+        <div style="max-width: 80%; white-space: nowrap; display: inherit;">
+            <li class="breadcrumb-item shortened-breadcrumb" data-toggle="tooltip" data-placement="bottom" title="{{ video.course.title }}"><a href="{% url 'course' video.course.slug %}">{{ video.course.title }}</a></li>
+            <li class="breadcrumb-item shortened-breadcrumb active" data-toggle="tooltip" data-placement="bottom" title="{{ video.title }}" aria-current="page">{{ video.title }}</li>
+        </div>
+        <li class="ml-auto"></li>
+        {% if video.is_live_stream %}
+            <li>{% trans 'En vivo' %}</li>
+        {% else %}
+            <li>{{ video.order }}/{{ video.course.non_live_segments_count }}</li>
+        {% endif %}
+    </ol>
+</nav>

@@ -1,0 +1,66 @@
+{% extends "admin_light/base_site.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="btn-group mb-1" role="group" style="float:right;">
+        <button type="button" class="btn btn-success" onclick="window.location='{% url 'admin:encuesta_admin_create' %}';">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Obligatoria</th>
+            <th scope="col">Inicio</th>
+            <th scope="col">Vencimiento</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for enc in encuestas_list %}
+                <tr class="courses-list-tr admin-list-row" onclick="window.location='{% url 'admin:encuesta_admin_update' enc.id %}';">
+                    <td>{{enc.nombre}}</td>
+                    <td>
+                        {% if enc.obligatoria %}
+                            Sí
+                        {% else %}
+                            No
+                        {% endif %}</td>
+                    <td>{{ enc.inicio }}</td>
+                    <td>
+                        {% if enc.vencimiento %}
+                            {{ enc.vencimiento }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_paginated %}
+        <div id="course-list-pagination">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-primary" href="{{request.path}}?page={{ page_obj.previous_page_number }}">
+                    < Anterior
+                </a>
+            {% else %}
+                <button class="btn btn-primary white-text" disabled>< Anterior</button>
+            {% endif %}
+            <span class="page-current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+            {% if page_obj.has_next %}
+                <a class="btn btn-primary" href="{{request.path}}?page={{ page_obj.next_page_number }}">
+                    Siguiente >
+                </a>
+            {% else %}
+                <button class="btn btn-primary" disabled>Siguiente ></button>
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}

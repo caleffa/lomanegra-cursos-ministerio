@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+
+        <div class="col-10">
+            <div class="row">
+                <br>
+                <div class="col-12">
+                    <a href="{{prev}}"><i class="fas fa-chevron-left"></i> {% trans 'Volver' %}</a>
+                </div>
+                <br>
+            </div>
+
+            <div class="row">
+
+                <div class="col-12 mt-3" style="overflow: hidden;">
+                    <h1>Tarea: <b>{{ tarea.titulo }}</b></h1>
+                    <span class="descripcion-tarea">{{ tarea.descripcion|linebreaks }}</span>
+                    <br>
+                    {% for adjunto in tarea.adjuntos_prop %}
+                        <a class="archivo-tarea" href="{{ adjunto.archivo.url }}" target="_blank" download>
+                            {{ adjunto.nombre_archivo }} <i class="fas fa-download"></i>
+                        </a><br>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% for t_alumno in tarea_alumnos %}
+
+        <br>
+        <br>
+
+        {% if es_tutor %}
+            <div class="row justify-content-center">
+                <div class="col-10 t-alumno-title">
+                    <h2>Alumno: {{ t_alumno.estudiante.name }} {{ t_alumno.estudiante.last_name }}</h2>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="completada-check-{{ t_alumno.id }}"
+                               onchange="cambiarEstadoTareaAlumno({{ t_alumno.id }})"
+                               {% if t_alumno.aprobada %}checked disabled{% endif %}>
+                        <label class="form-check-label" for="completada-check-{{ t_alumno.id }}">{% trans 'Completada' %}</label>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row justify-content-center">
+
+            <div class="col-12 col-md-10">
+
+                <form method="post" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+                    <input type="hidden" name="tarea_alumno" value="{{t_alumno.id}}"/>
+                    <input type="hidden" name="es_devolucion" value="{{es_tutor}}"/>
+                    <input type="hidden" name="prev" value="{{prev}}">
+
+                    {% if t_alumno.aprobada %}
+                        <span class="badge badge-success mt-3">{% trans 'Tarea aprobada' %}</span>
+                    {% endif %}
+
+                    <div class="card mt-3 {% if t_alumno.aprobada %}t-disabled-card{% endif %}">
+
+                        <div class="card-header">
+                            <h3>{% trans 'Agregar devolución' %}</h3>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-4 mt-2">
+                                    <label>{% trans 'Comentario' %}</label>
+                                    <textarea class="form-control" name="comentario" {% if t_alumno.aprobada %}disabled{% endif %}>{% if form.comentario.value %}{{form.comentario.value}}{% else %}{% endif %}</textarea>
+                                    {% if form.comentario.errors %}
+                                        {% for err in form.comentario.errors %}
+                                            <div class="error-encuesta">
+                                                {{  err }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-12 col-md-8">
+                                    <div class="row">
+                                        <div class="col-12 mt-2">
+                                            <label>{% trans 'Adjuntar archivo' %}</label>
+                                            <div id="archivos-adjuntos">
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <input type="file" class="form-control" id="nuevo-archivo" name="archivos" {% if t_alumno.aprobada %}disabled{% endif %}>
+                                            <input type="file" id="archivos" name="archivos" style="display:none;">
+                                        </div>
+                                        <div class="col-4">
+                                            <button type="button" class="btn btn-primary btn-block" onclick="agregar()" {% if t_alumno.aprobada %}disabled{% endif %}>{% trans 'Agregar' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <br>
+                                    <button type="submit" class="btn btn-primary btn-block" {% if t_alumno.aprobada %}disabled{% endif %}>{% trans 'Enviar' %} <i class="fas fa-chevron-right ml-3"></i></button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </form>
+
+
+                {% for devolucion in t_alumno.devoluciones %}
+
+                    {% if forloop.first %}
+                        <div class="row mt-4 devolucion-container border-radius" id="devolucion-{{ devolucion.id }}">
+                    {% else %}
+                        <div class="row devolucion-container" id="devolucion-{{ devolucion.id }}">
+                    {% endif %}
+
+                        <div class="col-12 col-md-3 devolucion-col">
+                            {% if devolucion.es_devolucion %}
+                                {% trans 'Tutor' %}: {{ tutor.name }} {{ tutor.last_name }}
+                            {% else %}
+                                {% trans 'Alumno' %}: {{ t_alumno.estudiante.name }} {{ t_alumno.estudiante.last_name }}
+                            {% endif %}<br>
+
+                            {{ devolucion.timestamp.day }}/{{ devolucion.timestamp.month }}/{{ devolucion.timestamp.year }}
+                            -
+                            {{ devolucion.timestamp|date:"g:i"}}
+                        </div>
+
+                        <div class="col-12 col-md-4 devolucion-col">
+                            {{ devolucion.comentario }}
+                        </div>
+
+                        {% if devolucion.es_devolucion and es_tutor or not es_tutor and not devolucion.es_devolucion and not t_alumno.aprobada %}
+                            <div class="col-12 col-md-4 devolucion-col" style="border:0xp;">
+                        {% else %}
+                            <div class="col-12 col-md-5 devolucion-col" style="border:0xp;">
+                        {% endif %}
+                            {% for adjunto in devolucion.archivos_adjuntos %}
+                                <a class="archivo-tarea" href="{{ adjunto.archivo.url }}" target="_blank" download>
+                                    {{adjunto.nombre_archivo}} <i class="fas fa-download"></i>
+                                    <br>
+                                    <br>
+                                </a>
+                            {% endfor %}
+                        </div>
+
+                        {% if devolucion.es_devolucion and es_tutor or not es_tutor and not devolucion.es_devolucion and not t_alumno.aprobada %}
+                            <div class="col-12 col-md-1 devolucion-col t-del-devolucion" style="text-align:center;">
+                                <i class="fas fa-trash-alt" onclick="eliminarDevolucion({{ devolucion.id }})"></i>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block extrajavascript %}
+<script>
+
+    var dataTransfer = new DataTransfer();
+
+    function agregar() {
+        let newFile = $("#nuevo-archivo")[0].files;
+        if(newFile.length > 0) {
+            dataTransfer.items.add(newFile[0])
+        }
+        $("#archivos")[0].files = dataTransfer.files;
+        $("#nuevo-archivo")[0].files = (new DataTransfer()).files;
+        updateArchivosHTML();
+    }
+
+    function eliminarArchivo(index) {
+        let dt = new DataTransfer();
+        for (var i = 0; i < dataTransfer.files.length; i++) {
+            if(i != index) {
+                dt.items.add(dataTransfer.files[i]);
+            }
+        }
+        dataTransfer = dt;
+        updateArchivosHTML();
+    }
+
+    function updateArchivosHTML() {
+        let newHtml = "";
+        for (var i = 0; i < dataTransfer.files.length; i++) {
+            let file = dataTransfer.files[i]
+            newHtml += "<div>" + file.name + "  <i class=\"fas fa-minus-circle\" onclick=\"eliminarArchivo("+ i +")\"></i></br>"
+        }
+        $("#archivos-adjuntos").html(newHtml);
+    }
+
+    function eliminarDevolucion(id) {
+
+        if(confirm('{% trans '¿Estás seguro/a de querer borrar esta devolución?' %}')) {
+            $.ajax({
+                type: "DELETE",
+                url: 'eliminar_devolucion/'+id,
+                success: function(result) {
+                    $('#devolucion-'+id).remove();
+                },
+                error: function(request,msg,error) {},
+                headers: {
+                    "X-CSRFToken": "{{csrf_token}}"
+                }
+            });
+        }
+    }
+
+    function cambiarEstadoTareaAlumno(id) {
+        if(confirm('{% trans '¿Estás seguro/a de querer aprobar esta tarea?' %}')) {
+            $.ajax({
+                type: "POST",
+                url: 'aprobar_tarea_alumno/'+id,
+                success: function(result) {
+                    location.reload();
+                },
+                error: function(request,msg,error) {},
+                headers: {
+                    "X-CSRFToken": "{{csrf_token}}"
+                }
+            });
+        } else {
+            $(`#completada-check-${id}`).prop( "checked", false );
+        }
+    }
+
+</script>
+{% endblock %}

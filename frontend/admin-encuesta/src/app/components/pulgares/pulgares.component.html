@@ -1,0 +1,73 @@
+<div class="card">
+    <div class="card-header">
+        Pregunta de pulgares
+    </div>
+    <div class="card-body">
+        <form [formGroup]="controller.formGroup">
+            <div class="row">
+                <div class="col-6">
+                    <label>Texto pregunta</label>
+                    <textarea formControlName="texto" class="form-control"></textarea>
+                    <div class="validation-errors" *ngFor="let validation of validationMessages.texto">
+                        <div class="error-message" *ngIf="showErrors('texto', validation)">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label>Imagen</label>
+                    <div [hidden]="!getImageUrl('imagen_url')" class="card">
+                        <div class="card-body">
+                            <img src="{{ getImageUrl('imagen_url') }}" class="imagen-preview"/>
+                        </div>
+                    </div>
+                    <input type="file" (change)="uploadImage($event, 'imagen')"  accept=".png, .jpg, .jpeg, .gif" [hidden]="!controller.isEditing.value"/>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+
+                <div class="col-6">
+                    <label>Opcion 1</label>
+                    <div class="card">
+                        <div class="card-body pulgar-card">
+                            <label>Imagen</label>
+                            <img [hidden]="!getImageUrl('imagen_pulgar_arriba_url')" 
+                                src="{{ getImageUrl('imagen_pulgar_arriba_url') }}" class="imagen-preview"/>
+                            <i class="fas fa-thumbs-up" [hidden]="getImageUrl('imagen_pulgar_arriba_url')" ></i>
+                            <input type="file" (change)="uploadImage($event, 'imagen_pulgar_arriba')"  accept=".png, .jpg, .jpeg, .gif" [hidden]="!controller.isEditing.value"/>
+                            <br>
+                            <label>Texto</label>
+                            <input type="text" class="form-control" formControlName="texto_pulgar_arriba"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label>Opcion 2</label>
+                    <div class="card">
+                        <div class="card-body pulgar-card">
+                            <label>Imagen</label>
+                            <img [hidden]="!getImageUrl('imagen_pulgar_abajo_url')" 
+                                src="{{ getImageUrl('imagen_pulgar_abajo_url') }}" class="imagen-preview"/>
+                            <i class="fas fa-thumbs-down" [hidden]="getImageUrl('imagen_pulgar_abajo_url')" ></i>
+                            <input type="file" (change)="uploadImage($event, 'imagen_pulgar_abajo')"  accept=".png, .jpg, .jpeg, .gif" [hidden]="!controller.isEditing.value"/>
+                            <br>
+                            <label>Texto</label>
+                            <input type="text" class="form-control" formControlName="texto_pulgar_abajo"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="card-footer" [hidden]="!controller.isEditing.value">
+        <button class="btn btn-success float-right ml-2" (click)="save()" [disabled]="!controller.formGroup.valid">Aceptar</button>
+        <button class="btn btn-danger float-right" (click)="reset()" >Cancelar</button>
+    </div>
+</div>
+

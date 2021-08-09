@@ -1,0 +1,129 @@
+<ng-template #componentModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Segmento</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCloseModal();modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+            <label for="segmentTitle">Titulo</label>
+            <input type="text" class="form-control" formControlName="title" [class.is-invalid]="getValidity('title')"/>
+            <div [hidden]="!getValidity('title')" class="validation-error">
+                {{ getErrors('title') }}
+            </div>
+            
+            <label for="segmentType">Tipo</label> <br>
+            <label>
+                <input class="ml-4 has-error" type="radio" formControlName="type_of_segment" value="V"
+                    [class.is-invalid]="getValidity('type_of_segment')"/> Video
+            </label> <br>
+            <label>
+                <input class="ml-4" type="radio" formControlName="type_of_segment" value="S"
+                    [class.is-invalid]="getValidity('type_of_segment')"/> Diapositivas
+            </label> <br>
+            <label>
+                <input class="ml-4" type="radio" formControlName="type_of_segment" value="G"
+                    [class.is-invalid]="getValidity('type_of_segment')"/> Genially
+            </label> <br>
+            <label>
+                <input class="ml-4" type="radio" formControlName="type_of_segment" value="X"
+                    [class.is-invalid]="getValidity('type_of_segment')"/> Genérico
+            </label> <br>
+            <div [hidden]="!getValidity('type_of_segment')" class="validation-error">
+                {{ getErrors('type_of_segment') }}
+            </div>
+
+            <div [hidden]="formGroup.get('type_of_segment').value != 'X'">
+                <label for="segMinRes">Código a embeber</label>
+                <textarea class="form-control" formControlName="embed_code"></textarea>
+                <div [hidden]="!getValidity('embed_code')" class="validation-error">
+                    {{ getErrors('embed_code') }}
+                </div>
+            </div>
+
+            <div [hidden]="formGroup.get('type_of_segment').value != 'V'">
+                <label for="segMinRes">ID de Vimeo</label>
+                <input type="text" class="form-control" formControlName="vimeo_id"/>
+                <div [hidden]="!getValidity('vimeo_id')" class="validation-error">
+                    {{ getErrors('vimeo_id') }}
+                </div>
+            </div>
+
+            <div [hidden]="formGroup.get('type_of_segment').value != 'G'">
+                <label for="segMinRes">ID de Genially</label>
+                <input type="text" class="form-control" formControlName="genially_id"/>
+                <div [hidden]="!getValidity('genially_id')" class="validation-error">
+                    {{ getErrors('genially_id') }}
+                </div>
+            </div>
+
+            <label for="segMaxReint">Máximo de reintentos</label>
+            <input type="number" class="form-control" formControlName="max_retries"
+                [class.is-invalid]="getValidity('max_retries')"/>
+            <div [hidden]="!getValidity('max_retries')" class="validation-error">
+                {{ getErrors('max_retries') }}
+            </div>
+
+            <label for="id_min_correct_questions">Mínimo de respuestas correctas</label>
+            <input type="number" class="form-control" formControlName="min_correct_questions" id="id_min_correct_questions"
+                [class.is-invalid]="getValidity('min_correct_questions')"/>
+            <div [hidden]="!getValidity('min_correct_questions')" class="validation-error">
+                {{ getErrors('min_correct_questions') }}
+            </div>
+
+            <label for="id_order">Orden</label>
+            <input type="number" class="form-control" formControlName="order" id="id_order"
+                [class.is-invalid]="getValidity('order')"/>
+            <a href="#" (click)="openOrderModal()">(Ver orden de segmentos)</a>
+            <div [hidden]="!getValidity('order')" class="validation-error">
+                {{ getErrors('order') }}
+            </div>
+            <br>
+
+            <label for="id_enabled_since_date">Habilitado desde</label>
+            <input type="date" class="form-control" formControlName="enabled_since_date" id="id_enabled_since_date"
+                [class.is-invalid]="getValidity('enabled_since_date')"/>
+            <input type="time" class="form-control" formControlName="enabled_since_time" id="id_enabled_since_time"
+                [class.is-invalid]="getValidity('enabled_since_time')"/>
+            <div [hidden]="!getValidity('enabled_since_date') || !getValidity('enabled_since_time')" class="validation-error">
+                {{ getErrors('enabled_since_date') }}
+                {{ getErrors('enabled_since_time') }}
+            </div>
+            <br>
+
+            <label>Exige verlo por completo</label>
+            <label>
+                <input type="radio" name="requires_full_watch" formControlName="requires_full_watch" [value]="true"/>Sí
+            </label>
+            <label>
+                <input type="radio" name="requires_full_watch" formControlName="requires_full_watch" [value]="false"/>No
+            </label>
+            <br>
+
+            <div [hidden]="formGroup.get('type_of_segment').value != 'V' && formGroup.get('type_of_segment').value != 'G' && formGroup.get('type_of_segment').value != 'X'">
+                <label for="">Thumbnail</label>
+                <div [hidden]="!data || !data.thumbnail_manual_url">
+                    <img src="{{data?.thumbnail_manual_url}}" class="thumbnail_url"/>
+                </div>
+                <input type="file" class="form-control" (change)="uploadDocument($event)" accept=".png, .jpg, .jpeg, .gif"/>
+            </div>
+
+            <div [hidden]="formGroup.get('type_of_segment').value != 'S' || isEditing">
+                <label for="">Diapositivas</label>
+                <input type="file" class="form-control" required multiple (change)="selectSlides($event)" accept=".png, .jpg, .jpeg, .gif"/>
+                <div [hidden]="!showErrors || slides.length > 0" class="validation-error">
+                    Debe ingresar al menos una diapositiva
+                </div>
+            </div>
+
+            <br>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="save()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="onCloseModal();modal.dismiss()">Cancelar</button>
+    </div>
+</ng-template>
+
+<order-modal [title]="'Segmentos'" [data]="segment_order" #orderComp></order-modal>

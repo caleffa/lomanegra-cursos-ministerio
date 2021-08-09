@@ -1,0 +1,63 @@
+<ng-template #componentModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Tarea</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCloseModal();modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-12">
+                    <label>Título</label>
+                    <input class="form-control" type="text" formControlName="titulo" [class.is-invalid]="getValidity('titulo')"/>
+                    <div [hidden]="!getValidity('titulo')" class="validation-error">
+                        {{ getErrors('titulo') }}
+                    </div>
+
+                    <label>Adjuntos</label>
+                    <div class="card">
+                        <div class="card-body">
+                            <div *ngFor="let ad of viejosAdjuntos">
+                                {{ad.nombre}} <i class="fas fa-minus-circle ml-1 tree-btn" (click)="borrarAdjunto(ad)"></i>
+                            </div>
+                            <div *ngFor="let ar of nuevosArchivos">
+                                {{ar.name}} <i class="fas fa-minus-circle ml-1 tree-btn" (click)="borrarArchivo(ar)"></i>
+                            </div>
+                            <div [hidden]="!mensajeErrorArchivo" class="validation-error">
+                                {{ mensajeErrorArchivo }}
+                            </div>
+                            <br>
+                            <input type="file" (change)="setArchivo($event)" formControlName="archivo" accept=".gif,.jpg,.jpeg,.png,.doc,.docx,.pdf,.xls,.xlsx"> 
+                            <button class="btn btn-primary" (click)="adjuntar()" type="button" [disabled]="!archivo">Adjuntar</button>
+                        </div>
+                        <div class="card-body progress">
+                            <div class="bar-container">
+                                <div class="bar" [style.width.%]="barWidth"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label>Descripción</label>
+                    <textarea class="form-control" type="text" formControlName="descripcion" [class.is-invalid]="getValidity('descripcion')"></textarea>
+                    <div [hidden]="!getValidity('descripcion')" class="validation-error">
+                        {{ getErrors('descripcion') }}
+                    </div>
+
+                    <div class="form-check" >
+                        <input type="checkbox" class="form-check-input" id="obligatoria" 
+                            formControlName="obligatoria" [class.is-invalid]="getValidity('obligatoria')">
+                        <label class="form-check-label" for="obligatoria">Obligatoria</label>
+                    </div>
+
+                    <a *ngIf="isEditing" [href]="getLink()">Ver/administrar respuestas de alumnos</a>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="saveFiles()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="onCloseModal();modal.dismiss()">Cancelar</button>
+    </div>
+</ng-template>

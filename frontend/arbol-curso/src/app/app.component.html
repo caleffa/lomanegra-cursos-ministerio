@@ -1,0 +1,65 @@
+<button class="btn btn-primary btn-sm mr-1" (click)="expandTree()">Expandir</button>
+<button class="btn btn-primary btn-sm" (click)="collapseTree()">Contraer</button>
+
+<tree-root #tree [nodes]="course" [options]="options">
+    <ng-template #treeNodeTemplate let-node let-index="index">
+        <a  *ngIf="node.data.thumbnail" [href]="node.data.thumbnail" target="_blank" style="padding: 10px;">
+            <img [src]="node.data.thumbnail" style="max-width: 50px; max-height: 50px;object-fit: cover;">
+        </a>
+        <span *ngIf="node.data.type !== 'Slide'" [ngClass]="node.data.type">{{ node.data.name }}</span>
+        <i class="fas fa-plus-circle ml-1 tree-btn" *ngIf="isAddNode(node)" (click)="add(node)"></i>
+        <i class="fas fa-minus-circle ml-1 tree-btn" *ngIf="isDeleteNode(node)" (click)="delete(node)"></i>
+        <i class="fas fa-edit ml-1 tree-btn" *ngIf="isEditNode(node)" (click)="edit(node)"></i>
+    </ng-template>
+</tree-root>
+
+<!-- Modal de borrado -->
+<ng-template #delModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirmación</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        ¿Desa eliminar el elemento "{{delName}}"?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancelar</button>
+    </div>
+</ng-template>
+
+<!-- Modal de borrado de slides -->
+<ng-template #slideDelModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Error</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        No puede eliminar todas las diapositivas de un segmento. Debe haber por lo menos una.
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.dismiss()">Aceptar</button>
+    </div>
+</ng-template>
+
+<!-- Modal spinner -->
+<ng-template #spinnerModal let-modal>
+    <div class="modal-body">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+
+
+<app-segment (refresh)="getCourseData()" [spinner]="spinnerModal" #segmentComp></app-segment>
+<app-live-stream (refresh)="getCourseData()" [spinner]="spinnerModal" #liveStreamComp></app-live-stream>
+<app-segment-section (refresh)="getCourseData()" [spinner]="spinnerModal" #segmentSectionComp></app-segment-section>
+<app-question (refresh)="getCourseData()" [spinner]="spinnerModal" #questionComp></app-question>
+<app-option (refresh)="getCourseData()" [spinner]="spinnerModal" #optionComp></app-option>
+<app-slide (refresh)="getCourseData()" [spinner]="spinnerModal" #slideComp></app-slide>
+<app-downloadable-document (refresh)="getCourseData()" [spinner]="spinnerModal" #downloadableDocumentComp></app-downloadable-document>
+<app-forum (refresh)="getCourseData()" [spinner]="spinnerModal" #forumComp></app-forum>
+<app-tarea (refresh)="getCourseData()" [spinner]="spinnerModal" #tareaComp></app-tarea>

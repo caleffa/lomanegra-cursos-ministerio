@@ -1,0 +1,66 @@
+.tree-btn {
+    color: grey;
+    padding: 7px;
+    font-size: 1.3rem;
+}
+
+.tree-btn:hover {
+    color: blue;
+}
+
+.validation-error {
+    color: red;
+    font-size: 14px;
+}
+
+span.Segment {
+    //font-size: xx-large;
+    padding: 10px;
+}
+
+span.SegmentSection {
+    //font-size: x-large;
+    padding: 10px;
+}
+
+span.Question {
+    //font-size: larger;
+    padding: 10px;
+}
+
+span.Option {
+    //font-size: large;
+    padding: 10px;
+}
+
+button.fa-button {
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+button.fa-button-small {
+    width: 16px;
+    height: 16px;
+}
+
+button.fa-button-small > i {
+    font-size: 16px;
+}
+
+button.fa-button-medium {
+    width: 32px;
+    height: 32px;
+}
+
+button.fa-button-medium > i {
+    font-size: 32px;
+}
+
+tree-node-expander {
+    margin-top: 7px;
+}
+
+mat-spinner {
+    margin: auto !important;
+}

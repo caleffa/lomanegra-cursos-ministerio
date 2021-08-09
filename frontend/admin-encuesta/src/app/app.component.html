@@ -1,0 +1,45 @@
+<i class="fas fa-plus-circle mr-2" (click)="add()"></i>
+<select #tipoPregunta id="tipo-pregunta">
+    <option value="EXCLUYENTE" selected>Excluyente</option>
+    <option value="ADITIVA">Aditiva</option>
+    <option value="TEXTO">Texto</option>
+    <option value="ESTRELLAS">Estrellas</option>
+    <option value="PULGARES">Pulgares</option>
+</select>
+
+<br>
+<br>
+
+<div *ngFor="let cont of controllers">
+    <div class="row">
+        <div class="col-11">
+
+            <div *ngIf="cont.getTipo() == 'EXCLUYENTE'">
+                <app-excluyente [controller]="cont" (reload)="reload()"></app-excluyente>
+            </div>
+            <div *ngIf="cont.getTipo() == 'ADITIVA'">
+                <app-aditiva [controller]="cont" (reload)="reload()"></app-aditiva>
+            </div>
+            <div *ngIf="cont.getTipo() == 'TEXTO'">
+                <app-texto [controller]="cont" (reload)="reload()"></app-texto>
+            </div>
+            <div *ngIf="cont.getTipo() == 'ESTRELLAS'">
+                <app-estrellas [controller]="cont" (reload)="reload()"></app-estrellas>
+            </div>
+            <div *ngIf="cont.getTipo() == 'PULGARES'">
+                <app-pulgares [controller]="cont" (reload)="reload()"></app-pulgares>
+            </div>
+
+        </div>
+        <div class="col-1">
+            <i class="fas fa-trash" (click)="delete(cont.getId())"></i>
+            <br>
+            <i class="fas fa-edit" (click)="edit(cont)"></i>
+            <br>
+            <i class="fas fa-long-arrow-alt-up" (click)="setOrder(cont.getId(), true)"></i>
+            <br>
+            <i class="fas fa-long-arrow-alt-down" (click)="setOrder(cont.getId(), false)"></i>
+        </div>
+    </div>
+    <br>
+</div>

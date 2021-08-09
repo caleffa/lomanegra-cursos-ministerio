@@ -1,0 +1,108 @@
+{% load static %}
+
+<style>
+    .tau-title-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .tau-book-image {
+        height: 90px;
+        float: right;
+    }
+
+    .tau-img-cont {
+        padding: 0px;
+        margin-left: -1px;
+    }
+
+    .tau-title-row {
+        border-bottom: solid 3px #008080;
+        color: #008080 !important;
+        margin-top: 10px;
+        font-weight: 600;
+    }
+
+    .tau-title-row .tau-username-link {
+        color: #008080 !important;
+        font-size: 14px;
+    }
+
+    .tau-title-row .tau-username-link:hover {
+        color: #4cb8c3 !important;
+    }
+
+    .tau-title {
+        display: inline-block;
+        font-size: 30px;
+    }
+
+    .tau-user-info {
+        float: right;
+        margin-right: 10px;
+    }
+
+    .tau-user-img {
+        height: 27px;
+        margin-right: 6px;
+    }
+
+    .tau-logout-btn {
+        background-color: #367e87;
+        color: #FFFFFF !important;
+        padding: 7px;
+        padding-left: 14px;
+        padding-right: 14px;
+        font-size: 11px;
+        margin-left: 4px;
+    }
+
+    .tau-logout-btn:hover {
+        background-color: #367e87;
+    }
+
+    .tau-subtitle {
+        color: #008080;
+        font-size: 20px;
+        margin-top: 15px;
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+
+        .tau-img-cont{
+            margin-top: 30px;
+        }
+
+        .tau-user-info {
+            margin-top: -45px;
+        }
+        
+    }
+
+</style>
+
+<div class="row tau-title-container">
+    <div class="col-3 col-md-2 tau-img-cont">
+        <img src="{% static 'images/title_and_user.png' %}" class="tau-book-image">
+    </div>
+    <div class="col-9 col-md-10 tau-img-cont">
+        <div class="row">
+            <div class="col-12 tau-title-row">
+                <div class="tau-user-info">
+                    <img src="{% if user.avatar_thumbnail %}{{ user.avatar_thumbnail.url }}{% else %}https://ui-avatars.com/api/?font-size=0.40&name={% if user.name %}{{user.name}}%20{{user.last_name}}{% else %}{{ user.email }}{% endif %}{% endif %}" class="tau-user-img">
+                    <a class="tau-username-link" href="{% url 'users:update' %}">{% if user.name %}{{user.name}}{% else %}{{ user.email }}{%endif%}</a>
+                    <a class="tau-logout-btn" href="{% url 'account_logout' %}">
+                        SALIR
+                    </a>
+                </div>
+                <div class="tau-title">{{title}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 tau-subtitle">
+                {{subtitle}}
+            </div>
+        </div>
+    </div>
+</div>

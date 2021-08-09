@@ -1,0 +1,4 @@
+{% extends 'cursos/career_tracks_list.html' %}
+{% load i18n static %}
+
+{% block category_link %}{% url 'public-career-track-categories-list' category=career_track.id %}{% endblock category_link %}

@@ -1,0 +1,122 @@
+{% load i18n %}
+{% load duration %}
+{% load randint %}
+
+{% trans 'Transmisiones en vivo' as transmisiones_str %}
+{% trans 'Próximas transmisiones' as proximas_str %}
+{% trans 'Volver a ver el capítulo' as volver_a_ver_capitulo_str %}
+{% trans 'Volver a ver' as volver_a_ver_str %}
+{% trans 'Ver el capítulo' as ver_capitulo_str %}
+{% trans 'Ver' as ver_str %}
+{% trans 'Descargar documentación' as descargar_documentacion_str %}
+{% trans 'Descargar' as descargar_str %}
+{% trans 'Responder cuestionario' as responder_cuestionario_str %}
+{% trans 'Responder' as responder_str %}
+
+{% include 'cursos/transmisiones_scroll.html' with title=transmisiones_str segments=course.live_now %}
+{% include 'cursos/transmisiones_scroll.html' with title=proximas_str segments=course.live_soon %}
+
+<hr>
+
+{% for video,tracking in course_data.videos.items %}
+    {% with tracking.get_downloadable_documents_and_tracking.items|length as documents_length %}
+    <div class="card bg-dark text-white mb-2 border-0 rounded-top">
+      <a
+      id="video-thumb-link-{{video.id}}" class="course-video-list-thumb" style="height: 100% !important;">
+        <img class="card-img object-fit-cover" src="{{ video.thumbnail_url }}" alt="{{video.title}}">
+        <div class="project-overlay">
+            {% if video.type_of_segment == video.VIDEO and video.duration %}
+            <span class="font-weight-bold text-right p-2" style="background-color: #00000090; border-radius: 15px; border: 1px solid black;">{{ video.duration|sectodur:'short' }}</span>
+            {% endif %}
+        </div>
+      </a>
+
+      <div class="card-footer bg-white" style="font-size: 1.5rem;">
+        {% if video.order == 1 or course_data.enrollment.next_allowed_video.order >= video.order %}
+            {% if video.type_of_segment == video.VIDEO %}
+              {% url 'video' course=course.slug order=video.order as segment_url %}
+            {% elif video.type_of_segment == video.SLIDES %}
+              {% url 'slide' course=course.slug order=video.order as segment_url %}
+            {% elif video.type_of_segment == video.GENIALLY %}
+              {% url 'genially' course=course.slug order=video.order as segment_url %}
+            {% elif video.type_of_segment == video.GENERIC %}
+              {% url 'generic' course=course.slug order=video.order as segment_url %}
+            {% endif %}
+
+            {% if tracking.watched_full %}
+                {% include 'cursos/icon_button.html' with url=segment_url tooltip=volver_a_ver_capitulo_str title=volver_a_ver_str icon="fa-redo" a_tag_extra_css="visto" extra_css="pr-1" %}
+            {% else %}
+                {% include 'cursos/icon_button.html' with next_segment=video url=segment_url tooltip=ver_capitulo_str title=ver_str icon="fa-play-circle" extra_css="pr-1" %}
+            {% endif %}
+        {% endif %}
+        {% if documents_length == 1 and tracking.watched_full %}
+          {% for document,document_tracking in tracking.get_downloadable_documents_and_tracking.items %}
+            {% random_number 8 as num_random_id %}
+            {% url 'download_document' documentpk=document.id as download_url %}
+              {% with random_id=num_random_id|stringformat:"i" video_id=video.id|stringformat:"i" document_id=document.id|stringformat:"i" %}
+                {% with document_url=download_url|add:"?rand="|add:random_id onclick="return registerDownloadAndMoveForward("|add:video_id|add:", "|add:document_id|add:");" %}
+                  {% if document_tracking %}
+                      {% include 'cursos/icon_button.html' with url=document_url tooltip=descargar_documentacion_str title=descargar_str icon="fa-download" a_tag_extra_css="visto download" onclick=onclick target="_self" extra_css="pr-1" %}
+                  {% else %}
+                      {% include 'cursos/icon_button.html' with url=document_url tooltip=descargar_documentacion_str title=descargar_str icon="fa-download" a_tag_extra_css="download" onclick=onclick target="_self" extra_css="pr-1" %}
+                  {% endif %}
+                {% endwith %}
+              {% endwith %}
+          {% endfor %}
+        {% endif %}
+
+        {% for tarea in video.tareas %}
+          <a class="p-1 download" style="display: block; font-size: 16px;" href="{% url 'tareas:tarea' tarea=tarea.id %}?prev={{request.path}}" style="font-size: 14px;">
+              <i class="fas fa-file-alt" {% if tarea.obligatoria and user_has_pending_tareas %}id="tarea-obligatoria"{% endif %}></i>
+              {% trans 'Tarea' %}: {{ tarea.titulo }}
+          </a>
+        {% endfor %}
+
+        {% url 'questionnaire' course=course.slug order=video.order as questionnaire_url %}
+        {% with video.id|stringformat:"i" as video_id %}
+            {% with "questionnaire-"|add:video_id as questionnaire_id %}
+                {% if not tracking.can_answer_questionnaire %}
+                    {% include 'cursos/icon_button.html' with url=questionnaire_url tooltip=responder_cuestionario_str title=responder_str icon="fa-tasks" extra_css="d-none" id=questionnaire_id %}
+                {% else %}
+                    {% if tracking.has_answered_questionnaire %}
+                        {% include 'cursos/icon_button.html' with url=questionnaire_url tooltip=responder_cuestionario_str title=responder_str icon="fa-tasks" a_tag_extra_css="visto" id=questionnaire_id %}
+                    {% else %}
+                        {% include 'cursos/icon_button.html' with url=questionnaire_url tooltip=responder_cuestionario_str title=responder_str icon="fa-tasks" id=questionnaire_id %}
+                    {% endif %}
+                {% endif %}
+            {% endwith %}
+        {% endwith %}
+
+        {% if documents_length > 1 and tracking.watched_full %}
+          {% for document,document_tracking in tracking.get_downloadable_documents_and_tracking.items %}
+              <div class="row p-1">
+              <a class="p-1 {% if document_tracking %}visto{% endif %} download"
+                 href="{% url 'download_document' documentpk=document.id %}?rand={% random_number 8 %}"
+{#                 download#}
+                 onclick="return registerDownloadAndMoveForward({{video.id}}, {{document.id}});"
+                 target="_self"
+                 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; font-size: 0.8rem;"
+              >
+                  <i class="fas fa-download" style="font-size: 1.5rem" title="{%  trans 'Descargar documento' %}" data-toggle="tooltip"></i>&nbsp;{{ document }}
+              </a>
+              </div>
+          {% endfor %}
+        {% endif %}
+
+        {% if tracking or course.tutor == request.user or request.user.is_superuser%}
+          <div>
+            {% for forum in video.forums %}
+              <a class="p-1 download" href="{% url 'forum' forum=forum.id %}?prev={{request.path}}" style="font-size: 14px; display:block;padding:0px !important">
+                <i class="fas fa-comment-dots" title="{% trans 'Ir al foro' %}" data-toggle="tooltip"></i>
+                  {{ forum.title }}
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      </div>
+
+    </div>
+
+    {% endwith %}
+{% endfor %}

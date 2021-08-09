@@ -1,0 +1,55 @@
+version: '3.4'
+services:
+  app:
+    image: registry.gitlab.com/pmontepagano/lomanegra-cursos:master
+    restart: always
+    volumes:
+      - ./app:/app
+      - ./volumes/staticfiles:/srv/public_html
+      - ./volumes/uploads:/srv/uploads
+      - ./volumes/sendfile:/srv/sendfile
+  nginx:
+    volumes:
+      - ./volumes/staticfiles:/usr/share/nginx/html:ro
+      - ./volumes/uploads:/srv/uploads
+      - ./volumes/sendfile:/srv/sendfile
+  postgres:
+    volumes:
+      - ./volumes/postgres_persistence:/var/lib/postgresql/data
+      - ./volumes/postgres_initialize:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
+  memcached:
+    ports:
+      - 11211:11211
+  rabbitmq:
+    volumes:
+      - ./volumes/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+  celery:
+    command: /usr/bin/supervisord -c /etc/supervisord_dev.conf
+    volumes:
+      - ./app:/app
+      - ./volumes/staticfiles:/srv/public_html
+      - ./volumes/uploads:/srv/uploads
+      - ./volumes/sendfile:/srv/sendfile
+  # pgadmin:
+  #   image: thajeztah/pgadmin4
+  #   ports:
+  #     - "5050:5050"
+  #   networks:
+  #     - backend
+
+  traefik:
+    image: traefik:alpine
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    networks:
+      - webproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./build/traefik.toml:/traefik.toml
+      - ./build/certs:/certs

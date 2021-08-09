@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block breadcrumb %}
+    {% include 'breadcrumb.html' with breadcrumb=breadcrumb %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+    <div class="container">
+
+        {% for conv, readed in conversaciones.items %}
+            <a class="row mensaje-row justify-content-center pt-2 pb-2 {% if not readed %} sin-abrir {% endif %}" 
+                href="{% url 'mensajes:conversacion' conversacion=conv.id %}">
+                <div class="col-2">
+                    {% if readed %}
+                        <i class="fas fa-envelope-open mensajes-inbox-icon abierto"></i>
+                    {% else %}
+                        <i class="fas fa-envelope mensajes-inbox-icon"></i>
+                    {% endif %}
+                </div>
+                <div class="col-6 col-md-5 mensaje-descripcion">
+                    <span class="mensajes-emisor">
+                        {% if conv.iniciador == request.user %}
+                            {% trans 'A' %}: {{ conv.destinatario.name }} {{ conv.destinatario.last_name }}
+                        {% else %}
+                            {% trans 'De' %}: {{ conv.iniciador.name }} {{ conv.iniciador.last_name }}
+                        {% endif %}
+                    </span>
+                    <b>{{ conv.asunto }}</b>
+                </div>
+                <div class="col-4">
+                    {{ conv.fecha_ultimo_mensaje.day }}/{{ conv.fecha_ultimo_mensaje.month }}/{{ conv.fecha_ultimo_mensaje.year }}
+                </div>
+            </a>
+
+        {% empty %}
+            <div class="row mensaje-row justify-content-center" >
+                {% trans 'No hay conversaciones' %}
+            </div>
+        {% endfor %}
+
+        {% if pagination_data %}
+
+            <div class="row mensaje-btn-row mt-1">
+                <div class="col col-3 text-left">
+                    {% if not pagination_data.current_page == 1 %}
+                        <a href="{% url 'mensajes:inbox_page' page=pagination_data.last_page %}">
+                            <i class="fas fa-chevron-left mensaje-pag-icon"></i>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="col col-6 text-center pt-2">
+                    {% blocktrans %}Página {{ pagination_data.current_page }} de {{ pagination_data.total_pages }}{% endblocktrans %}
+                </div>
+                <div class="col col-3 text-right">
+                    {% if not pagination_data.current_page == pagination_data.total_pages %}
+                        <a href="{% url 'mensajes:inbox_page' page=pagination_data.next_page %}">
+                            <i class="fas fa-chevron-right mensaje-pag-icon"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        
+        {% endif %}
+
+        <div style="height: 70px; display: block;">
+
+        </div>
+
+        <div class="row mensaje-btn-row mt-1" style="position: fixed;bottom: 70px; right: 3px;">
+            <div class="col col-12">
+                <div class="float-right">
+                    <a class="btn btn-primary circle-btn mensaje-refresh-btn mr-1" href="{% url 'mensajes:inbox' %}"
+                       title="{% trans 'Refrescar' %}" data-toggle="tooltip" style="box-shadow: 0px 0px 6px #888888;">
+                        <i class="fas fa-redo"></i>
+                    </a>
+
+                    <a class="btn btn-primary mensaje-add-btn" href="{% url 'mensajes:iniciar_conversacion' %}"
+                    title="{% trans 'Nueva conversación' %}" data-toggle="tooltip" style="box-shadow: 0px 0px 6px #888888;">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

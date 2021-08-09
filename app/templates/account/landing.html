@@ -1,0 +1,48 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount static %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block top-navbar %}
+{% endblock %}
+
+{% block extrahead %}
+<style type="text/css">
+  body {
+    background-color: #4154B3;
+  }
+</style>
+{% endblock %}
+
+{% block inner %}
+
+
+<div class="login-content">
+  {% include 'account/title.html' %}
+  
+
+  <div style="margin-top: 100px;">
+      <p class="text-left" style="font-size: 16px; font-weight: 400;">
+          {% trans '¿Es tú primer ingreso?' %}
+      </p>
+      <p class="text-center">
+          <a href="{% url 'account_signup' %}" class="btn btn-secondary" style="width: 100%;">{% trans 'Registrarme' %}</a>
+      </p>
+      <p class="text-left" style="font-size: 16px; font-weight: 400;">
+          {% trans '¿Ya tenés cuenta?' %}
+      </p>
+      <p class="text-center">
+          <a href="{% url 'account_login' %}" class="btn btn-secondary" style="width: 100%;">{% trans 'Ingresar' %}</a>
+      </p>
+  </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block bottom-navbar %}
+{% endblock %}

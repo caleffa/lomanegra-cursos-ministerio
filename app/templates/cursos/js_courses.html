@@ -1,0 +1,33 @@
+<script>
+
+
+
+    var pending_downloads = {};
+    var has_questionnaire = {};
+
+
+    function registerDownloadAndMoveForward (video_id, download_id) {
+        pending_downloads[video_id].delete(download_id);
+        if (pending_downloads[video_id].size == 0) {
+            if (has_questionnaire[video_id]){
+              console.log("mostrar respuesta");
+              return showAnswerLink(video_id);
+            } else {
+              console.log("mostrar prox video");
+              return showNextVideoLink()
+            }
+            
+        }
+    }
+    function showAnswerLink (video_id) {
+        var elem = $('#questionnaire-' + video_id.toString());
+        elem.removeClass('d-none');
+        return true;
+    }
+    function showNextVideoLink() {
+        var elem = $('#next-video');
+        elem.removeClass('d-none');
+        return true;
+    }
+
+</script>

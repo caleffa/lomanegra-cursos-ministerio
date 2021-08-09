@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block extrajavascript %}
+    {{ block.super }}
+    <!-- Angular element arbol-curso -->
+    <script type="text/javascript" src="{% static 'elements/arbol-curso/polyfills-es2015.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/arbol-curso/styles-es2015.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/arbol-curso/runtime-es2015.js' %}"></script>
+    <script type="text/javascript" src="{% static 'elements/arbol-curso/main-es2015.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'elements/arbol-curso/styles.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'elements/styles/angular-tree.css' %}" />
+{% endblock %}
+
+{% block content %}
+{% load duration %}
+{% load randint %}
+<hr>
+
+{% if courses %}
+
+    {% for course in courses %}
+        <div class="media">
+            <a href="{% url 'course' course.slug %}">
+                <img class="align-self-start mr-3 course-list-thumb" 
+                    src="{% if course.image %}{{ course.course_list_thumbnail.url }}{% else %}holder.js/55x55{% endif %}"
+                    alt="{{course.title}}">
+            </a>
+            <div class="media-body">
+                <div class="row">
+                    <div class="col">
+                        <h5>{{course.title}}</h5>
+                    </div>
+                </div>
+                <p class="descripcion-curso">{{course.description}}</p>
+            </div>
+        </div>
+        <p class="descripcion-curso">{{course.description}}</p>
+
+
+        {% for segment in course.live_segments %}
+            <div class="card mb-2 border-0 rounded-top">
+                <div class="card-footer bg-white d-flex flex-row" style="font-size: 1.0rem;">
+                    <h6 style="margin-bottom: 0">{{ segment.title }}</h6>
+                    <edit-live-stream segment_id="{{ segment.id }}" course_id="{{ course.id }}" style="margin: auto 0">
+                    </edit-live-stream>
+                </div>
+            </div>
+        {% endfor %}
+
+        <hr>          
+
+    {% endfor %}
+
+{% else %}
+    <div class="text-center" style="width: 100%;">
+        <i class="fas fa-comment-dots fa-8x "></i>
+    </div>
+    <div class="text-center" style="font-size: 1.5rem; margin-top:10px">
+      {% trans 'Ud. no tiene transmisiones en vivo' %}
+    </div>    
+
+  <hr>
+{% endif %}
+
+
+{% endblock %}

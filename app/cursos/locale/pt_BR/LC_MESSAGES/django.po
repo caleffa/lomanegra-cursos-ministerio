@@ -1,0 +1,483 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-02 19:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: cursos/admin.py:30 cursos/admin.py:121
+msgid "Generar nuevo token de verificación"
+msgstr ""
+
+#: cursos/admin.py:107
+msgid "Borrar trackings de usuarios seleccionados"
+msgstr ""
+
+#: cursos/admin.py:113
+msgid "Borrar trackings de ENCUESTAS de usuarios seleccionados"
+msgstr ""
+
+#: cursos/admin.py:146
+msgid "Cursos habilitados (directa e indirectamente)"
+msgstr ""
+
+#: cursos/api_views.py:36
+msgid "Ya existe una transmisión en vivo para el segmento"
+msgstr ""
+
+#: cursos/api_views.py:44
+msgid "No existe una transmisión en vivo para el segmento"
+msgstr ""
+
+#: cursos/forms.py:10 cursos/models.py:1003 cursos/views.py:899
+#: cursos/views.py:910 cursos/views.py:1049
+msgid "Nombre"
+msgstr ""
+
+#: cursos/forms.py:18 cursos/views.py:899 cursos/views.py:910
+#: cursos/views.py:1050
+msgid "Apellido"
+msgstr ""
+
+#: cursos/forms.py:57
+msgid "Su dirección de email no se encuentra habilitada para esta aplicación"
+msgstr ""
+
+#: cursos/models.py:40
+msgid "Requiere emails habilitados"
+msgstr ""
+
+#: cursos/models.py:41
+msgid ""
+"Indica si para que un usuario pueda registrarse se requiere que su email se "
+"encuentre cargado en \"Emails habilitados\" con anterioridad. En caso de que "
+"no se necesita generar un Área para utilizar como área por defecto y "
+"configurarla"
+msgstr ""
+
+#: cursos/models.py:46
+msgid "Área por defecto"
+msgstr ""
+
+#: cursos/models.py:47
+msgid ""
+"Es el área que se asignará a los usuarios que se registren sin que "
+"previamente exista un \"Email habilitado\" para ellos"
+msgstr ""
+
+#: cursos/models.py:56
+msgid ""
+"Cuando no se requieren los emails habilitados debe configurar un área por "
+"defecto"
+msgstr ""
+
+#: cursos/models.py:147 cursos/models.py:168
+msgid "Título"
+msgstr ""
+
+#: cursos/models.py:152
+msgid "Categoría"
+msgstr ""
+
+#: cursos/models.py:153
+msgid "Categorías"
+msgstr ""
+
+#: cursos/models.py:164
+msgid "$ Argentinos"
+msgstr ""
+
+#: cursos/models.py:165
+msgid "R$ Real"
+msgstr ""
+
+#: cursos/models.py:166
+msgid "u$s Dólar EEUU"
+msgstr ""
+
+#: cursos/models.py:169
+msgid "Descripción"
+msgstr ""
+
+#: cursos/models.py:175
+msgid "Plantilla del certificado"
+msgstr ""
+
+#: cursos/models.py:181
+msgid "Costo"
+msgstr ""
+
+#: cursos/models.py:182
+msgid "Moneda"
+msgstr ""
+
+#: cursos/models.py:188 cursos/views.py:899 cursos/views.py:910
+#: cursos/views.py:922 cursos/views.py:935 cursos/views.py:1036
+#: cursos/views.py:1052 cursos/views.py:1256 cursos/views.py:1268
+#: cursos/views.py:1280
+msgid "Curso"
+msgstr ""
+
+#: cursos/models.py:189 cursos/views.py:209 cursos/views.py:259
+#: cursos/views.py:264
+msgid "Cursos"
+msgstr ""
+
+#: cursos/models.py:282
+msgid "Copia"
+msgstr ""
+
+#: cursos/models.py:336
+msgid "Video"
+msgstr ""
+
+#: cursos/models.py:337
+msgid "Slide"
+msgstr ""
+
+#: cursos/models.py:338
+msgid "Live"
+msgstr ""
+
+#: cursos/models.py:351
+msgid "Fecha de habilitación"
+msgstr ""
+
+#: cursos/models.py:352
+msgid "Indica a partir de qué fecha se puede acceder a este segmento"
+msgstr ""
+
+#: cursos/models.py:388
+msgid "No se pudo obtener la información del video desde VIMEO"
+msgstr ""
+
+#: cursos/models.py:597
+msgid ""
+"Es la cantidad de preguntas a utilizar para \n"
+"        armar el cuestionario. Si es 0 se utilizan siempre todas. Si es N "
+"mayor a 0 el cuestionario se arma toman N \n"
+"        preguntas de las que haya definidas para este segmento. Si hay "
+"definidas menos de N se tomarán todas."
+msgstr ""
+
+#: cursos/models.py:1004
+msgid "Nombre del área/departamento/sector"
+msgstr ""
+
+#: cursos/models.py:1006 cursos/models.py:1017 cursos/models.py:1040
+msgid "Cursos habilitados"
+msgstr ""
+
+#: cursos/models.py:1007
+msgid ""
+"Son los cursos que podrán realizar los usuarios que pertenezcan a esta área"
+msgstr ""
+
+#: cursos/models.py:1012 cursos/models.py:1053
+msgid "Área/Departamento/Sector"
+msgstr ""
+
+#: cursos/models.py:1013
+msgid "Áreas/Departamentos/Sectores"
+msgstr ""
+
+#: cursos/models.py:1026
+msgid "Debe ingresar el dominio sin la \"@\""
+msgstr ""
+
+#: cursos/models.py:1032
+msgid "El valor ingresado no es un dominio válido"
+msgstr ""
+
+#: cursos/models.py:1034
+msgid "Dominio"
+msgstr ""
+
+#: cursos/models.py:1035
+msgid ""
+"Un dominio de internet sin incluir la @. Por ejemplo, para habilitar todos "
+"los mails \"@gmail.com\", ingrese \"gmail.com\""
+msgstr ""
+
+#: cursos/models.py:1046
+msgid "Dominio habilitado"
+msgstr ""
+
+#: cursos/models.py:1047
+msgid "Dominios habilitados"
+msgstr ""
+
+#: cursos/models.py:1054
+msgid "Es el área a la cual pertenece este usuario"
+msgstr ""
+
+#: cursos/models.py:1055
+msgid "Usuario"
+msgstr ""
+
+#: cursos/models.py:1059
+msgid "email habilitado"
+msgstr ""
+
+#: cursos/models.py:1060
+msgid "emails habilitados"
+msgstr ""
+
+#: cursos/serializers.py:149
+msgid "No se puede modificar el segmento al que pertenece una sección."
+msgstr ""
+
+#: cursos/serializers.py:267
+msgid ""
+"Datos no correspondientes a la modalidad de transmisión en fechas específicas"
+msgstr ""
+
+#: cursos/serializers.py:272
+msgid "Datos no correspondientes a la modalidad de transmisión abierta"
+msgstr ""
+
+#: cursos/serializers.py:286
+msgid "No se puede modificar el curso al que pertenece un segmento."
+msgstr ""
+
+#: cursos/templatetags/course_price.py:13
+msgid "Sin costo"
+msgstr ""
+
+#: cursos/templatetags/duration.py:58
+msgid " día"
+msgstr ""
+
+#: cursos/templatetags/duration.py:59
+msgid " hora"
+msgstr ""
+
+#: cursos/templatetags/duration.py:60
+msgid " minuto"
+msgstr ""
+
+#: cursos/templatetags/duration.py:61
+msgid " segundo"
+msgstr ""
+
+#: cursos/templatetags/duration.py:153
+msgid "No duration"
+msgstr ""
+
+#: cursos/views.py:81
+msgid ""
+"La contraseña debe contener al menos 8 caracteres. \n"
+"        No puede estar formada exclusivamente por números. \n"
+"        Tampoco debe ser un valor común como '12345678' ni coincidir con el "
+"nombre o email del usuario."
+msgstr ""
+
+#: cursos/views.py:249
+msgid "Mis cursos"
+msgstr ""
+
+#: cursos/views.py:253
+msgid "Próximos cursos"
+msgstr ""
+
+#: cursos/views.py:850
+msgid "certificado-"
+msgstr ""
+
+#: cursos/views.py:899 cursos/views.py:910
+msgid "email"
+msgstr ""
+
+#: cursos/views.py:899
+msgid "Fecha y hora de inicio del curso"
+msgstr ""
+
+#: cursos/views.py:922
+msgid "Cantidad de usuarios"
+msgstr ""
+
+#: cursos/views.py:935 cursos/views.py:1346
+msgid "Usuarios habilitados"
+msgstr ""
+
+#: cursos/views.py:948 cursos/views.py:969 cursos/views.py:1310
+msgid "Tarea"
+msgstr ""
+
+#: cursos/views.py:948 cursos/views.py:957 cursos/views.py:969
+#: cursos/views.py:1009 cursos/views.py:1311 cursos/views.py:1324
+msgid "Segmento"
+msgstr ""
+
+#: cursos/views.py:948 cursos/views.py:969 cursos/views.py:1312
+#: cursos/views.py:1325
+msgid "Cantidad de usuarios que lo completaron"
+msgstr ""
+
+#: cursos/views.py:959
+msgid "Descarga de documentos"
+msgstr ""
+
+#: cursos/views.py:961
+msgid "Cuestionario"
+msgstr ""
+
+#: cursos/views.py:971
+msgid "Curso completo"
+msgstr ""
+
+#: cursos/views.py:983
+#, python-brace-format
+msgid "Cuestionario {video.order}"
+msgstr ""
+
+#: cursos/views.py:986
+#, python-brace-format
+msgid "Descarga de documentos {video.order}"
+msgstr ""
+
+#: cursos/views.py:987
+#, python-brace-format
+msgid "Segmento {video.order}"
+msgstr ""
+
+#: cursos/views.py:1009
+msgid "Cantidad de usuarios que lo iniciaron pero no lo completaron"
+msgstr ""
+
+#: cursos/views.py:1028 cursos/views.py:1337
+msgid "Pregunta"
+msgstr ""
+
+#: cursos/views.py:1028 cursos/views.py:1338
+msgid "Cantidad de respuestas incorrectas"
+msgstr ""
+
+#: cursos/views.py:1036
+msgid "Cantidad de usuarios registrados en el curso"
+msgstr ""
+
+#: cursos/views.py:1036
+msgid "Cantidad de usuarios que culminaron el curso"
+msgstr ""
+
+#: cursos/views.py:1051
+msgid "Mail"
+msgstr ""
+
+#: cursos/views.py:1053
+msgid "Capitulo"
+msgstr ""
+
+#: cursos/views.py:1054 cursos/views.py:1058
+msgid "Estado"
+msgstr ""
+
+#: cursos/views.py:1056
+msgid "Fecha de Estado Capitulo"
+msgstr ""
+
+#: cursos/views.py:1057
+msgid "Incluye Evaluacion"
+msgstr ""
+
+#: cursos/views.py:1059
+msgid "Resultado"
+msgstr ""
+
+#: cursos/views.py:1061
+msgid "Linea de Aprobacion"
+msgstr ""
+
+#: cursos/views.py:1062
+msgid "Numero de Intentos requeridos"
+msgstr ""
+
+#: cursos/views.py:1063
+msgid "Fecha de Estado Evaluacion"
+msgstr ""
+
+#: cursos/views.py:1079
+msgid "Finalizado"
+msgstr ""
+
+#: cursos/views.py:1082
+msgid "En curso"
+msgstr ""
+
+#: cursos/views.py:1103
+msgid "Aprobado"
+msgstr ""
+
+#: cursos/views.py:1105
+msgid "Reprobado"
+msgstr ""
+
+#: cursos/views.py:1107 cursos/views.py:1109
+msgid "Incompleto"
+msgstr ""
+
+#: cursos/views.py:1111
+msgid "Sin iniciar"
+msgstr ""
+
+#: cursos/views.py:1113
+msgid "NO"
+msgstr ""
+
+#: cursos/views.py:1245
+msgid "Cantidad de usuarios registrados"
+msgstr ""
+
+#: cursos/views.py:1252
+msgid "Usuarios por curso"
+msgstr ""
+
+#: cursos/views.py:1257 cursos/views.py:1269
+msgid "Usuarios"
+msgstr ""
+
+#: cursos/views.py:1264
+msgid "Usuarios habilitados por curso"
+msgstr ""
+
+#: cursos/views.py:1276
+msgid "Cantidad de Usuarios que culminaron cada curso"
+msgstr ""
+
+#: cursos/views.py:1281
+msgid "Usuarios registrados"
+msgstr ""
+
+#: cursos/views.py:1282
+msgid "Usuarios que culminaron el curso"
+msgstr ""
+
+#: cursos/views.py:1289 cursos/views.py:1355
+msgid "Evolución de Usuarios"
+msgstr ""
+
+#: cursos/views.py:1305
+msgid "Progreso"
+msgstr ""
+
+#: cursos/views.py:1319
+msgid "Puntos de abandono"
+msgstr ""
+
+#: cursos/views.py:1332
+msgid "Preguntas mal respondidas"
+msgstr ""

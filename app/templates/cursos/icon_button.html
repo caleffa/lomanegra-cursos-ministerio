@@ -1,0 +1,60 @@
+{% load i18n %}
+<div class="icon-button-container {{ extra_css }}" {% if id %}id="{{ id }}"{% endif %} style="{{ extra_style }}" title="{% if tooltip %}{{ tooltip }}{% else %}{{ title }}{% endif %}" data-toggle="tooltip">
+    <a 
+       {% if not next_segment or next_segment.is_enabled %}
+            href="{{ url }}"
+       {% else %}
+            href="#"
+       {% endif %}
+       class="icon-button-icon-link {{ a_tag_extra_css }}"
+       {% if onclick %}
+           onclick="{{ onclick }}"
+       {% endif %}
+       {% if target %}
+           target="{{ target }}"
+       {% endif %}
+       {% if next_segment and not next_segment.is_enabled %}
+           data-toggle="modal"
+           data-target="#notEnabledModal{{next_segment.id}}"
+       {% endif %}
+    >
+        <i class="fas {{ icon }}"></i>
+    </a>
+    <a 
+       {% if not next_segment or next_segment.is_enabled %}
+            href="{{ url }}"
+       {% else %}
+            href="#"
+       {% endif %}
+       class="icon-button-text-link {{ a_tag_extra_css }}"
+       {% if onclick %}
+           onclick="{{ onclick }}"
+       {% endif %}
+       {% if target %}
+           target="{{ target }}"
+       {% endif %}
+       {% if next_segment and not next_segment.is_enabled %}
+           data-toggle="modal"
+           data-target="#notEnabledModal{{next_segment.id}}"
+       {% endif %}
+    >{{ title }}</a>
+</div>
+
+{% if next_segment and not next_segment.is_enabled %}
+    <div class="modal fade" id="notEnabledModal{{next_segment.id}}" tabindex="-1" role="dialog" aria-labelledby="notEnabledModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center;">
+                    <i class="fas fa-calendar-alt" style="font-size: 200px;color:#1da4fc;"></i>
+                    <br>
+                    <div class="row justify-content-center mt-2">
+                        <div class="col-12 col-md-7" style="color:#212529;">
+                            {% blocktrans with dia=next_segment.enabled_since|date:"d/m/Y" hora=next_segment.enabled_since|date:"H:i"%}El capítulo {{next_segment.title}} no puede iniciarse hasta el {{ dia }} a las {{ hora }}hs{% endblocktrans %}
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Aceptar' %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

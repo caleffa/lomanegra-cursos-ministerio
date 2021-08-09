@@ -1,0 +1,58 @@
+{% extends 'base_new.html' %}
+{% load i18n crispy_forms_tags staticfiles %}
+{% block content %}
+
+    <style>
+        .cfin-section-title {
+            text-transform: uppercase;
+            color: #008081;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .cfin-cert-download {
+            background-color: #e2e2e2;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .cfin-download-img {
+            height: 60px;
+            float: right;
+        }
+
+        .cfin-download-text {
+            color: #008081 !important;
+            display: inline-block;
+            margin-top: 13px;
+        }
+
+        .cfin-category-download {
+            font-size: 30px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+
+    {% include 'components/title_and_user.html' with title='Mis cursos' subtitle='' %}
+
+    <div class="row justify-content-center">
+
+        <div class="cfin-section-title col-11 col-md-9 col-lg-8">
+            {% trans '¡Felicitaciones! ¡Terminaste el curso!' %}
+        </div>
+
+        <a class="cfin-cert-download col-11 col-md-9 col-lg-8" href="{% url 'view-diploma' course_enrollment.id %}">
+            <div class="cfin-download-text">{% trans 'Descargar la constancia' %}</div>
+            <img src="{% static 'images/descargas.png' %}" class="cfin-download-img">
+        </a>
+
+    </div>
+
+    <br>
+
+    {% include 'components/back_to_all_courses.html' %}
+
+{% endblock %}

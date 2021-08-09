@@ -1,0 +1,35 @@
+{% extends 'base_new.html' %}
+{% load i18n static %}
+
+{% block content %}
+
+    {% include 'components/title_and_user.html' with title='Mis cursos' subtitle='Mirá la oferta de opciones y llevá un registro de tus cursos realizados' %}
+
+    <div class="w-100 mb-5"></div>
+        <div class="utilities">
+            <div class="container px-4">
+                <div class="row ut-space-y-4 ut-space-md-y-0">
+                {% for career_track in career_tracks_list %}
+                    <div class="col-12 col-md-6 mb-md-3">
+                            <a href="{% block category_link %}{% url 'category_courses' category=career_track.id %}{% endblock category_link %}">
+                            <div class="comp-card-info comp-card-info-terceary ml-md-auto mr-md-0">
+                                <img src="{% if career_track.image %}{{career_track.image.url}}{% else %}holder.js/350x160{% endif %}" alt="{{career_track.title}}">
+                                
+
+                                <div>
+                                    <div>
+                                        <p>{{ career_track.title }}</p>
+                                    </div>
+                                    <div>
+                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="450 310 200 200" enable-background="new 0 0 800 800" xml:space="preserve"><g><circle fill="currentColor" cx="543.4" cy="409" r="76"></circle><g><polygon fill="#FFFFFF" points="545.6,457 537.2,448.5 576.8,408.9 537.3,369.5 545.8,361 593.8,408.9 "></polygon><rect x="501.5" y="402.2" fill="#FFFFFF" width="83.7" height="12"></rect></g></g><g><circle fill="currentColor" cx="271.4" cy="409" r="76"></circle><g><polygon fill="#FFFFFF" points="269,457 221,409.1 269.1,361 277.6,369.5 238,409.1 277.5,448.5 "></polygon><rect x="229.5" y="403.8" fill="#FFFFFF" width="83.7" height="12"></rect></g></g></svg>
+                                    </div>
+                                </div>
+                            </div>
+                                </a>
+                        </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

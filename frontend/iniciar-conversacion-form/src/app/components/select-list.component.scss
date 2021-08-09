@@ -1,0 +1,18 @@
+.list-group{
+    max-height: 150px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+li {
+    padding: 7px !important;
+}
+.fa-trash {
+    float: right;
+}
+
+.fa-trash:hover {
+    color: red;
+    cursor: pointer;
+}

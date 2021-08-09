@@ -1,0 +1,149 @@
+<ng-template #componentModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Segmento</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCloseModal();modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+            <label for="segmentTitle">Titulo</label>
+            <input type="text" class="form-control" formControlName="title" [class.is-invalid]="getValidity('title')"/>
+            <div [hidden]="!getValidity('title')" class="validation-error">
+                {{ getErrors('title') }}
+            </div>
+
+            <div>
+                <label for="segMinRes">ID de Vimeo</label>
+                <input type="text" class="form-control" formControlName="vimeo_id"/>
+                <div [hidden]="!getValidity('vimeo_id')" class="validation-error">
+                    {{ getErrors('vimeo_id') }}
+                </div>
+            </div>
+
+            <div>
+                <label for="id_stream_key">Stream Key</label>
+                <input type="text" class="form-control" formControlName="stream_key" id="id_stream_key"/>
+                <div [hidden]="!getValidity('stream_key')" class="validation-error">
+                    {{ getErrors('stream_key') }}
+                </div>
+            </div>
+
+            <div>
+                <label for="id_rtmp_url">Url de RTMP</label>
+                <input type="text" class="form-control" formControlName="rtmp_url" id="id_rtmp_url"/>
+                <div [hidden]="!getValidity('rtmp_url')" class="validation-error">
+                    {{ getErrors('rtmp_url') }}
+                </div>
+            </div>
+
+            <label for="id_order">Orden</label>
+            <input type="number" class="form-control" formControlName="order" id="id_order"
+                [class.is-invalid]="getValidity('order')"/>
+            <a href="#" (click)="openOrderModal()">(Ver orden de transmisiones)</a>
+            <div [hidden]="!getValidity('order')" class="validation-error">
+                {{ getErrors('order') }}
+            </div>
+            <br>
+
+            <label for="id_enabled_since_date">Habilitado desde</label>
+            <div class="d-flex flex-row">
+                <input type="date" class="form-control" formControlName="enabled_since_date" id="id_enabled_since_date"
+                    [class.is-invalid]="getValidity('enabled_since_date')"/>
+                <input type="time" class="form-control" formControlName="enabled_since_time" id="id_enabled_since_time"
+                    [class.is-invalid]="getValidity('enabled_since_time')"/>
+            </div>
+            <div [hidden]="!getValidity('enabled_since_date') && !getValidity('enabled_since_time')" class="validation-error">
+                {{ getErrors('enabled_since_date') }}
+                {{ getErrors('enabled_since_time') }}
+            </div>
+            <br>
+
+            <div>
+                <label for="">Thumbnail</label>
+                <div [hidden]="!data || !data.thumbnail_manual_url">
+                    <img src="{{data?.thumbnail_manual_url}}" class="thumbnail_url"/>
+                </div>
+                <input type="file" class="form-control" (change)="uploadDocument($event)" accept=".png, .jpg, .jpeg, .gif"/>
+            </div>
+
+            <div>
+                <h4 class="sub-section">Modalidad</h4>
+                <div class="d-flex flex-row justify-content-around mt-3">
+                    <div>
+                        <input type="radio" [value]="AnnouncementTypes.FixedDate" formControlName="announcement_type"
+                            id="id_fixed_dates_announcement_type">
+                        <label for="id_fixed_dates_announcement_type" class="radio-button-label">Fechas específicas</label>
+                    </div>
+                    <div>
+                        <input type="radio" [value]="AnnouncementTypes.Open" formControlName="announcement_type"
+                            id="id_open_announcement_type">
+                        <label for="id_open_announcement_type" class="radio-button-label">Fecha abierta</label>
+                    </div>
+                </div>
+                <div class="d-flex flex-row justify-content-around mt-3">
+                    <div class="d-flex two-column flex-column" formGroupName="fixed_dates_broadcast">
+                        <ul class="list-unstyled" *ngFor="let c of formGroup.get(['fixed_dates_broadcast', 'dates']).controls; let i = index;"
+                            formArrayName="dates">
+                            <li [formGroupName]="i">
+                                <div class="d-flex flex-row list-item">
+                                    <input type="date" class="form-control" formControlName="date_date"
+                                        [class.is-invalid]="getValidity(['fixed_dates_broadcast', 'dates', i]) || getValidity(['fixed_dates_broadcast', 'dates', i, 'date_date'])" min="today"/>
+                                    <input type="time" class="form-control" formControlName="date_time"
+                                        [class.is-invalid]="getValidity(['fixed_dates_broadcast', 'dates', i]) || getValidity(['fixed_dates_broadcast', 'dates', i, 'date_time'])"/>
+                                    <button class="fa-button fa-button-small date-remove-button" (click)="deleteFixedDateFormAt(i)"
+                                        [disabled]="formGroup.get('announcement_type').value !== AnnouncementTypes.FixedDate"
+                                        *ngIf="formGroup.get(['fixed_dates_broadcast', 'dates']).length > 1">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="validation-error" [hidden]="!getValidity(['fixed_dates_broadcast', 'dates', i]) && !getValidity(['fixed_dates_broadcast', 'dates', i, 'date_date']) &&
+                                    !getValidity(['fixed_dates_broadcast', 'dates', i, 'date_time'])">
+                                    {{ getErrors(['fixed_dates_broadcast', 'dates', i]) }}
+                                    {{ getErrors(['fixed_dates_broadcast', 'dates', i, 'date_date']) }}
+                                    {{ getErrors(['fixed_dates_broadcast', 'dates', i, 'date_time']) }}
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="fa-button fa-button-medium add-to-list-button" (click)="addFixedDateForm()"
+                            [disabled]="formGroup.get('announcement_type').value !== AnnouncementTypes.FixedDate">
+                            <i class="fas fa-plus-circle"></i>
+                        </button>
+                    </div>
+
+                    <div class="d-flex two-column flex-column" formGroupName="open_broadcast">
+                        <label for="id_open_broadcast_next_date">Próxima fecha</label>
+                        <div class="d-flex flex-row">
+                            <input type="date" class="form-control" id="id_open_broadcast_next_date" formControlName="open_broadcast_date_date"
+                                [class.is-invalid]="getValidity(['open_broadcast'])" min="today"/>
+                            <input type="time" class="form-control" formControlName="open_broadcast_date_time"
+                                [class.is-invalid]="getValidity(['open_broadcast'])"/>
+                        </div>
+                        <div class="validation-error" [hidden]="!getValidity(['open_broadcast']) &&
+                            !getValidity(['open_broadcast'])">
+                            {{ getErrors(['open_broadcast']) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5 d-flex justify-content-center" *ngIf="isEditing && data['announcement_type'] === AnnouncementTypes.Open">
+                    <button type="button" class="btn btn-warning" *ngIf="data['is_broadcasting_now']; else not_broadcasting_now;"
+                        (click)="stopStreaming()">
+                        Detener transmisión actual
+                    </button>
+                    <ng-template #not_broadcasting_now>
+                        <button type="button" class="btn btn-warning" (click)="startStreaming()">
+                            Comenzar a transmitir en vivo
+                        </button>
+                    </ng-template>
+                </div>
+            </div>
+            <br>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="save()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="onCloseModal();modal.dismiss()">Cancelar</button>
+    </div>
+</ng-template>
+
+<order-modal [title]="'Transmisiones'" [data]="segment_order" #orderComp></order-modal>

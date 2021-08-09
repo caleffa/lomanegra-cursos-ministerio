@@ -1,0 +1,39 @@
+debug = false
+checkNewVersion = false
+logLevel = "INFO"
+defaultEntryPoints = ["https","http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "ministeriodetrabajo.tramites.app"
+watch = true
+exposedbydefault = false
+
+[acme]
+email = "ivissani@gmail.com"
+storage = "acme.json"
+entryPoint = "https"
+OnHostRule = true
+[acme.tlsChallenge]
+
+[entryPoints.dashboard]
+   address=":8080"
+   [entryPoints.dashboard.auth]
+     [entryPoints.dashboard.auth.basic]
+       users = [
+         "ivissani:$apr1$iXKn7wVJ$e9Jat1I/D3r7E9nlTxz2v/"
+       ]
+
+[api]
+entrypoint="dashboard"

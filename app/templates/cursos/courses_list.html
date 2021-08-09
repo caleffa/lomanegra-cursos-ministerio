@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load i18n static course_price %}
+
+{% block breadcrumb %}
+    {% include 'breadcrumb.html' with breadcrumb=breadcrumb %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+    <div class="container">
+        {% if request.resolver_match.url_name == 'category_courses' or request.resolver_match.url_name == 'courses_search'%}
+            <a href="{% url 'categories' %}"><i class="fas fa-chevron-left"></i> {% trans 'Atrás' %}</a>
+        {% elif request.resolver_match.url_name == 'enrolled_courses' or request.resolver_match.url_name == 'not_started_courses' %}
+            <a href="{% url 'home' %}"><i class="fas fa-chevron-left"></i> {% trans 'Atrás' %}</a>
+        {% endif %}
+
+
+        <form action="{{ request.path }}" method="GET" class="row row-course-form justify-content-center">
+            <div class="col-9">
+                <input type="text" class="form-control mb-2" name="t" value="{{ request.GET.t }}" placeholder="{% trans 'Buscar' %}">
+            </div>
+            <div class="col-3">
+            <button type="submit" class="btn btn-primary white-text mb-2 courses-list-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <ul class="list-unstyled">
+            {% for course,course_data in courses.items %}
+
+                <div class="row course-row justify-content-center pt-3 mt-2">
+                    <div class="col col-3 col-sm-2 col-lg-1">
+                        {% if course_data.enrollment and course.start_date <= current_time %}
+                            <a href="{% url 'course' course.slug %}">
+                                <img class="course-img" src="{% if course.image %}{{ course.course_list_thumbnail.url }}{% else %}holder.js/55x55{% endif %}" alt="{{course.title}}">
+                            </a>
+                        {% else %}
+                            <img class="course-img" src="{% if course.image %}{{ course.course_list_thumbnail.url }}{% else %}holder.js/55x55{% endif %}" alt="{{course.title}}">
+                        {% endif %}
+                    </div>
+                    <div class="col-5 col-lg-6 pl-1" style="padding: 0px">
+                        <span class="course-title">{{course.title}}</span>
+                        <span class="course-description">{{course.description}}</span>
+                    </div>
+                    <div class="col-4 col-sm-5 col-md-2 pl-2 pr-2 pr-md-0">
+                        <span class="course-start-date">{% trans 'Fecha de inicio' %}: {{ course.start_date.day }}/{{ course.start_date.month }}/{{ course.start_date.year }}</span>
+                        {% if settings.MOSTRAR_PRECIO_CURSO %}
+                        <span class="course-price">{% trans 'Costo' %}: {{ course|price }}</span>
+                        {% endif %}
+                        {% if course_data.enrollment %}
+                            <span class="course-enrolled">{% trans 'Inscripto' %} <i class="fas fa-check"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="col col-3 col-sm-2 col-lg-1">
+                        {% if course_data.enrollment and course.start_date <= current_time %}
+                            <a class="btn btn-primary course-btn-go white-text courses-list-btn" href="{% if course_data.enrollment.next_segment_is_enabled %}{{ course_data.enrollment.next_url }}{% else %}#{% endif %}"
+                            {% if not course_data.enrollment.next_segment_is_enabled %}
+                                data-toggle="modal"
+                                data-target="#notEnabledModal{{ course_data.enrollment.next_segment.id }}"
+                            {% endif %}><i class="fas fa-play"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="col-5 col-lg-6 pl-1" style="padding: 0px">
+                        {% if course.tutor %}
+                            <span class="course-tutor"><u>Tutor</u>: {{ course.tutor.name }} {{ course.tutor.last_name }} </span>
+                            <a class="course-send-message" href="{% url 'mensajes:iniciar_conversacion_preselect' course.id %}"><i class="fas fa-envelope"></i> {% trans 'Enviar mensaje' %}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-4 col-sm-5 col-md-2 pl-2 pr-2 pr-md-0">
+                        {% if course_data.enrollment %}
+                            <form class="enroll-form" action="{% url 'unenroll_course' course=course.id %}" method="GET">
+                                <input type="hidden" name="next" value="{{ request.path }}"/>
+                                <input type="hidden" name="search" value="{{ request.GET.t }}"/>
+                                <button type="submit" class="btn course-enroll-btn btn-outline-danger btn-lg btn-block">{% trans 'Desinscribirse' %}</button>
+                            </form>
+                        {% else %}
+                            <form class="enroll-form" action="{% url 'enroll_course' course=course.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}"/>
+                                <input type="hidden" name="search" value="{{ request.GET.t }}"/>
+                                <button type="submit" class="course-enroll-btn btn btn-success btn-block white-text">{% trans 'Inscribirse' %}</button>
+                            </form>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+                
+            {% endfor %}
+
+            {% if courses.items|length == 0 %}
+                {% trans 'No hay cursos para mostrar.' %}
+            {% endif %}
+
+        </ul>
+
+        <a href="{% url 'categories' %}" class="courses-list-ir-activar">{% trans 'Ir a  Activar contenido' %}</a>
+
+    </div>
+
+    {% for course,course_data in courses.items %}
+        {% if course_data.enrollment %}
+            {% with next_segment=course_data.enrollment.next_segment %}
+                {% if next_segment and not next_segment.is_enabled %}
+                    <div class="modal fade" id="notEnabledModal{{next_segment.id}}" tabindex="-1" role="dialog" aria-labelledby="notEnabledModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body" style="text-align: center;">
+                                    <i class="fas fa-calendar-alt" style="font-size: 200px;color:#1da4fc;"></i>
+                                    <br>
+                                    <div class="row justify-content-center mt-2">
+                                        <div class="col-12 col-md-7" style="color:#212529;">
+                                            {% blocktrans with dia=next_segment.enabled_since|date:"d/m/Y" hora=next_segment.enabled_since|date:"H:i"%}El capítulo {{next_segment.title}} no puede iniciarse hasta el {{ dia }} a las {{ hora }}hs{% endblocktrans %}
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Aceptar' %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

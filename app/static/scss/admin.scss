@@ -1,0 +1,318 @@
+$amphiBlue          : #0D4164; // azul de la navbar y footer
+$amphiRed           : #F1453C;
+$amphiYellow        : #FDC02E;
+$amphiGrey          : #E0E0E0;
+$amphiSidebarGrey   : #E9E9E9;
+$amphiSidebarHover  : #F6F6F6;
+$amphiSnackbarBg    : #323232;
+
+$bgDefault          : $amphiBlue;
+$bgHighlight        : white;
+$colDefault         : #ecf0f1;
+$colHighlight       : $colDefault;
+$buttonBg           : $amphiBlue;
+$buttonSuccessBg    : $buttonBg;
+$buttonSecondaryBg  : $amphiYellow;
+$buttonDangerBg     : $amphiRed;
+$buttonAddBg        : $amphiRed;
+$sidebarSelectedBg  : $amphiSidebarGrey;
+$sidebarSelected    : $amphiBlue;
+$sidebarHoverBg     : $amphiSidebarHover;
+$link               : $amphiBlue;
+
+$gray               : #808080;
+$azul               : #009cbf;
+$rosado             : rgba(250, 102, 89, 0.57);
+
+
+@font-face {
+    font-family: 'NeoSansRegular';
+    src: url('../fonts/neosans/neosans.eot');
+    src: url('../fonts/neosans/neosans.eot') format('embedded-opentype'),
+         url('../fonts/neosans/neosans.woff') format('woff'),
+         url('../fonts/neosans/neosans.ttf') format('truetype'),
+         url('../fonts/neosans/neosans.svg#NeoSansRegular') format('svg');
+}
+@font-face {
+    font-family: 'NeoSansMedium';
+    src: url('../fonts/neosans-medium/NeoSans-Medium.eot');
+    src: url('../fonts/neosans-medium/NeoSans-Medium.eot') format('embedded-opentype'),
+         url('../fonts/neosans-medium/NeoSans-Medium.woff') format('woff'),
+         url('../fonts/neosans-medium/NeoSans-Medium.ttf') format('truetype'),
+         url('../fonts/neosans-medium/NeoSans-Medium.svg#NeoSansMedium') format('svg');
+}
+@font-face {
+    font-family: 'NeoSansBold';
+    src: url('../fonts/neosans-bold/neosans-bold.eot');
+    src: url('../fonts/neosans-bold/neosans-bold.eot') format('embedded-opentype'),
+         url('../fonts/neosans-bold/neosans-bold.woff') format('woff'),
+         url('../fonts/neosans-bold/neosans-bold.ttf') format('truetype'),
+         url('../fonts/neosans-bold/neosans-bold.svg#NeoSansBold') format('svg');
+}
+@font-face {
+    font-family: 'NeoSansItalic';
+    src: url('../fonts/neosans-italic/neosans-italic.eot');
+    src: url('../fonts/neosans-italic/neosans-italic.eot') format('embedded-opentype'),
+         url('../fonts/neosans-italic/neosans-italic.woff') format('woff'),
+         url('../fonts/neosans-italic/neosans-italic.ttf') format('truetype'),
+         url('../fonts/neosans-italic/neosans-italic.svg#NeoSansItalic') format('svg');
+}
+@font-face {
+    font-family: 'NeoSansLight';
+    src: url('../fonts/neosans-light/NeoSans-Light.eot');
+    src: url('../fonts/neosans-light/NeoSans-Light.eot') format('embedded-opentype'),
+         url('../fonts/neosans-light/NeoSans-Light.woff') format('woff'),
+         url('../fonts/neosans-light/NeoSans-Light.ttf') format('truetype'),
+         url('../fonts/neosans-light/NeoSans-Light.svg#NeoSansLight') format('svg');
+}
+
+
+.course-thumb {
+	height: 70px;
+	width: 70px;
+	overflow: auto;
+	//width: 20vw;
+}
+
+.course-thumb img {
+    object-fit: cover;
+    height:70px;
+    width:70px;
+    display: block;
+    border-width: 3px;
+    border-style: solid;
+}
+
+$dropDown       : false;
+.navbar {
+  background-color: $bgDefault;
+  .navbar-brand {
+    color: $colDefault;
+    &:hover, &:focus {
+      color: $colHighlight; }}
+  .navbar-text {
+    color: $colDefault; 
+    a {
+      color: $colHighlight;
+      &:hover, &:focus {
+        color: $colHighlight; }}}
+  .navbar-nav {
+    .nav-link {
+      color: $colDefault;
+      border-radius: .25rem;
+      margin: 0 0.25em;
+      &:not(.disabled) {
+        &:hover, &:focus {
+          color: $colHighlight; }}}
+    @if ($dropDown) {
+      .dropdown-menu {
+        background-color: $bgDefault;
+        border-color: $bgHighlight;
+        .dropdown-item {
+          color: $colDefault;
+          &:hover, &:focus, &.active {
+            color: $colHighlight;
+            background-color: $bgHighlight; }}
+        .dropdown-divider {
+          border-top-color: $bgHighlight; }}}
+    .nav-item.active, .nav-item.show {
+      .nav-link, .nav-link:hover, .nav-link:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}}
+  .navbar-toggle {
+    border-color: $bgHighlight;
+    &:hover, &:focus {
+      background-color: $bgHighlight; }
+    .navbar-toggler-icon {
+      color: $colDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $colDefault; }
+  .navbar-link {
+    color: $colDefault;
+    &:hover {
+      color: $colHighlight; }}}
+@media (max-width: 575px) {
+  .navbar-expend-sm .navbar-nav .show .dropdown-menu {
+    .dropdown-item {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    .dropdown-item.active {
+      color: $colHighlight;
+      background-color: $bgHighlight; }}}
+@media (max-width: 767px) {
+  .navbar-expend-md .navbar-nav .show .dropdown-menu {
+    .dropdown-item {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    .dropdown-item.active {
+      color: $colHighlight;
+      background-color: $bgHighlight; }}}
+@media (max-width: 991px) {
+  .navbar-expend-lg .navbar-nav .show .dropdown-menu {
+    .dropdown-item {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    .dropdown-item.active {
+      color: $colHighlight;
+      background-color: $bgHighlight; }}}
+@media (max-width: 1199px) {
+  .navbar-expend-xl .navbar-nav .show .dropdown-menu {
+    .dropdown-item {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    .dropdown-item.active {
+      color: $colHighlight;
+      background-color: $bgHighlight; }}}
+.navbar-expend .navbar-nav .show .dropdown-menu {
+  .dropdown-item {
+    color: $colDefault;
+    &:hover, &:focus {
+      color: $colHighlight; }}
+  .dropdown-item.active {
+    color: $colHighlight;
+    background-color: $bgHighlight; }}
+
+#avatar-navbar {
+  height: 50px;
+}
+
+.nav-item {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+#tracking-message {
+  color: green;
+  display: none;
+}
+
+
+// links
+
+a:link, a:visited {
+  color: $link !important;
+}
+
+
+// buttons
+
+input[type=submit].default, .button, input[type=submit], input[type=button], .submit-row input, a.button {
+  background: $buttonBg !important;
+  color: white !important;
+  border: none !important;
+  &:hover, &:focus {
+    background: $buttonBg !important;
+    color: white !important;
+    border: none !important;
+  }
+}
+
+.btn-primary, button.btn-primary, a.btn-primary {
+  background-color: $buttonBg !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+  &:visited, &:hover, &:active, &:focus {
+    background-color: $buttonBg !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.btn-secondary, button.btn-secondary, a.btn-secondary {
+  background-color: $buttonSecondaryBg !important;
+  color: black !important;
+  border: none !important;
+  box-shadow: none !important;
+  &:visited, &:hover, &:active, &:focus {
+    background-color: $buttonSecondaryBg !important;
+    color: black !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.btn-danger, button.btn-danger, a.btn-danger {
+  background-color: $buttonDangerBg !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+  &:visited, &:hover, &:active, &:focus {
+    background-color: $buttonDangerBg !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.btn-success, button.btn-success, a.btn-success {
+  background-color: $buttonSuccessBg !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+  &:visited, &:hover, &:active, &:focus {
+    background-color: $buttonSuccessBg !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+a.addlink, a.addlink:link, a.addlink:visited, a.addlink:hover, a.addlink:active, a.addlink:focus {
+  color: black !important;
+  background-color: $buttonSecondaryBg !important;
+  text-decoration: none !important;
+}
+
+#changelist #toolbar form input[type="submit"], #changelist #toolbar form input[type="submit"]:hover {
+  color: white !important;
+  background-color: $buttonBg !important;
+  border: none !important;
+}
+
+// sidebar
+
+.sidebar {
+  background-color: white !important;
+  border-right: 1px solid rgba(0,0,0,.12);
+}
+
+.sidebar .nav-item .nav-link {
+  color: black !important;
+  &:hover {
+    background-color: $sidebarHoverBg !important;
+  }
+}
+
+.sidebar .nav-item .nav-link.active {
+  color: $sidebarSelected !important;
+  background-color: $sidebarSelectedBg !important;
+}
+
+
+// snackbar
+
+ul.messagelist li {
+  color: white !important;
+  background-color: $amphiSnackbarBg !important;
+}
+
+
+// otros
+
+.module h2 {
+  background-color: $bgDefault !important;
+  color: white !important;
+}
+
+.clone-course:hover {
+  color: #4154B3;
+  cursor: pointer;
+}
+

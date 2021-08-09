@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-02 19:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: encuestas/models.py:84
+msgid "Al iniciar sesion"
+msgstr "Ao iniciar a sessão"
+
+#: encuestas/models.py:85
+msgid "Al finalizar un curso"
+msgstr "Ao finalizar um curso"
+
+#: encuestas/models.py:86
+msgid "Al iniciar o continuar un curso"
+msgstr "Ao iniciar ou continuar um curso"
+
+#: encuestas/models.py:135
+msgid "Pregunta excluyente"
+msgstr "Pergunta eliminatória"
+
+#: encuestas/models.py:136
+msgid "Pregunta aditiva"
+msgstr "Pergunta aditiva"
+
+#: encuestas/models.py:137
+msgid "Pregunta de texto"
+msgstr "Pergunta de texto"
+
+#: encuestas/models.py:138
+msgid "Calificación con estrellas"
+msgstr "Qualificação com estrelas"
+
+#: encuestas/models.py:139
+msgid "Calificación con pulgares"
+msgstr "Qualificação com polegares"
+
+#: encuestas/templates/encuestas/encuesta_update.html:13
+msgid "Datos del curso"
+msgstr "Dados do curso"
+
+#: encuestas/templates/encuestas/encuesta_update.html:18
+msgid "Nombre"
+msgstr "Nome"
+
+#: encuestas/templates/encuestas/encuesta_update.html:21
+#: encuestas/templates/encuestas/encuesta_update.html:29
+#: encuestas/templates/encuestas/encuesta_update.html:37
+#: encuestas/templates/encuestas/encuesta_update.html:46
+#: encuestas/templates/encuestas/encuesta_update.html:54
+msgid "Este campo es obligatorio."
+msgstr "Este campo é obrigatório"
+
+#: encuestas/templates/encuestas/encuesta_update.html:26
+msgid "Texto"
+msgstr "Texto"
+
+#: encuestas/templates/encuestas/encuesta_update.html:35
+msgid "Es obligatoria"
+msgstr "É obrigatória"
+
+#: encuestas/templates/encuestas/encuesta_update.html:43
+msgid "Donde"
+msgstr "Onde"
+
+#: encuestas/templates/encuestas/encuesta_update.html:51
+msgid "Cursos"
+msgstr "Cursos"
+
+#: encuestas/templates/encuestas/encuesta_view.html:46
+msgid "Ir"
+msgstr "Ir"
+
+#: encuestas/templates/encuestas/encuesta_view.html:52
+msgid "Contestar más tarde"
+msgstr "Responder mais tarde"
+
+#: encuestas/templates/encuestas/encuesta_view.html:145
+msgid "Enviar"
+msgstr "Enviar"
+
+#: encuestas/templates/encuestas/encuesta_view.html:155
+msgid "Gracias por responder"
+msgstr "Obrigado por responder"
+
+#: encuestas/templates/encuestas/encuesta_view.html:161
+msgid "Continuar"
+msgstr "Continuar"
+
+#: encuestas/views.py:66
+msgid "Debe seleccionar al menos una opción."
+msgstr "Deve selecionar ao menos uma opção"
+
+#: encuestas/views.py:73 encuestas/views.py:85 encuestas/views.py:92
+msgid "Debe seleccionar una de las opciones."
+msgstr "Deve selecionar uma das oopções"
+
+#: encuestas/views.py:79
+msgid "Debe ingresar una respuesta."
+msgstr "Deve ingresar um resposta"

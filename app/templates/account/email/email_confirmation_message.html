@@ -1,0 +1,20 @@
+{% extends "account/email/email_base.html" %}
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+
+{% block body %}
+{% autoescape off %}
+{% blocktrans %}
+¡Te saluda la {{ current_site.name }}!
+<br>
+Estás recibiendo este correo porque se registró un usuario con esta cuenta de correo en nuestro sistema de capacitaciones.
+<br>
+Para confirmar el alta, por favor hacé click en el siguiente link: <a href="{{activate_url}}">{{ activate_url }}</a>
+<br>
+{% endblocktrans %}
+{% endautoescape %}
+
+Gracias de parte de {{ current_site.name }}!
+
+{% endblock %}

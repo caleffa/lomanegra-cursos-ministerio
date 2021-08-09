@@ -1,0 +1,146 @@
+{% extends "base_new.html" %}
+{% load i18n static %}
+{% load duration course_price %}
+
+{% trans 'Cursos' as cursos_str %}
+{% trans 'Volver a los cursos' as volver_str %}
+
+{% block content %}
+
+  <style>
+    .cd-course-title-col {
+      background-color: #e2e2e2;
+      padding: 15px;
+      font-size: 21px;
+      color: #008082;
+      font-weight: bold;
+    }
+
+    .cd-video-thumbnail-col {
+      margin-top: 15px;
+      padding: 0px;
+    }
+
+    .cd-thumbnail {
+      width: 100%;
+    }
+
+    .cd-course-buttons-col {
+      background-color: #e2e2e2;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .cd-action-btn {
+      display: inline-block;
+      height: 30px;
+      margin-left: 10px;
+      font-size: 18px;
+    }
+
+    .cd-action-btn.start {
+      color: #C5007E;
+    }
+
+    .cd-action-btn.continue {
+      color: #D08000;
+    }
+
+    .cd-action-btn.again {
+      color: #008266;
+    }
+
+    .cd-course-btn {
+      padding: 5px;
+      font-size: 8px;
+      border-radius: 20px;
+      color: #FFF !important;
+      padding-left: 7.5px;
+      padding-right: 7.5px;
+      font-size: 11px;
+    }
+
+    a.cd-course-btn {
+      padding: 7px 8px 7px 8px;
+    }
+
+    .cd-course-btn:hover {
+      cursor: pointer;
+      color: #FFF;
+    }
+
+    .cd-course-btn.start-btn {
+      background-color: #C5007E;
+    }
+
+    .cd-course-btn.continue-btn {
+      background-color: #D08000;
+    }
+
+    .cd-course-btn.again-btn {
+      background-color: #008266;
+    }
+
+    .cd-action-form {
+      display: inline-block;
+    }
+
+  </style>
+
+  {% include 'components/title_and_user.html' with title='Mis cursos' subtitle='Mirá la oferta de opciones y llevá un registro de tus cursos realizados' %}
+  {% include 'components/back_to_all_courses.html' %}
+
+  <div class="row justify-content-center">
+
+    <div class="cd-course-title-col col-11 col-md-10 col-lg-8">
+      {{course.title}}
+    </div>
+
+    {% for segment in segments %}
+      <a class="cd-video-thumbnail-col col-11 col-md-10 col-lg-8" href="{{ next_segment.get_object_url }}">
+        <img  class="cd-thumbnail" src="{{ segment.thumbnail_url }}" alt="{{segment.title}}">
+      </a>
+    {% endfor %}
+
+    <div class="cd-course-buttons-col col-11 col-mg-10 col-lg-8">
+
+      {% if enrollment and enrollment.is_complete %}
+        <div class="cd-action-btn again">
+            <div></div>volver a ver
+            <a class="cd-course-btn again-btn" href="{{ next_segment.get_object_url }}">
+                <i class="fas fa-redo"></i>
+            </a>
+        </div>
+      {% elif enrollment and enrollment.next_url %}
+          <div class="cd-action-btn continue">
+            continuar
+              <a class="cd-course-btn continue-btn"
+                  {% if next_segment.is_enabled %}
+                      href="{{ next_segment.get_object_url }}"
+                  {% else %}
+                      onclick="openNotEnabledModal('{{next_segment.title}}', '{{next_segment.enabled_since}}')"
+                  {% endif %}>
+                  <i class="fas fa-pause"></i>
+              </a>
+          </div>
+      {% elif not enrollment %}
+          <div class="cd-action-btn start">
+              comenzar
+              <form class="cd-action-form" action="{% url 'enroll_course' course=course.id %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}"/>
+                  <button class="cd-course-btn start-btn" type="submit">
+                      <i class="fas fa-play"></i>
+                  </button>
+              </form>
+              
+          </div>
+      {% endif %}
+      
+    </div>
+
+  </div>
+
+{% endblock %}

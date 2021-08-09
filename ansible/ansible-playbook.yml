@@ -1,0 +1,96 @@
+---
+
+- name: Install Docker and Gitlab runner for Atenea
+  gather_facts: true
+  hosts: all
+  become: true
+  become_user: root
+  tasks:
+
+          - name: Install aptitude using apt
+            apt: name=aptitude state=latest cache_valid_time=86400 force_apt_get=yes
+
+          - name: Install required system packages
+            apt: name={{ packages }} state=latest cache_valid_time=86400
+            vars:
+              packages: [
+                'apt-transport-https',
+                'ca-certificates',
+                'curl',
+                'software-properties-common',
+                'python3-pip',
+                'virtualenv',
+                'python3-setuptools',
+                'gnupg',
+                'curl',
+                'apt-transport-https'
+              ]
+
+          - name: Add Docker GPG apt Key
+            apt_key:
+              url: https://download.docker.com/linux/ubuntu/gpg
+              state: present
+
+          - name: Add Docker Repository
+            apt_repository:
+              repo: deb https://download.docker.com/linux/ubuntu bionic stable
+              state: present
+
+          - name: Update apt and install docker-ce
+            apt: cache_valid_time=86400 name=docker-ce state=latest
+
+          - name: Install docker-compose
+            pip:
+              name:
+                - docker-compose
+                - docker
+
+          - name: Crear network para traefik
+            docker_network:
+              name: traefik
+
+          - name: Crear directorio traefik
+            file:
+              path: /srv/traefik
+              state: directory
+
+          - name: traefik.toml
+            copy:
+              src: ./traefik-prod.toml
+              dest: /srv/traefik/traefik.toml
+
+          - name: traefik docker compose file
+            copy:
+              src: ./traefik-docker-compose-prod.yml
+              dest: /srv/traefik/docker-compose.yml
+
+          - name: acme.json file
+            file:
+              path: /srv/traefik/acme.json
+              mode: '600'
+              state: touch
+              modification_time: preserve
+              access_time: preserve
+
+          - name: gitlab runner GPG key
+            apt_key:
+              state: present
+              url: https://packages.gitlab.com/runner/gitlab-runner/gpgkey
+
+          - name: add Gitlab runner repository
+            apt_repository:
+              repo: deb https://packages.gitlab.com/runner/gitlab-runner/ubuntu/ bionic main
+              filename: runner_gitlab-runner
+              state: present
+              update_cache: yes
+
+
+          - name: install gitlab runner
+            apt:
+              name: gitlab-runner
+              state: latest 
+              cache_valid_time: 86400
+
+
+
+

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+{% load duration %}
+{% load randint %}
+<div id="forums-my-comments-container">
+  <hr>
+
+  {% if courses_with_forum.items %}
+
+      {% for course, course_with_segments in courses_with_forum.items %}
+          <div class="media">
+              <a href="{% url 'course' course_with_segments.course.slug %}">
+                  <img class="align-self-start mr-3 course-list-thumb"
+                      src="{% if course_with_segments.course.image %}{{ course_with_segments.course.course_list_thumbnail.url }}{% else %}holder.js/55x55{% endif %}"
+                      alt="{{course_with_segments.course.title}}">
+              </a>
+              <div class="media-body">
+                  <div class="row">
+                      <div class="col">
+                          <h5>{{course_with_segments.course.title}}</h5>
+                      </div>
+                  </div>
+                  <p class="descripcion-curso">{{course_with_segments.course.description}}</p>
+              </div>
+          </div>
+          <p class="descripcion-curso">{{course_with_segments.course.description}}</p>
+
+
+          {% for segment, segment_with_forums in course_with_segments.segments_with_forum.items %}
+              <div class="card mb-2 border-0 rounded-top">
+                  <div class="card-footer bg-white" style="font-size: 1.0rem;">
+                      <h6>{{ segment_with_forums.segment.title }}</h6>
+                      {% for forum in segment_with_forums.forums %}
+                          <div>
+                              <a class="p-1 download" href="{% url 'forum' forum=forum.id %}?prev={{request.path}}">
+                                  <i class="fas fa-comment-dots" title="{% trans 'Ir al foro' %}" data-toggle="tooltip"></i>
+                                  {{ forum.title }}
+                              </a>
+                          </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          {% endfor %}
+
+          <hr>
+      {% endfor %}
+
+  {% else %}
+      <div class="text-center" style="width: 100%;">
+          <i class="fas fa-comment-dots fa-8x "></i>
+      </div>
+      <div class="text-center" style="font-size: 1.5rem; margin-top:10px">
+        {% trans 'Ud. no tiene foros habilitados, para ello avance en los cursos' %}
+      </div>
+
+    <hr>
+  {% endif %}
+
+</div>
+
+{% endblock %}

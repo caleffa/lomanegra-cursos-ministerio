@@ -1,0 +1,6 @@
+version: '3.4'
+services:
+  postgres:
+    container_name: cursoslomanegraarsat-prod_postgres_1
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

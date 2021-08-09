@@ -1,0 +1,315 @@
+/* START Form */
+.comp-form {
+    color: var(--gray)
+}
+
+.comp-form > label {
+    display: block;
+    margin-bottom: 0;
+}
+
+.comp-form > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1.25rem;
+}
+
+.comp-form > label > span {
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.comp-form > label > span > span {
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    color: var(--pink);
+}
+
+.comp-form > label > input {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+    border-width: 0px;
+    background-color: var(--lightGray-20);
+    display: block;
+    margin-top: .25rem;
+}
+
+.comp-form > label > textarea {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+    border-width: 0px;
+    background-color: var(--lightGray-20);
+    display: block;
+    margin-top: .25rem;
+}
+
+.comp-form button {
+    border: none;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+}
+
+.comp-form-group-button {
+    display: flex;
+}
+
+/* COLORS */
+
+.comp-form-primary > h3 {
+    color: var(--primary);
+    margin-top: 3rem;
+}
+
+.comp-form-primary > hr {
+    background-color: var(--primary);
+}
+
+.comp-form-primary button {
+    background-color: var(--lightGray-20);
+    color: var(--gray)
+}
+
+.comp-form-primary button.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* END Form */
+
+/* START Cards Steps */
+.comp-cards-steps {
+    position: relative;
+}
+
+.comp-cards-steps > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1rem;
+}
+
+.comp-cards-steps > div > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1.25rem;
+}
+
+.comp-cards-steps > div > div p {
+    margin-bottom: 0;
+}
+
+.comp-cards-steps > div > div:nth-child(1) {
+    text-align: center;
+    background-color: white;
+}
+
+.comp-cards-steps > div > div:nth-child(1) > p {
+    font-weight: 700;
+}
+
+.comp-cards-steps > div > div:nth-child(1) > p:nth-child(1) {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.comp-cards-steps > div > div:nth-child(1) > p:nth-child(2) {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+}
+
+.comp-cards-steps > div > div:nth-child(2) {
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 50%;
+    color: white;
+    width: 10rem;
+}
+
+.comp-cards-steps > div > div:nth-child(3) {
+    display: flex;
+    background-color: white;
+}
+
+.comp-cards-steps > div > div:nth-child(3) > div:nth-child(1) {
+    width: 10rem;
+}
+
+.comp-cards-steps > div > div:nth-child(3) > p {
+    display: flex;
+    align-items: center;
+}
+
+.comp-cards-steps > div:last-child {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding-top: 12.5rem;
+    padding-bottom: 12.5rem;
+    display: flex;
+    justify-content: center;
+    z-index: -10;
+}
+
+.comp-cards-steps > div:last-child > div {
+    height: 100%;
+    border-right-width: .25rem;
+    border-style: dotted;
+    border-color: var(--lightGray);
+    width: 1px;
+}
+
+/* COLORS */
+.comp-card-step-success > div:nth-child(1) > p:nth-child(2) {
+    color: var(--success);
+}
+
+.comp-card-step-success > div:nth-child(2) {
+    background-color: var(--success);
+}
+
+.comp-card-step-yellow > div:nth-child(1) > p:nth-child(2) {
+    color: var(--yellow);
+}
+
+.comp-card-step-yellow > div:nth-child(2) {
+    background-color: var(--yellow);
+}
+
+.comp-card-step-violet > div:nth-child(1) > p:nth-child(2) {
+    color: var(--violet);
+}
+
+.comp-card-step-violet > div:nth-child(2) {
+    background-color: var(--violet);
+}
+
+/* md */
+@media (min-width: 768px) {
+    .comp-cards-steps > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0;
+    }
+    .comp-cards-steps > div:last-child {
+        padding-left: 12rem;
+        padding-right: 12rem;
+    }
+    .comp-cards-steps > div:last-child > div {
+        height: 1px;
+        width: 100%;
+        border-right-width: 0rem;
+        border-bottom-width: .25rem;
+    }
+}
+/* END Cards Steps */
+
+/* START Card Info */
+.comp-card-info {
+    background-color: rgb(161 161 161 / 30%) !important;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.comp-card-info > img {
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+}
+
+.comp-card-info > div {
+    display: flex;
+    margin-top: 1rem;
+    margin-left: .5rem;
+    justify-content: space-between;
+}
+
+.comp-card-info > div > div:first-child {
+    margin-right: .5rem;
+    flex-grow: 1;
+}
+
+.comp-card-info > div > div:first-child > p:first-child {
+    margin-bottom: .5rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+}
+.comp-card-info > div > div:first-child > p:not(:first-child) {
+    margin-bottom: 0;
+}
+.comp-card-info > div > div:last-child > svg {
+    width: 3rem;
+}
+/* COLORS */
+.comp-card-info-terceary {
+    color: var(--terceary);
+}
+/* md */
+@media (min-width: 768px) {
+    .comp-card-info {
+        max-width: 24rem;
+        height: 100%;
+    }
+
+    .comp-card-info > div > div:first-child > p:first-child {
+        font-size: 22px;
+        line-height: 2rem;
+    }
+    .comp-card-info > div > div:last-child > svg {
+        width: 4rem;
+    }
+}
+/* END Card Info */
+
+/* START Job Offer */
+.comp-job-offer {
+    background-color: var(--lightGray-20);
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+.comp-job-offer > div:first-child > p:first-child {
+    font-weight: 700
+}
+.comp-job-offer > div:last-child {
+    text-align: right;
+}
+
+.comp-job-offer > div:last-child button {
+    background: none;
+    border: none;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+/* COLORS */
+.comp-job-offer-terceary > div:last-child button {
+    background-color: var(--terceary);
+    color: white;
+}
+/* md */
+@media (min-width: 768px) {
+    .comp-job-offer {
+        display: flex;
+        align-items: center;
+    }
+    .comp-job-offer > div:first-child > p:first-child {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        margin-bottom: .25rem;
+    }
+    .comp-job-offer > div:last-child {
+        margin-left: 6rem;
+    }
+    .comp-job-offer > div:last-child button {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+}
+/* END Job Offer */

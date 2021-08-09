@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+    <form method="post" style="text-align:center;">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+        <input type="hidden" name="search" value="{{ request.GET.search }}"/>
+        {% blocktrans %}
+        <p>¿Seguro que querés desinscribirte del curso {{ object.course.title }}?</p>
+        <p>Al desinscribirse perderás todo el progreso que hayas alcanzado en este curso.</p>
+        {% endblocktrans %}
+        <input type="submit" class="btn btn-primary" value="{% trans 'Confirmar' %}">
+        <a class="btn btn-danger" href="{{request.GET.next}}">{% trans 'Cancelar' %}</a>
+    </form>
+
+{% endblock %}

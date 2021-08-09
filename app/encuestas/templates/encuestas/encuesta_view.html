@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+    <div class="container">
+
+        <script>
+            function selectStar(star) {
+                $("#estrella-1").attr('class', 'col pregunta-estrella');
+                $("#estrella-2").attr('class', 'col pregunta-estrella');
+                $("#estrella-3").attr('class', 'col pregunta-estrella');
+                $("#estrella-4").attr('class', 'col pregunta-estrella');
+                $("#estrella-5").attr('class', 'col pregunta-estrella');
+                for (i=1; i<=star; i++) {
+                    $("#estrella-"+i).attr('class', 'col pregunta-estrella selected');
+                }
+                $("#estrellas-input").val(star)
+            }
+
+            function selectPulgar(pulgar) {
+                if (pulgar == 1) {
+                    $("#arriba").addClass('selected');
+                    $("#abajo").removeClass('selected');
+                } else if (pulgar == 2) {
+                    $("#abajo").addClass('selected');
+                    $("#arriba").removeClass('selected');
+                }
+                $("#pulgar-input").val(pulgar)
+            }
+
+        </script>
+
+        {% if sin_iniciar %}
+            <div class="row adjustable-row top bottom message-header mt-2" style="color:grey">
+                <div class="col col-12" style="text-align: center;">
+                    <h1 style="text-align:center;">{{encuesta.nombre}}</h1> <br>
+                    {% if encuesta.imagen %}
+                        <img class="encuesta-imagen" height="75px" src="{{encuesta.imagen.url}}"> <br>
+                    {% endif %}
+                    {{encuesta.texto}}
+                    <br>
+                    <form method="post" style="display: inline-block;">
+                        {% csrf_token %}
+                        <input type="hidden" value="INICIAR" name="action"/>
+                        <button class="btn btn-primary">{% trans 'Ir' %}</button>
+                    </form>
+                    {% if not encuesta.obligatoria%}
+                        <form method="post" style="display: inline-block;">
+                            {% csrf_token %}
+                            <input type="hidden" value="SNOOZE" name="action"/>
+                            <button class="btn btn-primary">{% trans 'Contestar más tarde' %}</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+        {% endif %}
+
+        {% if pregunta %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" value="RESPONDER" name="action"/>
+                <div class="row adjustable-row top bottom message-header mt-2 pregunta" style="border:0px">
+                    <div class="col col-12">
+                        <h1 style="text-align:center;">{{encuesta.nombre}}</h1>
+                    </div>
+                    <div class="col-12 text-center {% if not pregunta.tipo == 'ESTRELLAS' %}col-md-6{% endif %} justify-content-center">
+                        {% if pregunta.imagen %}
+                            <img class="pregunta-imagen" height="120px" src="{{pregunta.imagen.url}}"> <br>
+                        {% endif %}
+                        <span class="texto-pregunta">{{pregunta.texto}}</span> <br>
+
+                        {% if pregunta.tipo == 'ESTRELLAS' %}
+                            <div class="row">
+                                <div class="col pregunta-estrella" id="estrella-1" onclick="selectStar(1)">
+                                    <i class="fas fa-star"></i> <br>
+                                    {{pregunta.texto_estrella_1}}
+                                </div>
+                                <div class="col pregunta-estrella" id="estrella-2" onclick="selectStar(2)">
+                                    <i class="fas fa-star"></i> <br>
+                                    {{pregunta.texto_estrella_2}}
+                                </div>
+                                <div class="col pregunta-estrella" id="estrella-3" onclick="selectStar(3)">
+                                    <i class="fas fa-star"></i> <br>
+                                    {{pregunta.texto_estrella_3}}
+                                </div>
+                                <div class="col pregunta-estrella" id="estrella-4" onclick="selectStar(4)">
+                                    <i class="fas fa-star"></i> <br>
+                                    {{pregunta.texto_estrella_4}}
+                                </div>
+                                <div class="col pregunta-estrella" id="estrella-5" onclick="selectStar(5)">
+                                    <i class="fas fa-star"></i> <br>
+                                    {{pregunta.texto_estrella_5}}
+                                </div>
+                                <input value="" type="hidden" name="estrellas-input" id="estrellas-input">
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 {% if not pregunta.tipo == 'ESTRELLAS' %}col-md-6{% endif %}">
+                        {% if pregunta.tipo == 'TEXTO' %}
+                            <textarea name="texto-input" required height="120px" id="texto-input"></textarea>
+                            <br>
+                        {% elif pregunta.tipo == 'ADITIVA' %}
+                            {% for op in pregunta.opciones.all %}
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="opcion-{{op.id}}" id="opcion-{{op.id}}">
+                                    <label class="form-check-label" for="opcion-{{op.id}}" checked>{{op.texto}}</label>
+                                </div>
+                            {% endfor %}
+                        {% elif pregunta.tipo == 'EXCLUYENTE' %}
+                            {% for op in pregunta.opciones.all %}
+                                <div class="radio">
+                                    <label><input type="radio" name="excluyente-input" required value="{{op.id}}"> {{op.texto}}</label>
+                                </div>
+                            {% endfor %}
+                        {% elif pregunta.tipo == 'PULGARES' %}
+                            <div class="row mb-1 mt-4">
+                                <div class="col pulgar text-center" id="arriba" onclick="selectPulgar(1)">
+                                    {% if pregunta.imagen_pulgar_arriba %}
+                                    <img height="40px" width="40px" src="{{pregunta.imagen_pulgar_arriba.url}}"/>
+                                    {% else %}
+                                      <i class="fas fa-thumbs-up"></i>
+                                    {% endif %}
+                                    <br>
+                                    {{pregunta.texto_pulgar_arriba}}
+                                </div>
+                                <div class="col pulgar text-center" id="abajo" onclick="selectPulgar(2)">
+                                  {% if pregunta.imagen_pulgar_abajo %}
+                                    <img height="40px" width="40px" src="{{pregunta.imagen_pulgar_abajo.url}}"/>
+                                  {% else %}
+                                    <i class="fas fa-thumbs-down"></i>
+                                  {% endif%}
+                                  <br>
+                                  {{pregunta.texto_pulgar_abajo}}
+                                </div>
+                                <input type="hidden" value="" required name="pulgar-input" id="pulgar-input"/>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 mt-2" style="text-align:center">
+                        {% if error %}
+                            <span class="error-encuesta">{{ error }}</span>
+                        {% endif %}
+                        <button class="btn btn-primary " style="margin: 0 auto;display: block;">{% trans 'Enviar' %} <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </form>
+        {% elif not pregunta and not sin_iniciar %}
+            <div class="row mt-2">
+              <div class="col text-center">
+                {% if encuesta.mensaje_gracias %}
+                  <h4>{{encuesta.mensaje_gracias}}</h4>
+                {% else %}
+                  <h4>{% trans 'Gracias por responder' %}</h4>
+                {% endif %}
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col text-center">
+                <a class="btn btn-primary" href="{% if request.GET.next %}{{ request.GET.next }}{% else %}/{% endif%}">{% trans 'Continuar' %}</a>
+              </div>
+            </div>
+
+
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

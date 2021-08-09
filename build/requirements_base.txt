@@ -1,0 +1,60 @@
+# Acá la idea es poner solo los paquetes que necesitamos, sindetallar número de versión si nos es indistinto.
+# Cada tanto, la idea es actualizar el requirements_pinned.txt (cosa que se puede hacer facilmente levantando un nuevo
+# virtualenv, instalando pip install -r requirements_base.txt, y corriendo pip freeze > requirements_pinned.txt )
+
+Django>=2.1,<2.2
+django-extensions
+uwsgi
+psycopg2
+python-decouple
+django-admin-interface
+argon2-cffi
+django-allauth
+django-crispy-forms
+django-npm
+djangorestframework
+coreapi
+django-model-utils
+django-sendfile
+django-session-security
+django-solo
+Pillow
+django-anymail[mailgun]
+django-imagekit
+django-settings-export
+django-excel
+django-payments
+pyexcel-xls
+pyexcel-xlsx
+django-axes
+pylibmc
+Unidecode
+xlsxwriter
+celery
+django-cors-headers
+django-widget-tweaks
+
+libsass
+django_compressor
+django-sass-processor
+
+PyVimeo
+
+# Reportes
+reportlab
+
+raven
+
+# development
+django-debug-toolbar
+watchdog
+
+django-auth-ldap
+
+PyJWT
+djangorestframework-simplejwt
+
+# profiling
+django-silk
+django-ordered-model==3.3.0
+pydevd-pycharm

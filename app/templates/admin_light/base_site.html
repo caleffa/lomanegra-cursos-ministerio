@@ -1,0 +1,9 @@
+{% extends "admin_light/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<a href="{% url 'admin:index' %}">{{ site_header|default:'Administración de cursos y usuarios' }}</a>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

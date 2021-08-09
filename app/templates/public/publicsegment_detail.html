@@ -1,0 +1,15 @@
+{% extends 'public/base.html' %}
+
+{% block content %}
+    <div class="w-100 mb-5"></div>
+    <div class="utilities">
+        <div class="container px-4">
+        {% if segment.type_of_segment == 'V' %}
+            <div class="embed-container">
+                <iframe src="https://player.vimeo.com/video/{{ segment.vimeo_id }}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        {% else %}
+        {% endif %}
+        </div>
+    </div>
+{% endblock content %}

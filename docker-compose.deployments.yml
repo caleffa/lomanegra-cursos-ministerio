@@ -1,0 +1,53 @@
+version: '3.4'
+services:
+  app:
+    restart: always
+    image: ${DOCKER_REPOSITORY}:${BRANCH}
+    volumes:
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/staticfiles:/srv/public_html
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/uploads:/srv/uploads
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/sendfile:/srv/sendfile
+    environment:
+      - SENTRY_DSN=${SENTRY_DSN}
+      - SENTRY_FRONTEND_DSN=${SENTRY_FRONTEND_DSN}
+  celery:
+    restart: always
+    environment:
+      - SENTRY_DSN=${SENTRY_DSN}
+      - SENTRY_FRONTEND_DSN=${SENTRY_FRONTEND_DSN}
+  nginx:
+    restart: always
+    image: ${DOCKER_REPOSITORY}/nginx:${BRANCH}
+    volumes:
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/staticfiles:/usr/share/nginx/html:ro
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/uploads:/srv/uploads
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/sendfile:/srv/sendfile
+  postgres:
+    restart: always
+    volumes:
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/postgres_persistence:/var/lib/postgresql/data
+  memcached:
+    restart: always
+  rabbitmq:
+    restart: always
+    volumes:
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/rabbitmq:/var/lib/rabbitmq
+  postgres-backup:
+    image: prodrigestivill/postgres-backup-local:10-alpine
+    restart: always
+    volumes:
+      - /srv/volumes/${DEPLOYMENT_ENVIRONMENT}/postgres_backups:/backups
+    depends_on:
+      - postgres
+    networks:
+      - backend
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_EXTRA_OPTS=--verbose
+      - SCHEDULE=@daily
+      - BACKUP_KEEP_DAYS=7
+      - BACKUP_KEEP_WEEKS=4
+      - BACKUP_KEEP_MONTHS=6

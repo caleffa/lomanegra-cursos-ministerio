@@ -1,0 +1,147 @@
+{% load i18n %}
+
+{% trans 'Descargar documentación para continuar' as descargar_str %}
+{% trans 'Responder el cuestionario para continuar' as responder_str %}
+{% trans 'Completar tarea para continuar' as completar_tarea_str %}
+{% trans 'Ir al siguiente capítulo para continuar' as siguiente_str %}
+
+<script>
+        // Polyfill para que IE11 acepte un iterable en el constructor de Set
+        // Ver: https://stackoverflow.com/questions/45686278/polyfill-for-internet-explorer-ecmascript-set-constructor-to-allow-iterable-argu
+        if (new Set([0]).size === 0) {
+            //constructor doesnt take an iterable as an argument - thanks IE
+            const BuiltinSet = Set;
+            Set = function Set(iterable) {
+                const set = new BuiltinSet();
+                if (iterable) {
+                    iterable.forEach(set.add, set);
+                }
+                return set;
+            };
+            Set.prototype = BuiltinSet.prototype;
+            Set.prototype.constructor = Set;
+        }
+
+        function showDownloadTooltip(download_id) {
+            // IE11 does not support string interpolation
+            $('#document_download_' + download_id.toString()).attr('title', '{{ descargar_str }}').attr('data-original-title', '{{ descargar_str }}').tooltip('update').tooltip('show');
+            window.setTimeout(function() {
+                $('#document_download_' + download_id.toString()).tooltip('hide');
+            }, TOOLTIP_TIMEOUT);
+        }
+
+        function showQuestionnaireTooltip() {
+            $("#answer").attr('title', '{{ responder_str }}').attr('data-original-title', '{{ responder_str }}').tooltip('update').tooltip('show');
+            window.setTimeout(function() {
+                $("#answer").tooltip('hide');
+            }, TOOLTIP_TIMEOUT);
+        }
+        function showTareaTooltip() {
+            $("#tarea-obligatoria").attr('title', '{{ completar_tarea_str }}').attr('data-original-title', '{{ completar_tarea_str }}').tooltip('update').tooltip('show');
+            window.setTimeout(function() {
+                $("#tarea-obligatoria").tooltip('hide');
+            }, TOOLTIP_TIMEOUT);
+        }
+        function showNextSegmentTooltip() {
+            $("#next-segment").attr('title', '{{ siguiente_str }}').attr('data-original-title', '{{ siguiente_str }}').tooltip('update').tooltip('show');
+            window.setTimeout(function() {
+                $("#next-segment").tooltip('hide');
+            }, TOOLTIP_TIMEOUT);
+        }
+        var pending_downloads = {{pending_downloads}};
+        {% if tracking.watched_full %}
+            {% if pending_downloads %}
+                if(pending_downloads && pending_downloads.length > 0) {
+                    var item = pending_downloads[0];
+                    showDownloadTooltip(item);
+                }
+            {% else %}
+                showTareaTooltip();
+                {% if tracking.can_answer_questionnaire and questions.count > 0 and not tracking.has_answered_questionnaire %}
+                    showQuestionnaireTooltip();
+                {% elif questions.count == 0 or tracking.has_answered_questionnaire %}
+                    showNextSegmentTooltip();
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+        function showDocumentDownload () {
+            elem = $('#document-downloads');
+            if(elem.length) {
+                elem.removeClass('d-none');
+            }
+            elem = $('.document-downloads');
+            if(elem.length) {
+                elem.removeClass('d-none');
+            }
+            if(pending_downloads && pending_downloads.length > 0) {
+                var item = pending_downloads[0];
+                showDownloadTooltip(item);
+            }
+
+            // Chequea y redirecciona a descargar el diploma
+            onFinishedCourse();
+
+            return true;
+        }
+        function registerDownloadAndMoveForward (download_id) {
+            var someDocuments = pending_downloads.length;
+            _.pull(pending_downloads, download_id);
+
+            // Comentado porque ahora usamos un viewer JS para ver las descargas
+            //if (pending_downloads.size > 0){
+            //    for (let item of pending_downloads.values()) {
+            //        showDownloadTooltip(item);
+            //        break;
+            //    }
+            //}
+
+            if(someDocuments && !pending_downloads.length) {
+                // Chequea y redirecciona a descargar el diploma
+                onFinishedCourse();  // si no es el ultimo video, esta funcion no hace nada
+            }
+
+            {# Dejo esto comentado porque ahora que usamos un viewer en JS para ver las descargas, #}
+            {# vas a una view distinta y queda mal mostrar los tooltips por unos breves milisegundos antes de que carga la otra view #}
+            //if (pending_downloads.size == 0) {
+            //    {% if video.has_questions %}
+            //        return showAnswerLink();
+            //    {% else %}                       
+            //        return showNextVideoLink();  
+            //    {% endif %}
+            //}
+        }
+        function showAnswerLink () {
+            var elem = $('#answer');
+            elem.removeClass('d-none');
+
+            var elem = $('#button-separator');
+            if(elem.length) {
+                elem.removeClass('d-none');
+            }
+            showQuestionnaireTooltip();
+            showTareaTooltip();
+
+            // Chequea y redirecciona a descargar el diploma
+            onFinishedCourse();
+
+            return true;
+        }
+
+        function showNextVideoLink() {
+            var elem = $('#next-segment');
+            elem.removeClass('d-none');
+            showNextSegmentTooltip();
+            return true;
+        }
+
+        var onFinishedCourse = function() {
+            {% if video.is_last %}
+                if (pending_downloads.length == 0) {
+                    {% if not video.has_questions %}
+                        window.location.href = '{% url 'get-diploma' course=video.course.slug %}';
+                    {% endif %}
+                }
+            {% endif %}
+        };
+</script>

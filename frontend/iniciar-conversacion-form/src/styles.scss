@@ -1,0 +1,10 @@
+ul.selected-items {
+    display: none;
+}
+
+.list-group{
+    max-height: 150px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}

@@ -1,0 +1,153 @@
+{% extends "base_new.html" %}
+{% load i18n static %}
+
+{% block breadcrumb %}
+    {% include 'breadcrumb.html' with breadcrumb=breadcrumb %}
+{% endblock breadcrumb %}
+
+{% block extracss %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .ctc-career-track-list {
+        padding: 10px;
+        padding-right: 10px;
+        margin-top: 20px;
+        color: #FFF;
+        background-color: #367e87;
+        display: block;
+        font-weight: bold;
+        font-size: 21px;
+    }
+
+    .ctc-category-title {
+        padding-left: 20px;
+        padding-top: 5px;
+        text-transform: uppercase;
+        font-size: 22px;
+        font-weight: bold;
+        color: #367e87;
+        margin-top: 10px;
+    }
+
+    .ctc-category-course {
+        margin-top: 5px;
+        background-color: #e2e2e2;
+        padding-top: 3px;
+    }
+
+    .ctc-category-course .ctc-course-title {
+        color: #367e87;
+        font-size: 16px;
+    }
+
+    .ctc-action-btn {
+        display: inline-block;
+        float: right;
+        height: 30px;
+        margin-left: 10px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .ctc-action-btn.start {
+        color: #C5007E;
+    }
+
+    .ctc-action-btn.continue {
+        color: #D08000;
+    }
+
+    .ctc-action-btn.again {
+        color: #008266;
+    }
+
+    .ctc-course-btn {
+        padding: 5px;
+        font-size: 8px;
+        border-radius: 20px;
+        color: #FFF !important;
+        padding-left: 7.5px !important;
+        padding-right: 7.5px !important;
+    }
+
+    a.ctc-course-btn {
+        padding: 7px;
+    }
+
+    .ctc-course-btn:hover {
+        cursor: pointer;
+        color: #FFF;
+    }
+
+    .ctc-course-btn.start-btn {
+        background-color: #C5007E;
+    }
+
+    .ctc-course-btn.continue-btn {
+        background-color: #D08000;
+    }
+
+    .ctc-course-btn.again-btn {
+        background-color: #008266;
+    }
+
+    .ctc-action-form {
+        display: inline-block;
+    }
+</style>
+
+    <div class="row justify-content-center">
+        <div class="ctc-career-track-list col-12 col-md-9  col-lg-6">
+            {{career_track.title}}
+        </div>
+    </div>
+
+    {% for category in categories_list %}
+
+        {% if category.has_courses %}
+
+            <div class="row justify-content-center">
+                <div class="ctc-category-title col-12 col-md-9 col-lg-6">
+                    {{category.title}}
+                </div>
+            </div>
+
+            {% for course in category.courses %}
+
+                <div class="row justify-content-center">
+                    <div class="ctc-category-course col-12 col-md-9 col-lg-6">
+                        <a href="#" class="ctc-course-title" data-toggle="modal" data-target="#exampleModal">{{course.title}}</a>
+
+                            <div class="ctc-action-btn start">
+                                comenzar 
+                                <a class="ctc-course-btn start-btn" href="#"  data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fas fa-play"></i>
+                                </a>
+                            </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 650px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body public-body">
+                    Para poder realizar los cursos cortos debés registrarte y armar tu CV
+                    <a href="{{ settings.URL_PORTAL_EMPLEO }}Home">{{ settings.URL_PORTAL_EMPLEO }}Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
